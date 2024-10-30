@@ -1,0 +1,15 @@
+.mos-faqs-settings-template #wpcontent {
+  padding-left: 0;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper {
+  padding: 30px;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings h1 {
+  margin: 0;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings .notice,
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings div.error,
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings div.updated {
+  margin: 0;
+  margin-top: 20px;
+}/*# sourceMappingURL=admin-style.css.map */
