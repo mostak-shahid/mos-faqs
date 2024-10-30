@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://www.mdmostakshahid.com/
- * @since             1.0.0
+ * @since             3.0.0
  * @package           Mos_FAQs
  *
  * @wordpress-plugin
  * Plugin Name:       Mos FAQs
  * Plugin URI:        https://https://www.mdmostakshahid.com/mos-faqs/
  * Description:       Mos FAQs boilerplate for WordPress
- * Version:           1.0.0
+ * Version:           3.0.0
  * Author:            Md. Mostak Shahid
  * Author URI:        https://www.mdmostakshahid.com/
  * License:           GPL-2.0+
@@ -32,10 +32,10 @@ if (!defined('ABSPATH')) {
 
 /**
  * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
+ * Start at version 3.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('MOS_FAQS_VERSION', '1.0.0');
+define('MOS_FAQS_VERSION', '3.0.0');
 define('MOS_FAQS_NAME', __('Mos FAQs', 'mos-faqs'));
 
 define('MOS_FAQS_PATH', plugin_dir_path(__FILE__));
@@ -78,7 +78,7 @@ require MOS_FAQS_PATH . 'includes/class-mos-faqs.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    1.0.0
+ * @since    3.0.0
  */
 function mos_faqs_run()
 {

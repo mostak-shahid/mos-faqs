@@ -7,7 +7,7 @@
  * public-facing side of the site and the admin area.
  *
  * @link       https://www.programmelab.com/
- * @since      1.0.0
+ * @since      3.0.0
  *
  * @package    Mos_FAQs
  * @subpackage Mos_FAQs/includes
@@ -22,7 +22,7 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      1.0.0
+ * @since      3.0.0
  * @package    Mos_FAQs
  * @subpackage Mos_FAQs/includes
  * @author     Programmelab <rizvi@programmelab.com>
@@ -34,7 +34,7 @@ class Mos_FAQs
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   protected
 	 * @var      Mos_FAQs_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
@@ -43,7 +43,7 @@ class Mos_FAQs
 	/**
 	 * The unique identifier of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
@@ -52,7 +52,7 @@ class Mos_FAQs
 	/**
 	 * The current version of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
@@ -65,7 +65,7 @@ class Mos_FAQs
 	 * Load the dependencies, define the locale, and set the hooks for the admin area and
 	 * the public-facing side of the site.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function __construct()
 	{
@@ -73,7 +73,7 @@ class Mos_FAQs
 		if (defined('MOS_FAQS_VERSION')) {
 			$this->version = MOS_FAQS_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '3.0.0';
 		}
 		$this->plugin_name = 'mos-faqs';
 
@@ -96,7 +96,7 @@ class Mos_FAQs
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 */
 	private function load_dependencies()
@@ -127,6 +127,11 @@ class Mos_FAQs
 		 */
 		require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-mos-faqs-public.php';
 
+		/**
+		 * Custom Post Types
+		 */
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-mos-faqs-post_types.php';
+
 		$this->loader = new Mos_FAQs_Loader();
 	}
 
@@ -136,7 +141,7 @@ class Mos_FAQs
 	 * Uses the Mos_FAQs_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 */
 	private function set_locale()
@@ -151,12 +156,27 @@ class Mos_FAQs
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 */
 	private function define_admin_hooks()
 	{
 		$plugin_admin = new Mos_FAQs_Admin($this->get_plugin_name(), $this->get_version());
+
+		$mos_faqs_post_types = new Mos_Faqs_Post_Types();
+
+		/**
+		 * The problem with the initial activation code is that when the activation hook runs, it's after the init hook has run,
+		 * so hooking into init from the activation hook won't do anything.
+		 * You don't need to register the CPT within the activation function unless you need rewrite rules to be added
+		 * via flush_rewrite_rules() on activation. In that case, you'll want to register the CPT normally, via the
+		 * loader on the init hook, and also re-register it within the activation function and
+		 * call flush_rewrite_rules() to add the CPT rewrite rules.
+		 *
+		 * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/issues/261
+		 */
+		$this->loader->add_action('init', $mos_faqs_post_types, 'create_custom_post_type', 999);
+
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
 
@@ -186,7 +206,7 @@ class Mos_FAQs
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 */
 	private function define_public_hooks()
@@ -203,7 +223,7 @@ class Mos_FAQs
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function run()
 	{
@@ -214,7 +234,7 @@ class Mos_FAQs
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_plugin_name()
@@ -225,7 +245,7 @@ class Mos_FAQs
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @return    Mos_FAQs_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader()
@@ -236,7 +256,7 @@ class Mos_FAQs
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     1.0.0
+	 * @since     3.0.0
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version()

@@ -4,7 +4,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://www.mdmostakshahid.com/
- * @since      1.0.0
+ * @since      3.0.0
  *
  * @package    Mos_FAQs
  * @subpackage Mos_FAQs/admin
@@ -26,7 +26,7 @@ class Mos_FAQs_Admin
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
@@ -35,7 +35,7 @@ class Mos_FAQs_Admin
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
@@ -44,7 +44,7 @@ class Mos_FAQs_Admin
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -58,7 +58,7 @@ class Mos_FAQs_Admin
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function enqueue_styles()
 	{
@@ -84,7 +84,7 @@ class Mos_FAQs_Admin
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function enqueue_scripts()
 	{
@@ -117,7 +117,7 @@ class Mos_FAQs_Admin
 	/**
 	 * Adding menu to admin menu.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function mos_faqs_admin_menu()
 	{
@@ -130,6 +130,23 @@ class Mos_FAQs_Admin
 			plugin_dir_url(__DIR__) . 'admin/images/menu-icon.svg',
 			57
 		);
+		add_submenu_page(
+			'edit.php?post_type=qa',
+			esc_html__('Settings', 'mos-faqs'),
+			esc_html__('Settings', 'mos-faqs'),
+			'manage_options',
+			$this->plugin_name,
+			array($this, 'mos_faqs_dashboard_page_html')
+		);
+		add_submenu_page(
+			$this->plugin_name,
+			esc_html__('Welcome', 'mos-faqs'),
+			esc_html__('Welcome', 'mos-faqs'),
+			'manage_options',
+			$this->plugin_name . '-welcome',
+			array($this, 'mos_faqs_dashboard_page_html')
+		);
+		remove_menu_page($this->plugin_name);
 		/*add_submenu_page(
 			$this->plugin_name,
 			esc_html__('Sub', 'ultimate-security-for-woocommerce'),
@@ -171,7 +188,7 @@ class Mos_FAQs_Admin
 	/**
 	 * Loading plugin Welcome page.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function mos_faqs_dashboard_page_html()
 	{
@@ -184,7 +201,7 @@ class Mos_FAQs_Admin
 	/**
 	 * Add settings action link to the plugins page.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function mos_faqs_add_action_links($links)
 	{
@@ -196,7 +213,7 @@ class Mos_FAQs_Admin
 		 * 
 		 */
 		$settings_link = array(
-			'<a href="' . admin_url('admin.php?page=' . $this->plugin_name) . '">' . esc_html__('Settings', 'mos-faqs') . '</a>',
+			'<a href="' . admin_url('edit.php?post_type=qa&page=' . $this->plugin_name) . '">' . esc_html__('Settings', 'mos-faqs') . '</a>',
 			// '<a href="' . admin_url('admin.php?page=' . $this->plugin_name . '-settings') . '">' . esc_html__('Settings', 'mos-faqs') . '</a>'
 		);
 		return array_merge($settings_link, $links);
@@ -205,7 +222,7 @@ class Mos_FAQs_Admin
 	/**
 	 * Add body classes to the settings pages.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function mos_faqs_admin_body_class($classes)
 	{
@@ -221,20 +238,20 @@ class Mos_FAQs_Admin
 	/**
 	 * Redirect to the welcome pages.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function mos_faqs_do_activation_redirect()
 	{
 		if (get_option('mos_faqs_do_activation_redirect')) {
 			delete_option('mos_faqs_do_activation_redirect');
-			wp_safe_redirect(admin_url('admin.php?page=' . $this->plugin_name));
+			wp_safe_redirect(admin_url('edit.php?post_type=qa&page=' . $this->plugin_name));
 		}
 	}
 
 	/**
 	 * Removing all notieces from settings page.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.0
 	 */
 	public function mos_faqs_hide_admin_notices()
 	{
