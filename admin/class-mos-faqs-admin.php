@@ -74,6 +74,9 @@ class Mos_FAQs_Admin
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		if (mos_faqs_is_plugin_page()) {
+			wp_enqueue_style($this->plugin_name . '-bootstrap', MOS_FAQS_URL . 'admin/plugins/bootstrap/css/bootstrap.min.css', array(), $this->version, 'all');
+		}
 
 		wp_enqueue_style($this->plugin_name, MOS_FAQS_URL . 'assets/css/style.css', array(), $this->version, 'all');
 		wp_enqueue_style($this->plugin_name . '-admin', MOS_FAQS_URL . 'admin/css/admin-style.css', array(), $this->version, 'all');
@@ -100,6 +103,9 @@ class Mos_FAQs_Admin
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		if (mos_faqs_is_plugin_page()) {
+			wp_enqueue_script($this->plugin_name . '-bootstrap', MOS_FAQS_URL . 'admin/plugins/bootstrap/js/bootstrap.min.js',  array('jquery'), $this->version, false);
+		}
 
 		wp_enqueue_script($this->plugin_name, MOS_FAQS_URL . 'assets/js/script.js', array('jquery'), $this->version, false);
 		wp_enqueue_script($this->plugin_name . '-admin-ajax', plugin_dir_url(__FILE__) . 'js/admin-ajax.js', array('jquery'), $this->version, false);

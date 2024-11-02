@@ -18,10 +18,83 @@ $dataOptions = [
         <?php wp_nonce_field('options_form_action', 'options_form_field'); ?>
         <div class="mos-faqs-settings-container">
             <div class="mos-faqs-settings">
+                <header class="mos-header">
+                    <div class="top-header p-3 text-center">
+                        <p class="mb-0">
+                            <?php echo sprintf(
+                            esc_html__('%1$sMos FAQs:%2$s The ultimate faq plugin you need', 'mos-faqs'),
+                            '<strong>',
+                            '</strong>',
+                            ) ?>
+                        </p>
+                    </div>
+                    <div class="bottom-header p-3">
+                        <div class="d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center">
+                            <div class="left-header">
+                                <a href="#" class="logo"><img src="<?php echo esc_url(MOS_FAQS_URL . 'admin/images/logo.svg') ?>" alt="" class="img-fluid" width="164" height="40"></a>
+                                <ul class="menu">
+                                    <li><a href="#">Welcome</a></li>
+                                    <li><a href="#">Shortcode</a></li>
+                                    <li><a href="#">Settings</a></li>
+                                </ul>
+                            </div>
+                            <div class="right-header">
+                                Right
+                            </div>
+                        </div>
+                    </div>
+                </header>
                 <div class="part-title">
                     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
                 </div>
                 <div class="part-options">
+                    <div class="d-flex align-items-start">
+                        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="tab" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Wrapper</button>
+                            <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="tab" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Heading</button>
+                            <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="tab" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Content</button>
+                            <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="tab" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Advanced CSS, JS</button>
+                        </div>
+                        <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+                            <p>Wrapper options</p>
+                            <ul>
+                                <li>Background: 1. Primary, 2. Hover, 3. Active</li>
+                                <li>Padding</li>
+                                <li>Margin</li>
+                                <li>Border: 1. Primary, 2. Hover, 3. Active</li>
+                                <li>Box Shadow: 1. Primary, 2. Hover, 3. Active</li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+                            <p>Header options</p>
+                            <ul>
+                                <li>Background: 1. Primary, 2. Hover, 3. Active</li>
+                                <li>Font</li>
+                                <li>Padding</li>
+                                <li>Margin</li>
+                                <li>Border: 1. Primary, 2. Hover, 3. Active</li>
+                                <li>Box Shadow: 1. Primary, 2. Hover, 3. Active</li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-disabled" role="tabpanel" aria-labelledby="v-pills-disabled-tab" tabindex="0">                            
+                            <p>Content options</p>
+                            <ul>
+                                <li>Background: 1. Primary, 2. Hover, 3. Active</li>
+                                <li>Padding</li>
+                                <li>Margin</li>
+                                <li>Border: 1. Primary, 2. Hover, 3. Active</li>
+                                <li>Box Shadow: 1. Primary, 2. Hover, 3. Active</li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
+                            <p>This is some placeholder content the <strong>Messages tab's</strong> associated content. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other <code>.nav</code>-powered navigation.</p>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
+                            <p>This is some placeholder content the <strong>Settings tab's</strong> associated content. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other <code>.nav</code>-powered navigation.</p>
+                        </div>
+                        </div>
+                    </div>
                     <?php
                     if (isset($_POST['options_form_field']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['options_form_field'])), 'options_form_action')) {
                         if (isset($_POST['settings-updated'])) {
