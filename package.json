@@ -1,0 +1,27 @@
+{
+  "name": "mos-faqs",
+  "version": "1.0.0",
+  "description": "A simple FAQ plugin that lets you create FAQs, order FAQs, publicize FAQs, etc. It uses custom post types and taxonomies to manage an FAQ section for your site.",
+  "author": "Md. Mostak Shahid",
+  "license": "GPL-2.0-or-later",
+  "keywords": [],
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "plugin-zip": "wp-scripts plugin-zip"
+  },
+  "dependencies": {
+    "@wordpress/api-fetch": "^7.22.0"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^30.10.0",    
+    "css-loader": "^7.1.2",
+    "file-loader": "^6.2.0",
+    "sass": "^1.84.0",
+    "sass-loader": "^16.0.4",
+    "style-loader": "^4.0.0"
+  }
+}
