@@ -4,7 +4,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://programmelab.com/
- * @since      1.0.0
+ * @since      3.0.1
  *
  * @package    Mos_Faqs
  * @subpackage Mos_Faqs/admin
@@ -26,7 +26,7 @@ class Mos_Faqs_Admin
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
@@ -35,7 +35,7 @@ class Mos_Faqs_Admin
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
@@ -44,7 +44,7 @@ class Mos_Faqs_Admin
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
@@ -58,7 +58,7 @@ class Mos_Faqs_Admin
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 */
 	public function enqueue_styles()
 	{
@@ -85,7 +85,7 @@ class Mos_Faqs_Admin
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 */
 	public function enqueue_scripts()
 	{
@@ -129,7 +129,7 @@ class Mos_Faqs_Admin
 	/**
 	 * Adding menu to admin menu.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 */
 	public function mos_faqs_admin_menu()
 	{
@@ -199,7 +199,7 @@ class Mos_Faqs_Admin
 	/**
 	 * Loading plugin Welcome page.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 */
 	public function mos_faqs_dashboard_php_page_html()
 	{
@@ -219,7 +219,7 @@ class Mos_Faqs_Admin
 	/**
 	 * Add settings action link to the plugins page.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 */
 	public function mos_faqs_add_action_links($links)
 	{
@@ -240,7 +240,7 @@ class Mos_Faqs_Admin
 	/**
 	 * Add body classes to the settings pages.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 */
 	public function mos_faqs_admin_body_class($classes)
 	{
@@ -256,7 +256,7 @@ class Mos_Faqs_Admin
 	/**
 	 * Redirect to the welcome pages.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 */
 	public function mos_faqs_do_activation_redirect()
 	{
@@ -269,7 +269,7 @@ class Mos_Faqs_Admin
 	/**
 	 * Removing all notieces from settings page.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 */
 	public function mos_faqs_hide_admin_notices()
 	{

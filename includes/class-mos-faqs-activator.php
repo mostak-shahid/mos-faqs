@@ -4,7 +4,7 @@
  * Fired during plugin activation
  *
  * @link       https://mostak-shahid.github.io/
- * @since      1.0.0
+ * @since      3.0.1
  *
  * @package    Mos_Faqs
  * @subpackage Mos_Faqs/includes
@@ -15,7 +15,7 @@
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      1.0.0
+ * @since      3.0.1
  * @package    Mos_Faqs
  * @subpackage Mos_Faqs/includes
  * @author     Programmelab <mostak.shahid@gmail.com>
@@ -28,7 +28,7 @@ class Mos_Faqs_Activator
 	 *
 	 * Long Description.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 */
 	public static function activate()
 	{

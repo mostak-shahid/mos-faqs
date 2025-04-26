@@ -110,7 +110,7 @@ public static function deactivate() {
  * Register custom post type
  *
  * @link       http://joe.szalai.org
- * @since      1.0.0
+ * @since      3.0.1
  *
  * @package    Exopite_Portfolio
  * @subpackage Exopite_Portfolio/includes

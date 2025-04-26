@@ -11,7 +11,7 @@
 /**
  * Directory name where custom templates for this plugin should be found in the theme.
  *
- * @since 1.0.0
+ * @since 3.0.1
  * @type string
  */
 protected $theme_template_directory = 'templates';
@@ -20,7 +20,7 @@ protected $theme_template_directory = 'templates';
  * Reference to the root directory path of this plugin.
  * 'PLUGIN_NAME_BASE_DIR' was definied in main plugin file.
  *
- * @since 1.0.0
+ * @since 3.0.1
  * @type string
  */
 protected $plugin_directory = PLUGIN_NAME_BASE_DIR;

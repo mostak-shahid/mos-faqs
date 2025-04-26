@@ -7,7 +7,7 @@
  * so that it is ready for translation.
  *
  * @link       https://mostak-shahid.github.io/
- * @since      1.0.0
+ * @since      3.0.1
  *
  * @package    Mos_Faqs
  * @subpackage Mos_Faqs/includes
@@ -19,7 +19,7 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @since      1.0.0
+ * @since      3.0.1
  * @package    Mos_Faqs
  * @subpackage Mos_Faqs/includes
  * @author     Programmelab <mostak.shahid@gmail.com>
@@ -30,7 +30,7 @@ class Mos_Faqs_i18n {
 	/**
 	 * Load the plugin text domain for translation.
 	 *
-	 * @since    1.0.0
+	 * @since    3.0.1
 	 */
 	public function load_plugin_textdomain() {
 

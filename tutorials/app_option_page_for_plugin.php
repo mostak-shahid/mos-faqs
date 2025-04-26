@@ -33,7 +33,7 @@ private function define_admin_hooks() {
 /**
  * Register the administration menu for this plugin into the WordPress Dashboard menu.
  *
- * @since    1.0.0
+ * @since    3.0.1
  */
 public function add_plugin_admin_menu() {
 
@@ -57,7 +57,7 @@ public function add_plugin_admin_menu() {
 /**
  * Add settings action link to the plugins page.
  *
- * @since    1.0.0
+ * @since    3.0.1
  */
 public function add_action_links( $links ) {
 
@@ -79,7 +79,7 @@ public function add_action_links( $links ) {
 /**
  * Render the settings page for this plugin.
  *
- * @since    1.0.0
+ * @since    3.0.1
  */
 public function display_plugin_setup_page() {
 

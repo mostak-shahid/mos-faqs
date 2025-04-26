@@ -25,14 +25,14 @@
  * that starts the plugin.
  *
  * @link              http://example.com
- * @since             1.0.0
+ * @since             3.0.1
  * @package           Plugin_Name
  *
  * @wordpress-plugin
  * Plugin Name:       WordPress Plugin Boilerplate Tutorial
  * Plugin URI:        http://example.com/plugin-name-uri/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.0                                     <--- IMPORTANT FOR UPDATE
+ * Version:           3.0.1                                     <--- IMPORTANT FOR UPDATE
  * Author:            Your Name or Your Company
  * Author URI:        http://example.com/
  * License:           GPL-2.0+
@@ -56,7 +56,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 # This is for the "Important upgrade notice"
 == Upgrade Notice ==
-= 1.0.0 =
+= 3.0.1 =
 Important notice to this update
 
 */

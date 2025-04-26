@@ -11,7 +11,7 @@
 /**
  * The array of shortcodes registered with WordPress.
  *
- * @since    1.0.0
+ * @since    3.0.1
  * @access   protected
  * @var      array    $shortcodes    The shortcodes registered with WordPress to fire when the plugin loads.
  */
@@ -20,7 +20,7 @@ protected $shortcodes;
 /**
  * Initialize the collections used to maintain the actions and filters.
  *
- * @since    1.0.0
+ * @since    3.0.1
  */
 public function __construct() {
 
@@ -33,7 +33,7 @@ public function __construct() {
 /**
  * Add a new shortcode to the collection to be registered with WordPress
  *
- * @since     1.0.0
+ * @since     3.0.1
  * @param     string        $tag           The name of the new shortcode.
  * @param     object        $component      A reference to the instance of the object on which the shortcode is defined.
  * @param     string        $callback       The name of the function that defines the shortcode.
@@ -45,7 +45,7 @@ public function add_shortcode( $tag, $component, $callback, $priority = 10, $acc
 /**
  * Register the filters and actions with WordPress.
  *
- * @since    1.0.0
+ * @since    3.0.1
  */
 public function run() {
 
