@@ -7,6 +7,7 @@ import { setNestedValue } from "./lib/Helpers"; // Import utility function
 // import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Link, Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Loading from './pages/Loading/Loading';
 import Settings from './pages/Settings/Settings';
 const NotFound = () => (
   <div>
@@ -142,7 +143,7 @@ function App() {
   return (
     <>
     {
-      !settingLoading && 
+      !settingLoading ? 
       <>
       <div className="mos-faqs-settings-container">
         <Header />
@@ -460,7 +461,8 @@ function App() {
             onClick={handleResetAll}
           >Reset</button>
       </p>
-      </>
+      </> :
+      <Loading />
     }
     {/* {console.log(settingData)}     */}
     </>
