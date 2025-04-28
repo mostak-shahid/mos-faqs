@@ -5,6 +5,7 @@ import "./App.css";
 import Header from './layouts/Header/Header';
 import { setNestedValue } from "./lib/Helpers"; // Import utility function
 // import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Loading from './pages/Loading/Loading';

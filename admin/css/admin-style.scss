@@ -1,20 +1,26 @@
+:root {
+  --mos-faqs-color: #0073aa;
+  --mos-faqs-color-light: #00a0d2;
+  --mos-faqs-color-dark: #005177;
+  --mos-faqs-color-accent: #f7f7f7;
+  --mos-faqs-color-text: #333;
+  --mos-faqs-color-text-light: #fff;
+}
 .mos-faqs-settings-template {
   #wpcontent {
     padding-left: 0;
     #wpbody {
       #wpbody-content {
         .mos-faqs-settings-wrapper {
-          padding: 30px;
           .mos-faqs-settings-container {
+            header {
+              .top-bar {
+                background-color: #343a40;
+              }
+            }
             .mos-faqs-settings {
               h1 {
                 margin: 0;
-              }
-              .notice,
-              div.error,
-              div.updated {
-                margin: 0;
-                margin-top: 20px;
               }
             }
           }
