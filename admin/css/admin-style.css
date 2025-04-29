@@ -23,6 +23,9 @@
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container nav.navbar {
   top: 32px;
 }
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container nav.navbar .nav-item {
+  margin-bottom: 0;
+}
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .list-group .list-group-item {
   margin-bottom: 0;
 }
@@ -30,7 +33,23 @@
   padding: 30px;
 }
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings .card {
+  margin-top: 0;
   padding: 0;
   max-width: unset;
   overflow: hidden;
+}
+
+.loading-skeleton {
+  background: linear-gradient(45deg, #e0e0e0 25%, #f8f8f8 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }/*# sourceMappingURL=admin-style.css.map */

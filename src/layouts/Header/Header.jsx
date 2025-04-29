@@ -8,47 +8,77 @@ export default function Header() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [expanded, setExpanded] = useState(false);
+
+    const handleNavClick = () => {
+      setExpanded(false); // Close menu on link click
+    };
     return (
         <>
             <div className="top-bar bd-gray-800 text-white py-2">
                 <div className="text-center">{__( `Unlock ${Details?.name}'s Full Potential!Get exclusive features and unbeatable performance.Upgrade now`, "mos-faqs" )}</div>
             </div>
 
-            <Navbar bg="light" variant="light" expand="lg" className="bg-white border-bottom sticky-top">
+            <Navbar expanded={expanded} onToggle={setExpanded} bg="light" variant="light" expand="lg" className="bg-white border-bottom sticky-top">
                 <div className="container-fluid">
                     <Navbar.Brand href="#home" href="/">Mos FAQs</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item mb-0">
-                                <Link to="/" className="nav-link">Home</Link>
+                            <li className="nav-item">
+                                <Link to="/" className="nav-link" onClick={handleNavClick}>Home</Link>
                             </li>
-                            <li className="nav-item mb-0">
-                                <Link to="/settings" className="nav-link">Settings</Link>
+                            <li className="nav-item d-none d-lg-block">
+                                <Link to="/settings" className="nav-link" onClick={handleNavClick}>Settings</Link>
                             </li>
-                            <li className="nav-item mb-0">
+                            <div className="d-block d-lg-none">
+                            <NavDropdown title="Settings">
+                                <li><Link to="/settings" className="dropdown-item" onClick={handleNavClick}>Settings</Link></li>
+                                <li><a className="dropdown-item" href="#">Another action</a></li>
+                                <li><hr className="dropdown-divider"/></li>
+                                <li><a className="dropdown-item" href="#">Something else here</a></li>
+                            </NavDropdown>
+                            </div>
+                            <li className="nav-item">
                                 <Link to="/contact" className="nav-link">Contact</Link>
                             </li>
-                            <NavDropdown title="More" id="basic-nav-dropdown">
+
+                            <NavDropdown title="More">
                                 <li><a className="dropdown-item" href="#">Action</a></li>
                                 <li><a className="dropdown-item" href="#">Another action</a></li>
                                 <li><hr className="dropdown-divider"/></li>
                                 <li><a className="dropdown-item" href="#">Something else here</a></li>
                             </NavDropdown>
-                            <li className="nav-item mb-0">
+                            <li className="nav-item">
                             <a className="nav-link disabled" aria-disabled="true">Disabled</a>
-                            </li>
-                            <li>
-                                <Button variant="primary" onClick={handleShow}>Open Menu</Button>
                             </li>
                         </Nav>
                         <Nav className="navbar-nav mb-2 mb-lg-0">
-                            <li className="nav-item mb-0">
-                                <span className="nav-link" aria-disabled="true">{Details?.version} Core</span>
+                            <li className="nav-item">
+                                <a className="nav-link disabled" aria-disabled="true">{Details?.version} Core</a>
                             </li>
-                            <NavDropdown title="Free" id="basic-nav-dropdown">
-                                <li><a className="dropdown-item" href="#">Version</a></li>
-                                <li><a className="dropdown-item" href="#">{Details?.name} <span>Core</span></a></li>
+                            <li className="nav-item">
+                                <a className="nav-link" title="Documentation"><span class="dashicons dashicons-editor-help d-none d-lg-inline"></span><span className="d-lg-none">Documentation</span></a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" title="Knowledge Base"><span class="dashicons dashicons-book d-none d-lg-inline"></span><span className="d-lg-none">Knowledge Base</span></a>
+                            </li>
+                            <li className="nav-item" onClick={handleShow}>
+                                <a className="nav-link" title="What's New"><span class="dashicons dashicons-megaphone d-none d-lg-inline"></span><span className="d-lg-none">What's New</span></a>
+                            </li>
+                            <NavDropdown 
+                                title={
+                                    <span>
+                                    <i className="dashicons dashicons-admin-users d-none d-lg-inline"></i>
+                                    <span className="d-lg-none">Account</span>
+                                    </span>
+                                } 
+                                
+                                align="end"
+                            >
+                                <li><a className="dropdown-item" href="#">License Status <span>Inactive</span></a></li>
+                                <li><a className="dropdown-item" href="#">Manage Plan</a></li>
                             </NavDropdown>
                         </Nav>
                         

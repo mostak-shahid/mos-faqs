@@ -5,8 +5,8 @@ export default function Dashboard() {
         <div className="mos-faqs-settings">
             <div className="container-fluid p-0">
                 <div className="row">
-                    <div className="col-lg-8">
-                        <div className="card">
+                    <div className="col-lg-8 mb-4 mb-lg-0">
+                        <div className="card mt-0 mb-3 rounded-0">
                             <div className="card-header">
                                 Dashboard
                             </div>
@@ -18,7 +18,7 @@ export default function Dashboard() {
                                 <a href="#" className="card-link">Another link</a>
                             </div>
                         </div>
-                        <div className="card">
+                        <div className="card mt-0 rounded-0">
                             <div className="card-body">
                                 <h5 className="card-title">Card title</h5>
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
@@ -29,7 +29,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                     <div className="col-lg-4">
-                        <div className="card">
+                        <div className="card mt-0 mb-3 rounded-0">
                             <div className="card-body">
                                 <h5 className="card-title">Card title</h5>
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
@@ -38,7 +38,7 @@ export default function Dashboard() {
                                 <a href="#" className="card-link">Another link</a>
                             </div>
                         </div>
-                        <div className="card rounded-4">
+                        <div className="card rounded-0">
                             <div className="card-body">
                                 <h5 className="card-title">Card title</h5>
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>

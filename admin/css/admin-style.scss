@@ -8,7 +8,7 @@
 }
 
 .offcanvas {
-  z-index: 999999!important;
+  z-index: 999999 !important;
 }
 .mos-faqs-settings-template {
   position: relative;
@@ -20,9 +20,12 @@
           .mos-faqs-settings-container {
             .top-bar {
               background-color: #343a40;
-            } 
+            }
             nav.navbar {
               top: 32px;
+              .nav-item {
+                margin-bottom: 0;
+              }
             }
             .list-group {
               .list-group-item {
@@ -32,6 +35,7 @@
             .mos-faqs-settings {
               padding: 30px;
               .card {
+                margin-top: 0;
                 padding: 0;
                 max-width: unset;
                 overflow: hidden;
@@ -41,5 +45,20 @@
         }
       }
     }
+  }
+}
+.loading-skeleton {
+  background: linear-gradient(45deg, #e0e0e0 25%, #f8f8f8 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+  // border-radius: 4px;
+  // margin-bottom: 16px;
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
   }
 }
