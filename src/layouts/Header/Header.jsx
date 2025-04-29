@@ -38,12 +38,14 @@ export default function Header() {
                             <li className="nav-item mb-0">
                             <a className="nav-link disabled" aria-disabled="true">Disabled</a>
                             </li>
-                            <li><Button variant="primary" onClick={handleShow}>
-        Open Menu
-      </Button></li>
+                            <li>
+                                <Button variant="primary" onClick={handleShow}>Open Menu</Button>
+                            </li>
                         </Nav>
                         <Nav className="navbar-nav mb-2 mb-lg-0">
-                            
+                            <li className="nav-item mb-0">
+                                <span className="nav-link" aria-disabled="true">{Details?.version} Core</span>
+                            </li>
                             <NavDropdown title="Free" id="basic-nav-dropdown">
                                 <li><a className="dropdown-item" href="#">Version</a></li>
                                 <li><a className="dropdown-item" href="#">{Details?.name} <span>Core</span></a></li>

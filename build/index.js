@@ -25285,7 +25285,12 @@ function Header() {
     onClick: handleShow
   }, "Open Menu"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
     className: "navbar-nav mb-2 mb-lg-0"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("li", {
+    className: "nav-item mb-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("span", {
+    className: "nav-link",
+    "aria-disabled": "true"
+  }, _data_details_json__WEBPACK_IMPORTED_MODULE_2__ === null || _data_details_json__WEBPACK_IMPORTED_MODULE_2__ === void 0 ? void 0 : _data_details_json__WEBPACK_IMPORTED_MODULE_2__.version, " Core")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
     title: "Free",
     id: "basic-nav-dropdown"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a", {
