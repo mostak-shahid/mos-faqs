@@ -7,12 +7,26 @@
   --mos-faqs-color-text-light: #fff;
 }
 
+.mos-faqs-settings-template {
+  position: relative;
+}
 .mos-faqs-settings-template #wpcontent {
   padding-left: 0;
 }
-.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container header .top-bar {
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .top-bar {
   background-color: #343a40;
 }
-.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings h1 {
-  margin: 0;
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container nav.navbar {
+  top: 32px;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .list-group .list-group-item {
+  margin-bottom: 0;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings {
+  padding: 30px;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings .card {
+  padding: 0;
+  max-width: unset;
+  overflow: hidden;
 }/*# sourceMappingURL=admin-style.css.map */

@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import Details from '../../data/details.json';
 export default function Header() {
     return (
-        <header>
+        <>
             <div className="top-bar bd-gray-800 text-white py-2">
                 <div className="text-center">{__( `Unlock ${Details?.name}'s Full Potential!Get exclusive features and unbeatable performance.Upgrade now`, "mos-faqs" )}</div>
             </div>
 
-            <Navbar bg="light" variant="light" expand="lg" className="bg-white border-bottom">
+            <Navbar bg="light" variant="light" expand="lg" className="bg-white border-bottom sticky-top">
                 <div className="container-fluid">
                     <Navbar.Brand href="#home" href="/">Mos FAQs</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -45,6 +45,6 @@ export default function Header() {
                     </Navbar.Collapse>
                 </div>
             </Navbar>
-        </header>
+        </>
     )
 }

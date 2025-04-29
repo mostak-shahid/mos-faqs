@@ -7,20 +7,30 @@
   --mos-faqs-color-text-light: #fff;
 }
 .mos-faqs-settings-template {
+  position: relative;
   #wpcontent {
     padding-left: 0;
     #wpbody {
       #wpbody-content {
         .mos-faqs-settings-wrapper {
           .mos-faqs-settings-container {
-            header {
-              .top-bar {
-                background-color: #343a40;
+            .top-bar {
+              background-color: #343a40;
+            } 
+            nav.navbar {
+              top: 32px;
+            }
+            .list-group {
+              .list-group-item {
+                margin-bottom: 0;
               }
             }
             .mos-faqs-settings {
-              h1 {
-                margin: 0;
+              padding: 30px;
+              .card {
+                padding: 0;
+                max-width: unset;
+                overflow: hidden;
               }
             }
           }
