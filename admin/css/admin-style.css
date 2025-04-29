@@ -7,6 +7,10 @@
   --mos-faqs-color-text-light: #fff;
 }
 
+.offcanvas {
+  z-index: 999999 !important;
+}
+
 .mos-faqs-settings-template {
   position: relative;
 }

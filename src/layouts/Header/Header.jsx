@@ -1,9 +1,13 @@
 import { __ } from "@wordpress/i18n";
-import React from 'react';
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Nav, Navbar, NavDropdown, Offcanvas } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import Details from '../../data/details.json';
 export default function Header() {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     return (
         <>
             <div className="top-bar bd-gray-800 text-white py-2">
@@ -34,8 +38,12 @@ export default function Header() {
                             <li className="nav-item mb-0">
                             <a className="nav-link disabled" aria-disabled="true">Disabled</a>
                             </li>
+                            <li><Button variant="primary" onClick={handleShow}>
+        Open Menu
+      </Button></li>
                         </Nav>
                         <Nav className="navbar-nav mb-2 mb-lg-0">
+                            
                             <NavDropdown title="Free" id="basic-nav-dropdown">
                                 <li><a className="dropdown-item" href="#">Version</a></li>
                                 <li><a className="dropdown-item" href="#">{Details?.name} <span>Core</span></a></li>
@@ -45,6 +53,18 @@ export default function Header() {
                     </Navbar.Collapse>
                 </div>
             </Navbar>
+
+            <Offcanvas show={show} onHide={handleClose} placement="end">
+                <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Menu</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                <p>This is an offcanvas sidebar. Add your nav links or content here.</p>
+                <Button variant="outline-secondary" onClick={handleClose}>
+                    Close
+                </Button>
+                </Offcanvas.Body>
+            </Offcanvas>
         </>
     )
 }
