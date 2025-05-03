@@ -4,6 +4,7 @@ import {
   HashRouter
 } from 'react-router-dom';
 import App from './App';
+import { MainProvider } from "./contexts/MainContext";
 // Get the container element
 const rootElement = document.getElementById('mos-faqs-settings-react-app');
 
@@ -12,9 +13,9 @@ if (rootElement) {
   const root = ReactDOM.createRoot(rootElement); // Create a root
   root.render(
     <HashRouter>
-        {/* <MenuProvider> */}
+        <MainProvider>
             <App />
-        {/* </MenuProvider> */}
+        </MainProvider>
     </HashRouter>
   ); // Render the App component
 } else {

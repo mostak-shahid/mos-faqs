@@ -126,22 +126,68 @@ function mos_faqs_get_tabs()
 function mos_faqs_get_default_options()
 {
 	$mos_faqs_default_options = [
-		'base-input' => [
-			'text-input' => '',
-			'email-input' => '',
-			'color-input' => '',
-			'date-input' => '',
-			'datetime-local-input' => '',
-			'textarea-input' => '',
-			'switch-input' => '1',
-			'radio-input' => '',
-			'datalist-input' => '',
-			'select-input' => '',
+		'base_input' => [
+			'text_input' => '',
+			'email_input' => '',
+			'color_input' => '',
+			'date_input' => '',
+			'datetime_local_input' => '',
+			'textarea_input' => '',
+			'switch_input' => '1',
+			'radio_input' => '',
+			'datalist_input' => '',
+			'select_input' => '',
 		],
-		'array-input' => [
-			'checkbox-input' => [],
-			'multi-select-input' => [],
-		],
+		'array_input' => [
+			'checkbox_input' => [],
+			'multi_select_input' => [],
+		],		
+		'elements' => [
+			'basic' => [
+				'ip' => '',
+				'text_field' => 'this is a text field',
+				'textarea_field' => 'this is a textarea field',
+				'select_field' => 'select-1',
+				'radio_field' => 'radio-1',
+				'radio_field_2' => 'radio-2',
+				'checkbox_field' => ['checkbox-1', 'checkbox-3'],
+				'checkbox_field_2' => ['checkbox-2', 'checkbox-3'],
+				'checkbox_field_3' => ['checkbox-1', 'checkbox-3'],
+				'multiselect_field' => ['select-2', 'select-3'],
+				'multiselect_field_2' => ['select-3', 'select-4'],
+				'switch' => 0,
+			],
+			'advanced' => [
+				'media_uploader' => [
+					'url' => '',
+					'id' => 0
+				],
+				'countries_list' => [
+					['value' => "Albania", 'code' => "AL"],
+					['value' => "Algeria", 'code' => "DZ"],
+				],
+				'ips' => ["111.111.111.111", "222.222.222.222"],
+				'emails' => ["asd@asd.asd", "abc@abc.abc"],
+				'repeatablesorter_group' => [
+					[
+						"enabler" => true,
+						"title" => "123 Main St",
+						"note" => "Leave at door",
+						"enable" => true,
+						"gender" => "male",
+						"country" => "us",
+						"languages" => ["en", "fr"],
+						"hobbies" => ["reading", "sports"],
+					]
+				],
+				'repeatablesorter' => [
+					'https://www.facebook.com/',
+					'https://web.whatsapp.com/',
+					'https://www.youtube.com/',
+					'https://web.skype.com/'
+				]
+			]
+		]
 		// 'editor-input' => '<p>Lorem</p>',
 
 	];

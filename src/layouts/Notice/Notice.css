@@ -1,0 +1,39 @@
+.usfw-notice {
+  display: flex;
+  align-items: stretch;
+  background-color: #414141;
+  margin-bottom: 30px;
+}
+.usfw-notice .notice-tick {
+  background-color: #4AB866;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 48px;
+  width: 48px;
+}
+.usfw-notice .notice-tick img {
+  display: inline-block;
+  vertical-align: top;
+}
+.usfw-notice .notice-content {
+  flex: 1;
+  color: #FFFFFF;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0%;
+  padding: 16px;
+}
+.usfw-notice .notice-close {
+  flex: 0 0 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.usfw-notice .notice-close img {
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+}/*# sourceMappingURL=Notice.css.map */

@@ -1,8 +1,9 @@
 import { __ } from "@wordpress/i18n";
 import React, { useState } from 'react';
 import { Button, Nav, Navbar, NavDropdown, Offcanvas } from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Details from '../../data/details.json';
+
 export default function Header() {
     const [show, setShow] = useState(false);
 
@@ -32,23 +33,31 @@ export default function Header() {
                             <li className="nav-item d-none d-lg-block">
                                 <Link to="/settings" className="nav-link" onClick={handleNavClick}>Settings</Link>
                             </li>
+                            <Nav.Link as={NavLink} to="/" end onClick={handleNavClick}>
+                                Home
+                            </Nav.Link>
+                            <Nav.Link as={NavLink} to="/settings" onClick={handleNavClick}>
+                                Settings
+                            </Nav.Link>
                             <div className="d-block d-lg-none">
                             <NavDropdown title="Settings">
-                                <li><Link to="/settings" className="dropdown-item" onClick={handleNavClick}>Settings</Link></li>
-                                <li><a className="dropdown-item" href="#">Another action</a></li>
+                                <li><Link to="/settings/basic" className="dropdown-item" onClick={handleNavClick}>Basic</Link></li>
+                                <li><Link to="/settings/advanced" className="dropdown-item" onClick={handleNavClick}>Advanced</Link></li>
                                 <li><hr className="dropdown-divider"/></li>
                                 <li><a className="dropdown-item" href="#">Something else here</a></li>
                             </NavDropdown>
                             </div>
                             <li className="nav-item">
-                                <Link to="/contact" className="nav-link">Contact</Link>
+                                <Link to="/page" className="nav-link">Contact</Link>
                             </li>
 
                             <NavDropdown title="More">
-                                <li><a className="dropdown-item" href="#">Action</a></li>
-                                <li><a className="dropdown-item" href="#">Another action</a></li>
-                                <li><hr className="dropdown-divider"/></li>
-                                <li><a className="dropdown-item" href="#">Something else here</a></li>
+                                <Nav.Link as={NavLink} to="/" end onClick={handleNavClick}>
+                                    Home
+                                </Nav.Link>
+                                <Nav.Link as={NavLink} to="/settings" onClick={handleNavClick}>
+                                    Settings
+                                </Nav.Link>
                             </NavDropdown>
                             <li className="nav-item">
                             <a className="nav-link disabled" aria-disabled="true">Disabled</a>

@@ -1,0 +1,15 @@
+.call-to-action-wrapper {
+    padding: 24px 30px;
+    .cta-content{
+        .heading {
+            margin-bottom: 6px;
+        }
+    }
+    .cta-button {
+        background-color: var(--plus-color-purple-40);
+        color: #ffffff;
+        border-radius: 3px;
+        padding: 8px 12px;
+        text-decoration: none;
+    }
+}

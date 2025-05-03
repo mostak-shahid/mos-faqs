@@ -1,0 +1,59 @@
+.checkbox-group .form-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.checkbox-group .form-check .form-check-input {
+  margin-top: 0;
+  border: 2px solid #636366;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.checkbox-group .form-check .form-check-input:checked {
+  background-color: transparent;
+  border-color: var(--plus-color-purple-40);
+}
+.checkbox-group .form-check .form-check-input:checked::before {
+  background-color: var(--plus-color-purple-40);
+}
+.checkbox-group .form-check .form-check-input::before {
+  width: 10px;
+  height: 10px;
+  content: "";
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  line-height: 10px;
+}
+.checkbox-group .form-check .content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.checkbox-group.checkbox-group-inline .form-check {
+  display: inline-flex;
+  vertical-align: middle;
+}
+.checkbox-group.checkbox-group-inline .form-check + .form-check {
+  margin-left: 12px;
+}
+.checkbox-group.checkbox-group-block .form-check {
+  width: 100%;
+  justify-content: space-between;
+}
+.checkbox-group.checkbox-group-block .form-check .form-check-input {
+  order: 2;
+  margin: 0;
+}
+.checkbox-group.checkbox-group-block .form-check .content .form-check-label {
+  order: 2;
+}
+.checkbox-group.checkbox-group-block .form-check .content .hint-tooltip {
+  order: 1;
+}
+.checkbox-group.checkbox-group-block .form-check.with-hints {
+  padding-left: 0;
+}/*# sourceMappingURL=Checkbox.css.map */

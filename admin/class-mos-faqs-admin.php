@@ -384,6 +384,13 @@ class Mos_Faqs_Admin
 	}
 	public function rest_mos_faqs_get_options(WP_REST_Request $request)
 	{
+		// if (!current_user_can('manage_options')) {
+		// 	return new WP_Error(
+		// 		'rest_update_error',
+		// 		'Sorry, you are not allowed to update the DAEXT UI Test options.',
+		// 		array('status' => 403)
+		// 	);
+		// }
 		$mos_faqs_options = mos_faqs_get_option();
 		return new WP_REST_Response($mos_faqs_options, 200);
 	}
