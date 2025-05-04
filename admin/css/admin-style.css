@@ -13,6 +13,81 @@
 
 .mos-faqs-settings-template {
   position: relative;
+  font-family: "Open Sans", sans-serif;
+}
+.mos-faqs-settings-template h6,
+.mos-faqs-settings-template .h6,
+.mos-faqs-settings-template h5,
+.mos-faqs-settings-template .h5,
+.mos-faqs-settings-template h4,
+.mos-faqs-settings-template .h4,
+.mos-faqs-settings-template h3,
+.mos-faqs-settings-template .h3,
+.mos-faqs-settings-template h2,
+.mos-faqs-settings-template .h2,
+.mos-faqs-settings-template h1,
+.mos-faqs-settings-template .h1 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.mos-faqs-settings-template h1,
+.mos-faqs-settings-template .h1 {
+  font-size: 36px;
+  line-height: 40px;
+}
+.mos-faqs-settings-template h2,
+.mos-faqs-settings-template .h2 {
+  font-size: 30px;
+  line-height: 33px;
+}
+.mos-faqs-settings-template h3,
+.mos-faqs-settings-template .h3 {
+  font-size: 24px;
+  line-height: 26px;
+}
+.mos-faqs-settings-template h4,
+.mos-faqs-settings-template .h4 {
+  font-size: 18px;
+  line-height: 19px;
+}
+.mos-faqs-settings-template h5,
+.mos-faqs-settings-template .h5 {
+  font-size: 14px;
+  line-height: 15px;
+}
+.mos-faqs-settings-template h6,
+.mos-faqs-settings-template .h6 {
+  font-size: 12px;
+  line-height: 13px;
+}
+.mos-faqs-settings-template p,
+.mos-faqs-settings-template .p {
+  font-size: 14px;
+  line-height: 20px;
+}
+.mos-faqs-settings-template input[type=color].form-control,
+.mos-faqs-settings-template input[type=date].form-control,
+.mos-faqs-settings-template input[type=datetime-local].form-control,
+.mos-faqs-settings-template input[type=datetime].form-control,
+.mos-faqs-settings-template input[type=email].form-control,
+.mos-faqs-settings-template input[type=month].form-control,
+.mos-faqs-settings-template input[type=number].form-control,
+.mos-faqs-settings-template input[type=password].form-control,
+.mos-faqs-settings-template input[type=search].form-control,
+.mos-faqs-settings-template input[type=tel].form-control,
+.mos-faqs-settings-template input[type=text].form-control,
+.mos-faqs-settings-template input[type=time].form-control,
+.mos-faqs-settings-template input[type=url].form-control,
+.mos-faqs-settings-template input[type=week].form-control,
+.mos-faqs-settings-template select.form-control,
+.mos-faqs-settings-template textarea.form-control {
+  border: 1px solid #dee2e6;
+}
+.mos-faqs-settings-template input[type=color].form-control {
+  padding: 2px;
+  width: 27px;
 }
 .mos-faqs-settings-template #wpcontent {
   padding-left: 0;
@@ -38,11 +113,35 @@
   max-width: unset;
   overflow: hidden;
 }
-
 .loading-skeleton {
   background: linear-gradient(45deg, #e0e0e0 25%, #f8f8f8 50%, #e0e0e0 75%);
   background-size: 200% 100%;
   animation: shimmer 3s infinite;
+}
+.loading-skeleton.h1, .loading-skeleton.h2, .loading-skeleton.h3, .loading-skeleton.h4, .loading-skeleton.h5, .loading-skeleton.h6 {
+  margin-bottom: 0.5rem;
+}
+.loading-skeleton.h1 {
+  height: 40px;
+}
+.loading-skeleton.h2 {
+  height: 33px;
+}
+.loading-skeleton.h3 {
+  height: 26px;
+}
+.loading-skeleton.h4 {
+  height: 19px;
+}
+.loading-skeleton.h5 {
+  height: 15px;
+}
+.loading-skeleton.h6 {
+  height: 13px;
+}
+.loading-skeleton.p {
+  height: 20px;
+  margin-bottom: 1rem;
 }
 
 @keyframes shimmer {

@@ -74,6 +74,7 @@ class Mos_Faqs_Admin
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		wp_enqueue_style($this->plugin_name .'-google-font', 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap', array(), $this->version, 'all');
 		wp_enqueue_style($this->plugin_name, MOS_FAQS_URL . 'assets/css/style.css', array(), $this->version, 'all');
 		wp_enqueue_style($this->plugin_name . '-admin', MOS_FAQS_URL . 'admin/css/admin-style.css', array(), $this->version, 'all');
 		// wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/mos-faqs-admin.css', array(), $this->version, 'all');			

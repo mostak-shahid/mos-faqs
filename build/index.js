@@ -31005,34 +31005,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var BaseInput = function BaseInput(_ref) {
-  var _settingData$base_inp, _settingData$elements;
+  var _settingData$base_inp, _settingData$base_inp2, _settingData$base_inp3, _settingData$base_inp4, _settingData$base_inp5, _settingData$elements;
   var handleChange = _ref.handleChange;
   var _useMain = (0,_contexts_MainContext__WEBPACK_IMPORTED_MODULE_3__.useMain)(),
     settingData = _useMain.settingData,
     settingLoading = _useMain.settingLoading;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: "setting-unit"
+    className: "setting-unit border-bottom py-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "row justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "col-lg-7"
   }, settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: "loading-skeleton h2",
+    className: "loading-skeleton h4",
     style: {
-      width: '60%',
-      height: '20px'
+      width: '60%'
     }
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", {
-    className: ""
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Text Input", "mos-faqs")), settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Text Input", "mos-faqs")), settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "loading-skeleton p",
     style: {
-      width: '60%',
-      height: '20px'
+      width: '70%'
     }
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", {
-    className: ""
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs"))), !settingLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "col-lg-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", {
     className: "form-control",
@@ -31042,33 +31036,134 @@ var BaseInput = function BaseInput(_ref) {
       return handleChange('base_input.text_input', e.target.value);
     }
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "setting-unit border-bottom py-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "row justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "col-lg-7"
   }, settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: "loading-skeleton",
+    className: "loading-skeleton h4",
     style: {
-      width: '60%',
-      height: '20px'
+      width: '60%'
     }
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", {
-    className: ""
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Text Input", "mos-faqs")), settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: "loading-skeleton",
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Email Input", "mos-faqs")), settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "loading-skeleton p",
     style: {
-      width: '60%',
-      height: '20px'
+      width: '70%'
     }
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", {
-    className: ""
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs"))), !settingLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "col-lg-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    "class": "input-group mb-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("span", {
+    "class": "input-group-text",
+    id: "basic-addon1"
+  }, "@"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", {
+    className: "form-control",
+    type: "text",
+    value: settingData === null || settingData === void 0 || (_settingData$base_inp2 = settingData.base_input) === null || _settingData$base_inp2 === void 0 ? void 0 : _settingData$base_inp2.email_input,
+    onChange: function onChange(e) {
+      return handleChange('base_input.email_input', e.target.value);
+    }
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "setting-unit border-bottom py-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "row justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "col-lg-7"
+  }, settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "loading-skeleton h4",
+    style: {
+      width: '60%'
+    }
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Color Input", "mos-faqs")), settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "loading-skeleton p",
+    style: {
+      width: '70%'
+    }
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs"))), !settingLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "col-auto"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", {
+    className: "form-control",
+    type: "color",
+    value: settingData === null || settingData === void 0 || (_settingData$base_inp3 = settingData.base_input) === null || _settingData$base_inp3 === void 0 ? void 0 : _settingData$base_inp3.color_input,
+    onChange: function onChange(e) {
+      return handleChange('base_input.color_input', e.target.value);
+    }
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "setting-unit border-bottom py-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "row justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "col-lg-7"
+  }, settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "loading-skeleton h4",
+    style: {
+      width: '60%'
+    }
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Date Input", "mos-faqs")), settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "loading-skeleton p",
+    style: {
+      width: '70%'
+    }
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs"))), !settingLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "col-lg-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", {
+    className: "form-control",
+    type: "date",
+    value: settingData === null || settingData === void 0 || (_settingData$base_inp4 = settingData.base_input) === null || _settingData$base_inp4 === void 0 ? void 0 : _settingData$base_inp4.date_input,
+    onChange: function onChange(e) {
+      return handleChange('base_input.date_input', e.target.value);
+    }
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "setting-unit border-bottom py-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "row justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "col-lg-7"
+  }, settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "loading-skeleton h4",
+    style: {
+      width: '60%'
+    }
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Datetime Local Input", "mos-faqs")), settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "loading-skeleton p",
+    style: {
+      width: '70%'
+    }
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs"))), !settingLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "col-lg-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", {
+    className: "form-control",
+    type: "datetime-local",
+    value: settingData === null || settingData === void 0 || (_settingData$base_inp5 = settingData.base_input) === null || _settingData$base_inp5 === void 0 ? void 0 : _settingData$base_inp5.datetime_local_input,
+    onChange: function onChange(e) {
+      return handleChange('base_input.datetime_local_input', e.target.value);
+    }
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "setting-unit py-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "row justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "col-lg-7"
+  }, settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "loading-skeleton h5",
+    style: {
+      width: '60%'
+    }
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Text Input", "mos-faqs")), settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "loading-skeleton p",
+    style: {
+      width: '60%'
+    }
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "col-auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_components_Switch_Switch__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: "elements.basic.switch",
     checked: settingData === null || settingData === void 0 || (_settingData$elements = settingData.elements) === null || _settingData$elements === void 0 || (_settingData$elements = _settingData$elements.basic) === null || _settingData$elements === void 0 ? void 0 : _settingData$elements["switch"] // Pass "1"/"0" from API 
     ,
     onChange: handleChange
-  }))));
+  })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_pages_withForm__WEBPACK_IMPORTED_MODULE_4__["default"])(BaseInput));
 
