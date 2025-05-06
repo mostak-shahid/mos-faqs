@@ -148,30 +148,56 @@ const BaseInput = ({handleChange}) => {
                     }
                 </div>
             </div>
-
-
-
-            <div className="setting-unit py-4">
+			<div className="setting-unit border-bottom py-4">
                 <div className="row justify-content-between">
                     <div className="col-lg-7">
                         {
                             settingLoading 
-                            ? <div className="loading-skeleton h5" style={{width: '60%'}}></div>
-                            : <h5>{__("Text Input", "mos-faqs")}</h5>
+                            ? <div className="loading-skeleton h4" style={{width: '60%'}}></div>
+                            : <h4>{__("Textarea Input", "mos-faqs")}</h4>
                         }
                         {
                             settingLoading 
-                            ? <div className="loading-skeleton p" style={{width: '60%'}}></div>
+                            ? <div className="loading-skeleton p" style={{width: '70%'}}></div>
                             : <p>{__("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs")}</p>
                         }
-                    </div>                                    
-                    <div className="col-auto">
-                        <Switch 
-                            name="elements.basic.switch"
-                            checked={settingData?.elements?.basic?.switch} // Pass "1"/"0" from API 
-                            onChange={handleChange} 
-                        />
-                    </div>
+                    </div>    
+                    {
+                        !settingLoading &&                               
+                        <div className="col-lg-5">
+                            <textarea 
+                                className="form-control"
+                                value={settingData?.base_input?.textarea_input}
+                                onChange={(e) => handleChange('base_input.textarea_input', e.target.value)}
+                            />                          
+                        </div>
+                    }
+                </div>
+            </div>
+			<div className="setting-unit border-bottom py-4">
+                <div className="row justify-content-between">
+                    <div className="col-lg-7">
+                        {
+                            settingLoading 
+                            ? <div className="loading-skeleton h4" style={{width: '60%'}}></div>
+                            : <h4>{__("Switch Input", "mos-faqs")}</h4>
+                        }
+                        {
+                            settingLoading 
+                            ? <div className="loading-skeleton p" style={{width: '70%'}}></div>
+                            : <p>{__("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs")}</p>
+                        }
+                    </div>    
+                    {
+                        !settingLoading &&                               
+                        <div className="col-auto">
+							<Switch 
+								name="base_input.switch_input"
+								checked={settingData?.base_input.switch_input} // Pass "1"/"0" from API 
+								onChange={handleChange} 
+							/>
+						</div>
+                    }
                 </div>
             </div>
         </>

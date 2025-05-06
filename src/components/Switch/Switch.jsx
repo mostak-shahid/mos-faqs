@@ -9,7 +9,7 @@ export default function Switch({ checked, name, onChange }) {
         <>
             {/* {console.log('component-load:','Switch is rendered')} */}
             {/* {console.log(checked, name)} */}
-            <div className="position-relative usfw-switcher">
+            <div className="position-relative mos-faqs-switcher">
                 <label>
                     <input
                         data-checked={isChecked}

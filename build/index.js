@@ -11518,6 +11518,255 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
+/***/ "./node_modules/cookie/dist/index.js":
+/*!*******************************************!*\
+  !*** ./node_modules/cookie/dist/index.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.parse = parse;
+exports.serialize = serialize;
+/**
+ * RegExp to match cookie-name in RFC 6265 sec 4.1.1
+ * This refers out to the obsoleted definition of token in RFC 2616 sec 2.2
+ * which has been replaced by the token definition in RFC 7230 appendix B.
+ *
+ * cookie-name       = token
+ * token             = 1*tchar
+ * tchar             = "!" / "#" / "$" / "%" / "&" / "'" /
+ *                     "*" / "+" / "-" / "." / "^" / "_" /
+ *                     "`" / "|" / "~" / DIGIT / ALPHA
+ *
+ * Note: Allowing more characters - https://github.com/jshttp/cookie/issues/191
+ * Allow same range as cookie value, except `=`, which delimits end of name.
+ */
+const cookieNameRegExp = /^[\u0021-\u003A\u003C\u003E-\u007E]+$/;
+/**
+ * RegExp to match cookie-value in RFC 6265 sec 4.1.1
+ *
+ * cookie-value      = *cookie-octet / ( DQUOTE *cookie-octet DQUOTE )
+ * cookie-octet      = %x21 / %x23-2B / %x2D-3A / %x3C-5B / %x5D-7E
+ *                     ; US-ASCII characters excluding CTLs,
+ *                     ; whitespace DQUOTE, comma, semicolon,
+ *                     ; and backslash
+ *
+ * Allowing more characters: https://github.com/jshttp/cookie/issues/191
+ * Comma, backslash, and DQUOTE are not part of the parsing algorithm.
+ */
+const cookieValueRegExp = /^[\u0021-\u003A\u003C-\u007E]*$/;
+/**
+ * RegExp to match domain-value in RFC 6265 sec 4.1.1
+ *
+ * domain-value      = <subdomain>
+ *                     ; defined in [RFC1034], Section 3.5, as
+ *                     ; enhanced by [RFC1123], Section 2.1
+ * <subdomain>       = <label> | <subdomain> "." <label>
+ * <label>           = <let-dig> [ [ <ldh-str> ] <let-dig> ]
+ *                     Labels must be 63 characters or less.
+ *                     'let-dig' not 'letter' in the first char, per RFC1123
+ * <ldh-str>         = <let-dig-hyp> | <let-dig-hyp> <ldh-str>
+ * <let-dig-hyp>     = <let-dig> | "-"
+ * <let-dig>         = <letter> | <digit>
+ * <letter>          = any one of the 52 alphabetic characters A through Z in
+ *                     upper case and a through z in lower case
+ * <digit>           = any one of the ten digits 0 through 9
+ *
+ * Keep support for leading dot: https://github.com/jshttp/cookie/issues/173
+ *
+ * > (Note that a leading %x2E ("."), if present, is ignored even though that
+ * character is not permitted, but a trailing %x2E ("."), if present, will
+ * cause the user agent to ignore the attribute.)
+ */
+const domainValueRegExp = /^([.]?[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)([.][a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$/i;
+/**
+ * RegExp to match path-value in RFC 6265 sec 4.1.1
+ *
+ * path-value        = <any CHAR except CTLs or ";">
+ * CHAR              = %x01-7F
+ *                     ; defined in RFC 5234 appendix B.1
+ */
+const pathValueRegExp = /^[\u0020-\u003A\u003D-\u007E]*$/;
+const __toString = Object.prototype.toString;
+const NullObject = /* @__PURE__ */ (() => {
+    const C = function () { };
+    C.prototype = Object.create(null);
+    return C;
+})();
+/**
+ * Parse a cookie header.
+ *
+ * Parse the given cookie header string into an object
+ * The object has the various cookies as keys(names) => values
+ */
+function parse(str, options) {
+    const obj = new NullObject();
+    const len = str.length;
+    // RFC 6265 sec 4.1.1, RFC 2616 2.2 defines a cookie name consists of one char minimum, plus '='.
+    if (len < 2)
+        return obj;
+    const dec = options?.decode || decode;
+    let index = 0;
+    do {
+        const eqIdx = str.indexOf("=", index);
+        if (eqIdx === -1)
+            break; // No more cookie pairs.
+        const colonIdx = str.indexOf(";", index);
+        const endIdx = colonIdx === -1 ? len : colonIdx;
+        if (eqIdx > endIdx) {
+            // backtrack on prior semicolon
+            index = str.lastIndexOf(";", eqIdx - 1) + 1;
+            continue;
+        }
+        const keyStartIdx = startIndex(str, index, eqIdx);
+        const keyEndIdx = endIndex(str, eqIdx, keyStartIdx);
+        const key = str.slice(keyStartIdx, keyEndIdx);
+        // only assign once
+        if (obj[key] === undefined) {
+            let valStartIdx = startIndex(str, eqIdx + 1, endIdx);
+            let valEndIdx = endIndex(str, endIdx, valStartIdx);
+            const value = dec(str.slice(valStartIdx, valEndIdx));
+            obj[key] = value;
+        }
+        index = endIdx + 1;
+    } while (index < len);
+    return obj;
+}
+function startIndex(str, index, max) {
+    do {
+        const code = str.charCodeAt(index);
+        if (code !== 0x20 /*   */ && code !== 0x09 /* \t */)
+            return index;
+    } while (++index < max);
+    return max;
+}
+function endIndex(str, index, min) {
+    while (index > min) {
+        const code = str.charCodeAt(--index);
+        if (code !== 0x20 /*   */ && code !== 0x09 /* \t */)
+            return index + 1;
+    }
+    return min;
+}
+/**
+ * Serialize data into a cookie header.
+ *
+ * Serialize a name value pair into a cookie string suitable for
+ * http headers. An optional options object specifies cookie parameters.
+ *
+ * serialize('foo', 'bar', { httpOnly: true })
+ *   => "foo=bar; httpOnly"
+ */
+function serialize(name, val, options) {
+    const enc = options?.encode || encodeURIComponent;
+    if (!cookieNameRegExp.test(name)) {
+        throw new TypeError(`argument name is invalid: ${name}`);
+    }
+    const value = enc(val);
+    if (!cookieValueRegExp.test(value)) {
+        throw new TypeError(`argument val is invalid: ${val}`);
+    }
+    let str = name + "=" + value;
+    if (!options)
+        return str;
+    if (options.maxAge !== undefined) {
+        if (!Number.isInteger(options.maxAge)) {
+            throw new TypeError(`option maxAge is invalid: ${options.maxAge}`);
+        }
+        str += "; Max-Age=" + options.maxAge;
+    }
+    if (options.domain) {
+        if (!domainValueRegExp.test(options.domain)) {
+            throw new TypeError(`option domain is invalid: ${options.domain}`);
+        }
+        str += "; Domain=" + options.domain;
+    }
+    if (options.path) {
+        if (!pathValueRegExp.test(options.path)) {
+            throw new TypeError(`option path is invalid: ${options.path}`);
+        }
+        str += "; Path=" + options.path;
+    }
+    if (options.expires) {
+        if (!isDate(options.expires) ||
+            !Number.isFinite(options.expires.valueOf())) {
+            throw new TypeError(`option expires is invalid: ${options.expires}`);
+        }
+        str += "; Expires=" + options.expires.toUTCString();
+    }
+    if (options.httpOnly) {
+        str += "; HttpOnly";
+    }
+    if (options.secure) {
+        str += "; Secure";
+    }
+    if (options.partitioned) {
+        str += "; Partitioned";
+    }
+    if (options.priority) {
+        const priority = typeof options.priority === "string"
+            ? options.priority.toLowerCase()
+            : undefined;
+        switch (priority) {
+            case "low":
+                str += "; Priority=Low";
+                break;
+            case "medium":
+                str += "; Priority=Medium";
+                break;
+            case "high":
+                str += "; Priority=High";
+                break;
+            default:
+                throw new TypeError(`option priority is invalid: ${options.priority}`);
+        }
+    }
+    if (options.sameSite) {
+        const sameSite = typeof options.sameSite === "string"
+            ? options.sameSite.toLowerCase()
+            : options.sameSite;
+        switch (sameSite) {
+            case true:
+            case "strict":
+                str += "; SameSite=Strict";
+                break;
+            case "lax":
+                str += "; SameSite=Lax";
+                break;
+            case "none":
+                str += "; SameSite=None";
+                break;
+            default:
+                throw new TypeError(`option sameSite is invalid: ${options.sameSite}`);
+        }
+    }
+    return str;
+}
+/**
+ * URL-decode string value. Optimized to skip native call when no %.
+ */
+function decode(str) {
+    if (str.indexOf("%") === -1)
+        return str;
+    try {
+        return decodeURIComponent(str);
+    }
+    catch (e) {
+        return str;
+    }
+}
+/**
+ * Determine if value is a Date.
+ */
+function isDate(val) {
+    return __toString.call(val) === "[object Date]";
+}
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/bootstrap/dist/css/bootstrap.min.css":
 /*!*************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/bootstrap/dist/css/bootstrap.min.css ***!
@@ -11611,7 +11860,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `.usfw-switcher label {
+___CSS_LOADER_EXPORT___.push([module.id, `.mos-faqs-switcher label {
   display: block;
   float: left !important;
   cursor: pointer;
@@ -11626,7 +11875,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.usfw-switcher label {
   -webkit-border-radius: 50rem;
   border-radius: 50rem;
 }
-.usfw-switcher label span {
+.mos-faqs-switcher label span {
   position: absolute;
   top: 2px;
   left: 2px;
@@ -11641,25 +11890,25 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.usfw-switcher label {
   -webkit-transition: left 0.15s ease-out;
   transition: left 0.15s ease-out;
 }
-.usfw-switcher label input {
+.mos-faqs-switcher label input {
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
 }
-.usfw-switcher label input:checked ~ em {
-  background-color: var(--plus-color-purple-40);
+.mos-faqs-switcher label input:checked ~ em {
+  background-color: var(--mos-faqs-color);
 }
-.usfw-switcher label input:checked ~ em::before {
+.mos-faqs-switcher label input:checked ~ em::before {
   opacity: 0;
 }
-.usfw-switcher label input:checked ~ em::after {
+.mos-faqs-switcher label input:checked ~ em::after {
   opacity: 1;
 }
-.usfw-switcher label input:checked ~ span {
+.mos-faqs-switcher label input:checked ~ span {
   left: 20px;
 }
-.usfw-switcher label em {
+.mos-faqs-switcher label em {
   -moz-border-radius: 50rem;
   -webkit-border-radius: 50rem;
   border-radius: 50rem;
@@ -11678,7 +11927,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.usfw-switcher label {
   -webkit-transition: background 0.15s ease-out;
   transition: background 0.15s ease-out;
 }
-.usfw-switcher label em::before {
+.mos-faqs-switcher label em::before {
   position: absolute;
   -moz-transition: opacity 0.15s ease-out;
   -o-transition: opacity 0.15s ease-out;
@@ -11686,7 +11935,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.usfw-switcher label {
   transition: opacity 0.15s ease-out;
   right: 14px;
 }
-.usfw-switcher label em::after {
+.mos-faqs-switcher label em::after {
   position: absolute;
   -moz-transition: opacity 0.15s ease-out;
   -o-transition: opacity 0.15s ease-out;
@@ -11694,7 +11943,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.usfw-switcher label {
   transition: opacity 0.15s ease-out;
   left: 14px;
   opacity: 0;
-}`, "",{"version":3,"sources":["webpack://./src/components/Switch/Switch.scss"],"names":[],"mappings":"AACI;EACI,cAAA;EACA,sBAAA;EACA,eAAA;EACA,kBAAA;EACA,WAAA;EACA,cAAA;EACA,YAAA;EACA,UAAA;EACA,SAAA;EACA,gBAAA;EACA,yBAAA;EACA,4BAAA;EACA,oBAAA;AAAR;AACQ;EACI,kBAAA;EACA,QAAA;EACA,SAAA;EACA,WAAA;EACA,YAAA;EACA,sBAAA;EACA,uBAAA;EACA,0BAAA;EACA,kBAAA;EACA,oCAAA;EACA,kCAAA;EACA,uCAAA;EACA,+BAAA;AACZ;AACQ;EACI,kBAAA;EACA,MAAA;EACA,OAAA;EACA,UAAA;AACZ;AAEgB;EACI,6CAAA;AAApB;AACoB;EACA,UAAA;AACpB;AACoB;EACA,UAAA;AACpB;AAEgB;EACI,UAAA;AAApB;AAKQ;EACI,yBAAA;EACA,4BAAA;EACA,oBAAA;EACA,eAAA;EACA,iBAAA;EACA,gBAAA;EACA,kBAAA;EACA,yBAAA;EACA,WAAA;EACA,kBAAA;EACA,cAAA;EACA,eAAA;EACA,yBAAA;EACA,0CAAA;EACA,wCAAA;EACA,6CAAA;EACA,qCAAA;AAHZ;AAIY;EACA,kBAAA;EACA,uCAAA;EACA,qCAAA;EACA,0CAAA;EACA,kCAAA;EAEA,WAAA;AAHZ;AAKY;EACA,kBAAA;EACA,uCAAA;EACA,qCAAA;EACA,0CAAA;EACA,kCAAA;EAEA,UAAA;EACA,UAAA;AAJZ","sourcesContent":[".usfw-switcher {\n    label {\n        display: block;\n        float: left !important;\n        cursor: pointer;\n        position: relative;\n        width: 36px;\n        flex: 0 0 36px;\n        height: 18px;\n        padding: 0;\n        margin: 0;\n        overflow: hidden;\n        -moz-border-radius: 50rem;\n        -webkit-border-radius: 50rem;\n        border-radius: 50rem;\n        span {\n            position: absolute;\n            top: 2px;\n            left: 2px;\n            width: 14px;\n            height: 14px;\n            background-color: #fff;\n            -moz-border-radius: 50%;\n            -webkit-border-radius: 50%;\n            border-radius: 50%;\n            -moz-transition: left 0.15s ease-out;\n            -o-transition: left 0.15s ease-out;\n            -webkit-transition: left 0.15s ease-out;\n            transition: left 0.15s ease-out;\n        }\n        input {\n            position: absolute;\n            top: 0;\n            left: 0;\n            opacity: 0;\n            &:checked {\n                ~ {\n                em {\n                    background-color:var(--plus-color-purple-40);\n                    &::before {\n                    opacity: 0;\n                    }\n                    &::after {\n                    opacity: 1;\n                    }\n                }\n                span {\n                    left: 20px;\n                }\n                }\n            }\n        }\n        em {\n            -moz-border-radius: 50rem;\n            -webkit-border-radius: 50rem;\n            border-radius: 50rem;\n            font-size: 11px;\n            line-height: 26px;\n            font-weight: 500;\n            font-style: normal;\n            text-transform: uppercase;\n            color: #fff;\n            position: relative;\n            display: block;\n            height: inherit;\n            background-color: #b2b2b2;\n            -moz-transition: background 0.15s ease-out;\n            -o-transition: background 0.15s ease-out;\n            -webkit-transition: background 0.15s ease-out;\n            transition: background 0.15s ease-out;\n            &::before {\n            position: absolute;\n            -moz-transition: opacity 0.15s ease-out;\n            -o-transition: opacity 0.15s ease-out;\n            -webkit-transition: opacity 0.15s ease-out;\n            transition: opacity 0.15s ease-out;\n            // content: attr(data-off);\n            right: 14px;\n            }\n            &::after {\n            position: absolute;\n            -moz-transition: opacity 0.15s ease-out;\n            -o-transition: opacity 0.15s ease-out;\n            -webkit-transition: opacity 0.15s ease-out;\n            transition: opacity 0.15s ease-out;\n            // content: attr(data-on);\n            left: 14px;\n            opacity: 0;\n            }\n        }\n    }      \n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/components/Switch/Switch.scss"],"names":[],"mappings":"AACI;EACI,cAAA;EACA,sBAAA;EACA,eAAA;EACA,kBAAA;EACA,WAAA;EACA,cAAA;EACA,YAAA;EACA,UAAA;EACA,SAAA;EACA,gBAAA;EACA,yBAAA;EACA,4BAAA;EACA,oBAAA;AAAR;AACQ;EACI,kBAAA;EACA,QAAA;EACA,SAAA;EACA,WAAA;EACA,YAAA;EACA,sBAAA;EACA,uBAAA;EACA,0BAAA;EACA,kBAAA;EACA,oCAAA;EACA,kCAAA;EACA,uCAAA;EACA,+BAAA;AACZ;AACQ;EACI,kBAAA;EACA,MAAA;EACA,OAAA;EACA,UAAA;AACZ;AAEgB;EACI,uCAAA;AAApB;AACoB;EACA,UAAA;AACpB;AACoB;EACA,UAAA;AACpB;AAEgB;EACI,UAAA;AAApB;AAKQ;EACI,yBAAA;EACA,4BAAA;EACA,oBAAA;EACA,eAAA;EACA,iBAAA;EACA,gBAAA;EACA,kBAAA;EACA,yBAAA;EACA,WAAA;EACA,kBAAA;EACA,cAAA;EACA,eAAA;EACA,yBAAA;EACA,0CAAA;EACA,wCAAA;EACA,6CAAA;EACA,qCAAA;AAHZ;AAIY;EACA,kBAAA;EACA,uCAAA;EACA,qCAAA;EACA,0CAAA;EACA,kCAAA;EAEA,WAAA;AAHZ;AAKY;EACA,kBAAA;EACA,uCAAA;EACA,qCAAA;EACA,0CAAA;EACA,kCAAA;EAEA,UAAA;EACA,UAAA;AAJZ","sourcesContent":[".mos-faqs-switcher {\r\n    label {\r\n        display: block;\r\n        float: left !important;\r\n        cursor: pointer;\r\n        position: relative;\r\n        width: 36px;\r\n        flex: 0 0 36px;\r\n        height: 18px;\r\n        padding: 0;\r\n        margin: 0;\r\n        overflow: hidden;\r\n        -moz-border-radius: 50rem;\r\n        -webkit-border-radius: 50rem;\r\n        border-radius: 50rem;\r\n        span {\r\n            position: absolute;\r\n            top: 2px;\r\n            left: 2px;\r\n            width: 14px;\r\n            height: 14px;\r\n            background-color: #fff;\r\n            -moz-border-radius: 50%;\r\n            -webkit-border-radius: 50%;\r\n            border-radius: 50%;\r\n            -moz-transition: left 0.15s ease-out;\r\n            -o-transition: left 0.15s ease-out;\r\n            -webkit-transition: left 0.15s ease-out;\r\n            transition: left 0.15s ease-out;\r\n        }\r\n        input {\r\n            position: absolute;\r\n            top: 0;\r\n            left: 0;\r\n            opacity: 0;\r\n            &:checked {\r\n                ~ {\r\n                em {\r\n                    background-color:var(--mos-faqs-color);\r\n                    &::before {\r\n                    opacity: 0;\r\n                    }\r\n                    &::after {\r\n                    opacity: 1;\r\n                    }\r\n                }\r\n                span {\r\n                    left: 20px;\r\n                }\r\n                }\r\n            }\r\n        }\r\n        em {\r\n            -moz-border-radius: 50rem;\r\n            -webkit-border-radius: 50rem;\r\n            border-radius: 50rem;\r\n            font-size: 11px;\r\n            line-height: 26px;\r\n            font-weight: 500;\r\n            font-style: normal;\r\n            text-transform: uppercase;\r\n            color: #fff;\r\n            position: relative;\r\n            display: block;\r\n            height: inherit;\r\n            background-color: #b2b2b2;\r\n            -moz-transition: background 0.15s ease-out;\r\n            -o-transition: background 0.15s ease-out;\r\n            -webkit-transition: background 0.15s ease-out;\r\n            transition: background 0.15s ease-out;\r\n            &::before {\r\n            position: absolute;\r\n            -moz-transition: opacity 0.15s ease-out;\r\n            -o-transition: opacity 0.15s ease-out;\r\n            -webkit-transition: opacity 0.15s ease-out;\r\n            transition: opacity 0.15s ease-out;\r\n            // content: attr(data-off);\r\n            right: 14px;\r\n            }\r\n            &::after {\r\n            position: absolute;\r\n            -moz-transition: opacity 0.15s ease-out;\r\n            -o-transition: opacity 0.15s ease-out;\r\n            -webkit-transition: opacity 0.15s ease-out;\r\n            transition: opacity 0.15s ease-out;\r\n            // content: attr(data-on);\r\n            left: 14px;\r\n            opacity: 0;\r\n            }\r\n        }\r\n    }      \r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11759,7 +12008,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.usfw-notice {
   display: inline-block;
   vertical-align: top;
   cursor: pointer;
-}`, "",{"version":3,"sources":["webpack://./src/layouts/Notice/Notice.scss"],"names":[],"mappings":"AAAA;EACI,aAAA;EACA,oBAAA;EACA,yBAAA;EACA,mBAAA;AACJ;AAAI;EACI,yBAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;EACA,cAAA;EACA,WAAA;AAER;AADQ;EACI,qBAAA;EACA,mBAAA;AAGZ;AAAI;EACI,OAAA;EACA,cAAA;EACA,gBAAA;EACA,eAAA;EACA,iBAAA;EACA,kBAAA;EACA,aAAA;AAER;AAAI;EACI,cAAA;EACA,WAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;AAER;AADQ;EACI,qBAAA;EACA,mBAAA;EACA,eAAA;AAGZ","sourcesContent":[".usfw-notice {\n    display: flex;\n    align-items: stretch;\n    background-color: #414141;\n    margin-bottom: 30px;\n    .notice-tick {\n        background-color: #4AB866;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        flex: 0 0 48px;\n        width: 48px;\n        img {\n            display: inline-block;\n            vertical-align: top;\n        }\n    }\n    .notice-content {\n        flex: 1;\n        color: #FFFFFF;\n        font-weight: 400;\n        font-size: 14px;\n        line-height: 22px;\n        letter-spacing: 0%;\n        padding: 16px;\n    }\n    .notice-close {\n        flex: 0 0 40px;\n        width: 40px;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        img {            \n            display: inline-block;\n            vertical-align: top;\n            cursor: pointer;\n        }\n    }\n}"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/layouts/Notice/Notice.scss"],"names":[],"mappings":"AAAA;EACI,aAAA;EACA,oBAAA;EACA,yBAAA;EACA,mBAAA;AACJ;AAAI;EACI,yBAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;EACA,cAAA;EACA,WAAA;AAER;AADQ;EACI,qBAAA;EACA,mBAAA;AAGZ;AAAI;EACI,OAAA;EACA,cAAA;EACA,gBAAA;EACA,eAAA;EACA,iBAAA;EACA,kBAAA;EACA,aAAA;AAER;AAAI;EACI,cAAA;EACA,WAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;AAER;AADQ;EACI,qBAAA;EACA,mBAAA;EACA,eAAA;AAGZ","sourcesContent":[".usfw-notice {\r\n    display: flex;\r\n    align-items: stretch;\r\n    background-color: #414141;\r\n    margin-bottom: 30px;\r\n    .notice-tick {\r\n        background-color: #4AB866;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        flex: 0 0 48px;\r\n        width: 48px;\r\n        img {\r\n            display: inline-block;\r\n            vertical-align: top;\r\n        }\r\n    }\r\n    .notice-content {\r\n        flex: 1;\r\n        color: #FFFFFF;\r\n        font-weight: 400;\r\n        font-size: 14px;\r\n        line-height: 22px;\r\n        letter-spacing: 0%;\r\n        padding: 16px;\r\n    }\r\n    .notice-close {\r\n        flex: 0 0 40px;\r\n        width: 40px;\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        img {            \r\n            display: inline-block;\r\n            vertical-align: top;\r\n            cursor: pointer;\r\n        }\r\n    }\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16590,9 +16839,9 @@ function polyfill(Component) {
 
 /***/ }),
 
-/***/ "./node_modules/react-router/dist/development/chunk-BAXFHI7N.mjs":
+/***/ "./node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs":
 /*!***********************************************************************!*\
-  !*** ./node_modules/react-router/dist/development/chunk-BAXFHI7N.mjs ***!
+  !*** ./node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs ***!
   \***********************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
@@ -16718,10 +16967,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var turbo_stream__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! turbo-stream */ "./node_modules/turbo-stream/dist/turbo-stream.mjs");
-/* harmony import */ var cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cookie */ "./node_modules/react-router/node_modules/cookie/dist/index.js");
+/* harmony import */ var cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cookie */ "./node_modules/cookie/dist/index.js");
 /* harmony import */ var set_cookie_parser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! set-cookie-parser */ "./node_modules/set-cookie-parser/lib/set-cookie.js");
 /**
- * react-router v7.5.2
+ * react-router v7.5.3
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -18312,7 +18561,11 @@ function createRouter(init) {
       }
       return {
         matches,
-        pendingActionResult: [boundaryMatch.route.id, result]
+        pendingActionResult: [
+          boundaryMatch.route.id,
+          result,
+          actionMatch.route.id
+        ]
       };
     }
     return {
@@ -21083,7 +21336,9 @@ function processRouteLoaderData(matches, results, pendingActionResult, isStaticH
   });
   if (pendingError !== void 0 && pendingActionResult) {
     errors = { [pendingActionResult[0]]: pendingError };
-    loaderData[pendingActionResult[0]] = void 0;
+    if (pendingActionResult[2]) {
+      loaderData[pendingActionResult[2]] = void 0;
+    }
   }
   return {
     loaderData,
@@ -23245,7 +23500,8 @@ async function singleFetchLoaderNavigationStrategy(args, router, getRouteInfo, f
     )
   );
   await Promise.all(routeDfds.map((d) => d.promise));
-  if ((!router.state.initialized || routesParams.size === 0) && !window.__reactRouterHdrActive) {
+  let isInitialLoad = !router.state.initialized && router.state.navigation.state === "idle";
+  if ((isInitialLoad || routesParams.size === 0) && !window.__reactRouterHdrActive) {
     singleFetchDfd.resolve({ routes: {} });
   } else {
     let targetRoutes = ssr && foundOptOutRoute && routesParams.size > 0 ? [...routesParams.keys()] : void 0;
@@ -24661,7 +24917,7 @@ function mergeRefs(...refs) {
 var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
 try {
   if (isBrowser) {
-    window.__reactRouterVersion = "7.5.2";
+    window.__reactRouterVersion = "7.5.3";
   }
 } catch (e) {
 }
@@ -27390,255 +27646,6 @@ function getHydrationData(state, routes, getRouteInfo, location, basename, isSpa
 
 /***/ }),
 
-/***/ "./node_modules/react-router/node_modules/cookie/dist/index.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/react-router/node_modules/cookie/dist/index.js ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.parse = parse;
-exports.serialize = serialize;
-/**
- * RegExp to match cookie-name in RFC 6265 sec 4.1.1
- * This refers out to the obsoleted definition of token in RFC 2616 sec 2.2
- * which has been replaced by the token definition in RFC 7230 appendix B.
- *
- * cookie-name       = token
- * token             = 1*tchar
- * tchar             = "!" / "#" / "$" / "%" / "&" / "'" /
- *                     "*" / "+" / "-" / "." / "^" / "_" /
- *                     "`" / "|" / "~" / DIGIT / ALPHA
- *
- * Note: Allowing more characters - https://github.com/jshttp/cookie/issues/191
- * Allow same range as cookie value, except `=`, which delimits end of name.
- */
-const cookieNameRegExp = /^[\u0021-\u003A\u003C\u003E-\u007E]+$/;
-/**
- * RegExp to match cookie-value in RFC 6265 sec 4.1.1
- *
- * cookie-value      = *cookie-octet / ( DQUOTE *cookie-octet DQUOTE )
- * cookie-octet      = %x21 / %x23-2B / %x2D-3A / %x3C-5B / %x5D-7E
- *                     ; US-ASCII characters excluding CTLs,
- *                     ; whitespace DQUOTE, comma, semicolon,
- *                     ; and backslash
- *
- * Allowing more characters: https://github.com/jshttp/cookie/issues/191
- * Comma, backslash, and DQUOTE are not part of the parsing algorithm.
- */
-const cookieValueRegExp = /^[\u0021-\u003A\u003C-\u007E]*$/;
-/**
- * RegExp to match domain-value in RFC 6265 sec 4.1.1
- *
- * domain-value      = <subdomain>
- *                     ; defined in [RFC1034], Section 3.5, as
- *                     ; enhanced by [RFC1123], Section 2.1
- * <subdomain>       = <label> | <subdomain> "." <label>
- * <label>           = <let-dig> [ [ <ldh-str> ] <let-dig> ]
- *                     Labels must be 63 characters or less.
- *                     'let-dig' not 'letter' in the first char, per RFC1123
- * <ldh-str>         = <let-dig-hyp> | <let-dig-hyp> <ldh-str>
- * <let-dig-hyp>     = <let-dig> | "-"
- * <let-dig>         = <letter> | <digit>
- * <letter>          = any one of the 52 alphabetic characters A through Z in
- *                     upper case and a through z in lower case
- * <digit>           = any one of the ten digits 0 through 9
- *
- * Keep support for leading dot: https://github.com/jshttp/cookie/issues/173
- *
- * > (Note that a leading %x2E ("."), if present, is ignored even though that
- * character is not permitted, but a trailing %x2E ("."), if present, will
- * cause the user agent to ignore the attribute.)
- */
-const domainValueRegExp = /^([.]?[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)([.][a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$/i;
-/**
- * RegExp to match path-value in RFC 6265 sec 4.1.1
- *
- * path-value        = <any CHAR except CTLs or ";">
- * CHAR              = %x01-7F
- *                     ; defined in RFC 5234 appendix B.1
- */
-const pathValueRegExp = /^[\u0020-\u003A\u003D-\u007E]*$/;
-const __toString = Object.prototype.toString;
-const NullObject = /* @__PURE__ */ (() => {
-    const C = function () { };
-    C.prototype = Object.create(null);
-    return C;
-})();
-/**
- * Parse a cookie header.
- *
- * Parse the given cookie header string into an object
- * The object has the various cookies as keys(names) => values
- */
-function parse(str, options) {
-    const obj = new NullObject();
-    const len = str.length;
-    // RFC 6265 sec 4.1.1, RFC 2616 2.2 defines a cookie name consists of one char minimum, plus '='.
-    if (len < 2)
-        return obj;
-    const dec = options?.decode || decode;
-    let index = 0;
-    do {
-        const eqIdx = str.indexOf("=", index);
-        if (eqIdx === -1)
-            break; // No more cookie pairs.
-        const colonIdx = str.indexOf(";", index);
-        const endIdx = colonIdx === -1 ? len : colonIdx;
-        if (eqIdx > endIdx) {
-            // backtrack on prior semicolon
-            index = str.lastIndexOf(";", eqIdx - 1) + 1;
-            continue;
-        }
-        const keyStartIdx = startIndex(str, index, eqIdx);
-        const keyEndIdx = endIndex(str, eqIdx, keyStartIdx);
-        const key = str.slice(keyStartIdx, keyEndIdx);
-        // only assign once
-        if (obj[key] === undefined) {
-            let valStartIdx = startIndex(str, eqIdx + 1, endIdx);
-            let valEndIdx = endIndex(str, endIdx, valStartIdx);
-            const value = dec(str.slice(valStartIdx, valEndIdx));
-            obj[key] = value;
-        }
-        index = endIdx + 1;
-    } while (index < len);
-    return obj;
-}
-function startIndex(str, index, max) {
-    do {
-        const code = str.charCodeAt(index);
-        if (code !== 0x20 /*   */ && code !== 0x09 /* \t */)
-            return index;
-    } while (++index < max);
-    return max;
-}
-function endIndex(str, index, min) {
-    while (index > min) {
-        const code = str.charCodeAt(--index);
-        if (code !== 0x20 /*   */ && code !== 0x09 /* \t */)
-            return index + 1;
-    }
-    return min;
-}
-/**
- * Serialize data into a cookie header.
- *
- * Serialize a name value pair into a cookie string suitable for
- * http headers. An optional options object specifies cookie parameters.
- *
- * serialize('foo', 'bar', { httpOnly: true })
- *   => "foo=bar; httpOnly"
- */
-function serialize(name, val, options) {
-    const enc = options?.encode || encodeURIComponent;
-    if (!cookieNameRegExp.test(name)) {
-        throw new TypeError(`argument name is invalid: ${name}`);
-    }
-    const value = enc(val);
-    if (!cookieValueRegExp.test(value)) {
-        throw new TypeError(`argument val is invalid: ${val}`);
-    }
-    let str = name + "=" + value;
-    if (!options)
-        return str;
-    if (options.maxAge !== undefined) {
-        if (!Number.isInteger(options.maxAge)) {
-            throw new TypeError(`option maxAge is invalid: ${options.maxAge}`);
-        }
-        str += "; Max-Age=" + options.maxAge;
-    }
-    if (options.domain) {
-        if (!domainValueRegExp.test(options.domain)) {
-            throw new TypeError(`option domain is invalid: ${options.domain}`);
-        }
-        str += "; Domain=" + options.domain;
-    }
-    if (options.path) {
-        if (!pathValueRegExp.test(options.path)) {
-            throw new TypeError(`option path is invalid: ${options.path}`);
-        }
-        str += "; Path=" + options.path;
-    }
-    if (options.expires) {
-        if (!isDate(options.expires) ||
-            !Number.isFinite(options.expires.valueOf())) {
-            throw new TypeError(`option expires is invalid: ${options.expires}`);
-        }
-        str += "; Expires=" + options.expires.toUTCString();
-    }
-    if (options.httpOnly) {
-        str += "; HttpOnly";
-    }
-    if (options.secure) {
-        str += "; Secure";
-    }
-    if (options.partitioned) {
-        str += "; Partitioned";
-    }
-    if (options.priority) {
-        const priority = typeof options.priority === "string"
-            ? options.priority.toLowerCase()
-            : undefined;
-        switch (priority) {
-            case "low":
-                str += "; Priority=Low";
-                break;
-            case "medium":
-                str += "; Priority=Medium";
-                break;
-            case "high":
-                str += "; Priority=High";
-                break;
-            default:
-                throw new TypeError(`option priority is invalid: ${options.priority}`);
-        }
-    }
-    if (options.sameSite) {
-        const sameSite = typeof options.sameSite === "string"
-            ? options.sameSite.toLowerCase()
-            : options.sameSite;
-        switch (sameSite) {
-            case true:
-            case "strict":
-                str += "; SameSite=Strict";
-                break;
-            case "lax":
-                str += "; SameSite=Lax";
-                break;
-            case "none":
-                str += "; SameSite=None";
-                break;
-            default:
-                throw new TypeError(`option sameSite is invalid: ${options.sameSite}`);
-        }
-    }
-    return str;
-}
-/**
- * URL-decode string value. Optimized to skip native call when no %.
- */
-function decode(str) {
-    if (str.indexOf("%") === -1)
-        return str;
-    try {
-        return decodeURIComponent(str);
-    }
-    catch (e) {
-        return str;
-    }
-}
-/**
- * Determine if value is a Date.
- */
-function isDate(val) {
-    return __toString.call(val) === "[object Date]";
-}
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
 /***/ "./node_modules/react-transition-group/esm/Transition.js":
 /*!***************************************************************!*\
   !*** ./node_modules/react-transition-group/esm/Transition.js ***!
@@ -30083,7 +30090,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _layouts_Header_Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./layouts/Header/Header */ "./src/layouts/Header/Header.jsx");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-BAXFHI7N.mjs");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs");
 /* harmony import */ var _contexts_MainContext__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./contexts/MainContext */ "./src/contexts/MainContext.jsx");
 /* harmony import */ var _pages_BaseInput__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/BaseInput */ "./src/pages/BaseInput.jsx");
 /* harmony import */ var _pages_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/Dashboard/Dashboard */ "./src/pages/Dashboard/Dashboard.jsx");
@@ -30190,7 +30197,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "8075f7e865611fdcf9c3aaadd7c8a298.svg");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "e82201da36fd601f872b486f09c28df0.svg");
 
 /***/ }),
 
@@ -30205,7 +30212,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "7027f105489e555d2f4f915770413a56.svg");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "8fe0caa5b6d66c805cbea4f069294bcc.svg");
 
 /***/ }),
 
@@ -30223,7 +30230,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/ListGroup.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-BAXFHI7N.mjs");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -30320,7 +30327,7 @@ function Switch(_ref) {
   // Convert numerical string value to boolean (API sends "1"/"0")
   var isChecked = checked === "1" || checked === true || checked === 1;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "position-relative usfw-switcher"
+    className: "position-relative mos-faqs-switcher"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
     "data-checked": isChecked,
     name: name,
@@ -30512,7 +30519,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/NavDropdown.js");
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Offcanvas.js");
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Button.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-BAXFHI7N.mjs");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs");
 /* harmony import */ var _data_details_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../data/details.json */ "./src/data/details.json");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -30841,7 +30848,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-BAXFHI7N.mjs");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs");
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -31005,7 +31012,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var BaseInput = function BaseInput(_ref) {
-  var _settingData$base_inp, _settingData$base_inp2, _settingData$base_inp3, _settingData$base_inp4, _settingData$base_inp5, _settingData$elements;
+  var _settingData$base_inp, _settingData$base_inp2, _settingData$base_inp3, _settingData$base_inp4, _settingData$base_inp5, _settingData$base_inp6;
   var handleChange = _ref.handleChange;
   var _useMain = (0,_contexts_MainContext__WEBPACK_IMPORTED_MODULE_3__.useMain)(),
     settingData = _useMain.settingData,
@@ -31141,26 +31148,50 @@ var BaseInput = function BaseInput(_ref) {
       return handleChange('base_input.datetime_local_input', e.target.value);
     }
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: "setting-unit py-4"
+    className: "setting-unit border-bottom py-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "row justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "col-lg-7"
   }, settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: "loading-skeleton h5",
+    className: "loading-skeleton h4",
     style: {
       width: '60%'
     }
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Text Input", "mos-faqs")), settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Textarea Input", "mos-faqs")), settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "loading-skeleton p",
     style: {
+      width: '70%'
+    }
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs"))), !settingLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "col-lg-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("textarea", {
+    className: "form-control",
+    value: settingData === null || settingData === void 0 || (_settingData$base_inp6 = settingData.base_input) === null || _settingData$base_inp6 === void 0 ? void 0 : _settingData$base_inp6.textarea_input,
+    onChange: function onChange(e) {
+      return handleChange('base_input.textarea_input', e.target.value);
+    }
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "setting-unit border-bottom py-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "row justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "col-lg-7"
+  }, settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "loading-skeleton h4",
+    style: {
       width: '60%'
     }
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Switch Input", "mos-faqs")), settingLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "loading-skeleton p",
+    style: {
+      width: '70%'
+    }
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs"))), !settingLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "col-auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_components_Switch_Switch__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    name: "elements.basic.switch",
-    checked: settingData === null || settingData === void 0 || (_settingData$elements = settingData.elements) === null || _settingData$elements === void 0 || (_settingData$elements = _settingData$elements.basic) === null || _settingData$elements === void 0 ? void 0 : _settingData$elements["switch"] // Pass "1"/"0" from API 
+    name: "base_input.switch_input",
+    checked: settingData === null || settingData === void 0 ? void 0 : settingData.base_input.switch_input // Pass "1"/"0" from API 
     ,
     onChange: handleChange
   })))));
@@ -32090,7 +32121,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-BAXFHI7N.mjs");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs");
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ "./src/App.jsx");
 /* harmony import */ var _contexts_MainContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./contexts/MainContext */ "./src/contexts/MainContext.jsx");
 
