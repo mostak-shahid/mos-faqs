@@ -14,6 +14,8 @@ const withForm = (OriginalComponent) => {
             settingLoading,
             setSettingLoading,
             settingsMenu,
+            settingReload,
+            setSettingReload
         } = useMain();
         
         const [saveLoading, setSaveLoading] = useState(false)
@@ -46,7 +48,7 @@ const withForm = (OriginalComponent) => {
             };
         
             fetchSettingData();
-          }, []);
+          }, [settingReload]);
 
         // Handle changes from child components
         const handleChange = (fieldPath, value) => {
@@ -85,16 +87,7 @@ const withForm = (OriginalComponent) => {
                 setResetError(null);            
                 try {
                     result = await formDataPost('mos_faqs_reset_settings', {name:name}); 
-
-                    try {
-                        const response = await axios.get(`/wp-json/mos-faqs/v1/options`);
-                        setSettingData(response.data);
-                        
-                    } catch (error) {
-                        console.log(error);
-                    }
-                    
-                    // setReload(prev => !prev); // Trigger reload to force re-render
+                    setSettingReload(Math.random);
                 } catch (error) {
                     setResetError(error.message);
                 } finally {
@@ -112,8 +105,7 @@ const withForm = (OriginalComponent) => {
                 setResetAllError(null);         
                 try {
                     result = await formDataPost('mos_faqs_reset_all_settings', {}); 
-                    setReload(Math.random)
-                    // setReload(prev => !prev); // Trigger reload to force re-render
+                    setSettingReload(Math.random);
                 } catch (error) {
                     setResetError(error.message);
                 } finally {

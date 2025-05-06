@@ -31596,13 +31596,19 @@ var MainProvider = function MainProvider(_ref) {
     _useState4 = _slicedToArray(_useState3, 2),
     settingLoading = _useState4[0],
     setSettingLoading = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true),
+    _useState6 = _slicedToArray(_useState5, 2),
+    settingReload = _useState6[0],
+    setSettingReload = _useState6[1];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(MainContext.Provider, {
     value: {
       settingData: settingData,
       setSettingData: setSettingData,
       settingLoading: settingLoading,
       setSettingLoading: setSettingLoading,
-      settingsMenu: settingsMenu
+      settingsMenu: settingsMenu,
+      settingReload: settingReload,
+      setSettingReload: setSettingReload
     }
   }, children);
 };
@@ -32022,7 +32028,7 @@ var formDataPost = /*#__PURE__*/function () {
     var data,
       _mos_faqs_ajax_obj,
       formData,
-      securityNonce,
+      _admin_nonce,
       response,
       _args = arguments;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -32033,8 +32039,8 @@ var formDataPost = /*#__PURE__*/function () {
           formData = new FormData(); // Append the action
           formData.append('action', action);
           // Append the security nonce
-          securityNonce = ((_mos_faqs_ajax_obj = mos_faqs_ajax_obj) === null || _mos_faqs_ajax_obj === void 0 ? void 0 : _mos_faqs_ajax_obj.security) || '';
-          formData.append('security', securityNonce);
+          _admin_nonce = ((_mos_faqs_ajax_obj = mos_faqs_ajax_obj) === null || _mos_faqs_ajax_obj === void 0 ? void 0 : _mos_faqs_ajax_obj._admin_nonce) || '';
+          formData.append('_admin_nonce', _admin_nonce);
           // Make the fetch request
 
           Object.entries(data).forEach(function (_ref2) {
@@ -32914,7 +32920,9 @@ var withForm = function withForm(OriginalComponent) {
       setSettingData = _useMain.setSettingData,
       settingLoading = _useMain.settingLoading,
       setSettingLoading = _useMain.setSettingLoading,
-      settingsMenu = _useMain.settingsMenu;
+      settingsMenu = _useMain.settingsMenu,
+      settingReload = _useMain.settingReload,
+      setSettingReload = _useMain.setSettingReload;
     var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       saveLoading = _useState2[0],
@@ -32981,7 +32989,7 @@ var withForm = function withForm(OriginalComponent) {
         };
       }();
       fetchSettingData();
-    }, []);
+    }, [settingReload]);
 
     // Handle changes from child components
     var handleChange = function handleChange(fieldPath, value) {
@@ -33012,14 +33020,14 @@ var withForm = function withForm(OriginalComponent) {
     };
     var handleReset = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(name) {
-        var confirmation, result, response;
+        var confirmation, result;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               console.log(name);
               confirmation = window.confirm((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Are you sure you want to proceed?", "mos-faqs"));
               if (!confirmation) {
-                _context2.next = 29;
+                _context2.next = 20;
                 break;
               }
               setProcessing(true);
@@ -33032,35 +33040,23 @@ var withForm = function withForm(OriginalComponent) {
               });
             case 9:
               result = _context2.sent;
-              _context2.prev = 10;
-              _context2.next = 13;
-              return axios__WEBPACK_IMPORTED_MODULE_6__["default"].get("/wp-json/mos-faqs/v1/options");
+              setSettingReload(Math.random);
+              _context2.next = 16;
+              break;
             case 13:
-              response = _context2.sent;
-              setSettingData(response.data);
-              _context2.next = 20;
-              break;
-            case 17:
-              _context2.prev = 17;
-              _context2.t0 = _context2["catch"](10);
-              console.log(_context2.t0);
-            case 20:
-              _context2.next = 25;
-              break;
-            case 22:
-              _context2.prev = 22;
-              _context2.t1 = _context2["catch"](6);
-              setResetError(_context2.t1.message);
-            case 25:
-              _context2.prev = 25;
+              _context2.prev = 13;
+              _context2.t0 = _context2["catch"](6);
+              setResetError(_context2.t0.message);
+            case 16:
+              _context2.prev = 16;
               setResetLoading(false);
               setProcessing(false);
-              return _context2.finish(25);
-            case 29:
+              return _context2.finish(16);
+            case 20:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[6, 22, 25, 29], [10, 17]]);
+        }, _callee2, null, [[6, 13, 16, 20]]);
       }));
       return function handleReset(_x) {
         return _ref2.apply(this, arguments);
@@ -33085,8 +33081,7 @@ var withForm = function withForm(OriginalComponent) {
               return (0,_lib_Helpers__WEBPACK_IMPORTED_MODULE_5__.formDataPost)('mos_faqs_reset_all_settings', {});
             case 8:
               result = _context3.sent;
-              setReload(Math.random);
-              // setReload(prev => !prev); // Trigger reload to force re-render
+              setSettingReload(Math.random);
               _context3.next = 15;
               break;
             case 12:

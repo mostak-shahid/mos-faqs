@@ -42,8 +42,8 @@ export const formDataPost = async (action, data = {})=> {
         // Append the action
         formData.append('action', action);
         // Append the security nonce
-        const securityNonce = mos_faqs_ajax_obj?.security || '';
-        formData.append('security', securityNonce);
+        const _admin_nonce = mos_faqs_ajax_obj?._admin_nonce || '';
+        formData.append('_admin_nonce', _admin_nonce);
         // Make the fetch request
 
         Object.entries(data).forEach(([key, value]) => {

@@ -326,6 +326,23 @@ class Mos_Faqs_Admin
 
 	public function mos_faqs_reset_settings()
 	{
+		// wp_send_json_success($_POST['_admin_nonce']);
+		if (isset($_POST['_admin_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_admin_nonce'])), 'mos_faqs_admin_nonce')) {
+			// wp_send_json_success(array('variation_id' => $variation_id, 'price' => $price));
+			$name = sanitize_text_field(wp_unslash($_POST['name']));
+			$mos_faqs_options = mos_faqs_get_option();
+			$mos_faqs_default_options = mos_faqs_get_default_options();
+			// need to work
+			update_option('mos_faqs_options', $mos_faqs_options);
+			wp_send_json_success();
+		} else {
+			wp_send_json_error(array('error_message' => esc_html__('Nonce verification failed. Please try again.', 'mos-faqs')));
+			// wp_die(esc_html__('Nonce verification failed. Please try again.', 'mos-faqs'));
+		}
+		wp_die();
+	}
+	public function mos_faqs_reset_all_settings()
+	{
 		if (isset($_POST['_admin_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_admin_nonce'])), 'mos_faqs_admin_nonce')) {
 			// wp_send_json_success(array('variation_id' => $variation_id, 'price' => $price));
 			$mos_faqs_default_options = mos_faqs_get_default_options();
@@ -431,4 +448,5 @@ class Mos_Faqs_Admin
 		], 404);
 		*/
 	}
+	
 }

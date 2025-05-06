@@ -46,6 +46,7 @@ const settingsMenu = {
 export const MainProvider = ({ children }) => {
     const [settingData, setSettingData] = useState({});
     const [settingLoading, setSettingLoading] = useState(true);
+    const [settingReload, setSettingReload] = useState(true);
     return (
         <MainContext.Provider
             value={{
@@ -54,6 +55,8 @@ export const MainProvider = ({ children }) => {
                 settingLoading,
                 setSettingLoading,
                 settingsMenu,
+                settingReload, 
+                setSettingReload
             }}
         >
             {children}
