@@ -82,6 +82,7 @@
 .mos-faqs-settings-template input[type=url].form-control,
 .mos-faqs-settings-template input[type=week].form-control,
 .mos-faqs-settings-template select.form-control,
+.mos-faqs-settings-template select.form-select,
 .mos-faqs-settings-template textarea.form-control {
   border: 1px solid #dee2e6;
 }

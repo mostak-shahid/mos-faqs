@@ -1,12 +1,11 @@
 import { __ } from "@wordpress/i18n";
-import React, { useEffect } from "react";
+import React from "react";
 import "./App.css";
 import Header from "./layouts/Header/Header";
 // import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, Route, Routes } from "react-router-dom";
-import { useMain } from "./contexts/MainContext";
+import ArrayInput from "./pages/ArrayInput";
 import BaseInput from "./pages/BaseInput";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Page from "./pages/Page";
@@ -19,26 +18,6 @@ const NotFound = () => (
   </div>
 );
 function App() {
-  const {
-    settingData, 
-    setSettingData,
-    settingLoading,
-    setSettingLoading,
-  } = useMain();
-  useEffect(() => {
-    const baseURL = '/wp-json/mos-faqs/v1';        
-    const fetchSettingData = async () => {
-        try {
-            const response = await axios.get(`${baseURL}/options`);
-            setSettingData(response.data);
-            setSettingLoading(false)
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    fetchSettingData();
-  }, []);
 
   return (
     <div className="mos-faqs-settings-container">
@@ -51,6 +30,7 @@ function App() {
         <Route path="/settings/basic" element={<Settings />} />
         <Route path="/settings/advanced" element={<Settings />} />
         <Route path="/settings/base_input" element={<BaseInput />} />
+        <Route path="/settings/array_input" element={<ArrayInput />} />
         <Route path="/page" element={<Page />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

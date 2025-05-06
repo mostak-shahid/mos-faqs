@@ -1,7 +1,7 @@
 import React from 'react';
 import Hint from '../Hint/Hint';
 import './Radio.scss';
-export default function Radio({ defaultValues, options = [], name = '', type = '', handleChange }) {
+export default function Radio({ defaultValue, options = [], name = '', type = '', handleChange }) {
     return (
         <div className={`radio-group ${type == 'inline'?"radio-group-inline":"radio-group-block"}`}>
             {options.map((option, index) => (
@@ -12,7 +12,7 @@ export default function Radio({ defaultValues, options = [], name = '', type = '
                         type='radio' // Use the `type` prop
                         name={name}
                         id={`${name}-${index}`}
-                        checked={defaultValues === option.value}
+                        checked={defaultValue === option.value}
                         onChange={() => handleChange(name, option.value)}
                         disabled={option?.disabled}
                     />

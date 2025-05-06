@@ -14,10 +14,10 @@
 }
 .radio-group .form-check .form-check-input:checked {
   background-color: transparent;
-  border-color: var(--plus-color-purple-40);
+  border-color: var(--mos-faqs-color);
 }
 .radio-group .form-check .form-check-input:checked::before {
-  background-color: var(--plus-color-purple-40);
+  background-color: var(--mos-faqs-color);
 }
 .radio-group .form-check .form-check-input::before {
   width: 10px;

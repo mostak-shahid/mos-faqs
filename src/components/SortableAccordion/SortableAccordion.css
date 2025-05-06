@@ -9,13 +9,13 @@
   text-decoration: underline;
 }
 .accordion-container .accordion-item {
-  border: 1px solid #D8D9DB;
+  border: 1px solid #d8d9db;
   border-radius: 5px;
   margin-bottom: 10px;
   overflow: hidden;
 }
 .accordion-container .accordion-item .accordion-header {
-  border-bottom: 1px solid #D8D9DB;
+  border-bottom: 1px solid #d8d9db;
   padding: 10px;
   cursor: pointer;
   margin-bottom: -1px;
@@ -29,14 +29,14 @@
   gap: 6px;
 }
 .accordion-container .accordion-item .accordion-header .left-part .eleble {
-  border: 1px solid #D8D9DB;
+  border: 1px solid #d8d9db;
   border-radius: 2px;
   width: 20px;
   height: 20px;
   display: block;
 }
 .accordion-container .accordion-item .accordion-header .left-part .eleble.checked {
-  background-color: var(--plus-color-purple-40);
+  background-color: var(--mos-faqs-color);
   display: flex;
   justify-content: center;
   align-items: center;

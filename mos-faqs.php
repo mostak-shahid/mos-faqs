@@ -134,7 +134,7 @@ function mos_faqs_get_default_options()
 			'datetime_local_input' => '',
 			'textarea_input' => '',
 			'switch_input' => '1',
-			'radio_input' => '',
+			'radio_input' => 'radio-2',
 			'datalist_input' => '',
 			'select_input' => '',
 		],

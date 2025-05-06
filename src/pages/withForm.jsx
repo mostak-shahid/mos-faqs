@@ -33,7 +33,20 @@ const withForm = (OriginalComponent) => {
         
         const OPTIONS_API_URL = "/wp-json/mos-faqs/v1/options";
 
-
+        useEffect(() => {
+            const baseURL = '/wp-json/mos-faqs/v1';        
+            const fetchSettingData = async () => {
+                try {
+                    const response = await axios.get(`${baseURL}/options`);
+                    setSettingData(response.data);
+                    setSettingLoading(false)
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+        
+            fetchSettingData();
+          }, []);
 
         // Handle changes from child components
         const handleChange = (fieldPath, value) => {

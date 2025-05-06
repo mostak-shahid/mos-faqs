@@ -1,6 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import React from 'react';
-import Switch from '../components/Switch/Switch';
 import { useMain } from '../contexts/MainContext';
 import withForm from '../pages/withForm';
 const Page = ({handleChange}) => {
@@ -10,22 +9,31 @@ const Page = ({handleChange}) => {
     } = useMain();
     return (
         <>
-            <div className="row justify-content-between">
-                <div className="col-lg-10">
+            <div className="setting-unit border-bottom py-4">
+                <div className="row justify-content-between">
+                    <div className="col-lg-7">
+                        {
+                            settingLoading 
+                            ? <div className="loading-skeleton h4" style={{width: '60%'}}></div>
+                            : <h4>{__("Text Input", "mos-faqs")}</h4>
+                        }
+                        {
+                            settingLoading 
+                            ? <div className="loading-skeleton p" style={{width: '70%'}}></div>
+                            : <p>{__("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus, odio.", "mos-faqs")}</p>
+                        }
+                    </div>    
                     {
-                        settingLoading 
-                        ? <div className="loading-skeleton" style={{width: '60%', height: '20px'}}></div>
-                        : <h5 className="pl-heading-1 fw-600 text-text">{__("Basic Settings", "mos-faqs")}</h5>
+                        !settingLoading &&                               
+                        <div className="col-lg-5">
+                            <input 
+                                className="form-control"
+                                type="text"
+                                value={settingData?.base_input?.text_input}
+                                onChange={(e) => handleChange('base_input.text_input', e.target.value)}
+                            />                          
+                        </div>
                     }
-                    <h6 className="pl-heading-1 fw-600 text-text">{__("Enable", "mos-faqs")}</h6>
-                    <p className="pl-body text-text">{__( "Lorem ipsum dolor sit amet consectetur", "mos-faqs" )}</p>
-                </div>                                    
-                <div className="col-auto">
-                    <Switch 
-                        name="elements.basic.switch"
-                        checked={settingData?.elements?.basic?.switch} // Pass "1"/"0" from API 
-                        onChange={handleChange} 
-                    />
                 </div>
             </div>
         </>
