@@ -142,7 +142,7 @@ function mos_faqs_get_default_options()
 			'checkbox_input' => [],
 			'multi_select_input' => [],
 		],		
-		'elements' => [
+		'components' => [
 			'basic' => [
 				'ip' => '',
 				'text_field' => 'this is a text field',
@@ -195,6 +195,9 @@ function mos_faqs_get_default_options()
 
 	return $mos_faqs_default_options;
 }
+
+// update_option('mos_faqs_options', mos_faqs_get_default_options());
+
 function mos_faqs_get_option()
 {
 	$mos_faqs_options_database = get_option('mos_faqs_options', []);

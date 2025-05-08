@@ -288,31 +288,31 @@ class Mos_Faqs_Admin
 
 			$err = 0;
 
-			$mos_faqs_options["base-input"]["text-input"] = isset($_POST["mos_faqs_options"]["base-input"]["text-input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base-input"]["text-input"])) : '';
+			$mos_faqs_options["base_input"]["text_input"] = isset($_POST["mos_faqs_options"]["base_input"]["text_input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base_input"]["text_input"])) : '';
 
-			$mos_faqs_options["base-input"]["email-input"] = isset($_POST["mos_faqs_options"]["base-input"]["email-input"]) ? sanitize_email(wp_unslash($_POST["mos_faqs_options"]["base-input"]["email-input"])) : '';
+			$mos_faqs_options["base_input"]["email_input"] = isset($_POST["mos_faqs_options"]["base_input"]["email_input"]) ? sanitize_email(wp_unslash($_POST["mos_faqs_options"]["base_input"]["email_input"])) : '';
 
-			$mos_faqs_options["base-input"]["color-input"] = isset($_POST["mos_faqs_options"]["base-input"]["color-input"]) ? sanitize_hex_color(wp_unslash($_POST["mos_faqs_options"]["base-input"]["color-input"])) : '';
+			$mos_faqs_options["base_input"]["color_input"] = isset($_POST["mos_faqs_options"]["base_input"]["color_input"]) ? sanitize_hex_color(wp_unslash($_POST["mos_faqs_options"]["base_input"]["color_input"])) : '';
 
-			$mos_faqs_options["base-input"]["date-input"] = isset($_POST["mos_faqs_options"]["base-input"]["date-input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base-input"]["date-input"])) : '';
+			$mos_faqs_options["base_input"]["date_input"] = isset($_POST["mos_faqs_options"]["base_input"]["date_input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base_input"]["date_input"])) : '';
 
-			$mos_faqs_options["base-input"]["datetime-local-input"] = isset($_POST["mos_faqs_options"]["base-input"]["datetime-local-input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base-input"]["datetime-local-input"])) : '';
+			$mos_faqs_options["base_input"]["datetime_local_input"] = isset($_POST["mos_faqs_options"]["base_input"]["datetime_local_input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base_input"]["datetime_local_input"])) : '';
 
-			$mos_faqs_options["base-input"]["textarea-input"] = isset($_POST["mos_faqs_options"]["base-input"]["textarea-input"]) ? sanitize_textarea_field(wp_unslash($_POST["mos_faqs_options"]["base-input"]["textarea-input"])) : '';
+			$mos_faqs_options["base_input"]["textarea_input"] = isset($_POST["mos_faqs_options"]["base_input"]["textarea_input"]) ? sanitize_textarea_field(wp_unslash($_POST["mos_faqs_options"]["base_input"]["textarea_input"])) : '';
 
-			$mos_faqs_options["base-input"]["switch-input"] = isset($_POST["mos_faqs_options"]["base-input"]["switch-input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base-input"]["switch-input"])) : '';
+			$mos_faqs_options["base_input"]["switch_input"] = isset($_POST["mos_faqs_options"]["base_input"]["switch_input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base_input"]["switch_input"])) : '';
 
-			$mos_faqs_options["base-input"]["radio-input"] = isset($_POST["mos_faqs_options"]["base-input"]["radio-input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base-input"]["radio-input"])) : '';
+			$mos_faqs_options["base_input"]["radio_input"] = isset($_POST["mos_faqs_options"]["base_input"]["radio_input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base_input"]["radio_input"])) : '';
 
-			$mos_faqs_options["base-input"]["datalist-input"] = isset($_POST["mos_faqs_options"]["base-input"]["datalist-input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base-input"]["datalist-input"])) : '';
+			$mos_faqs_options["base_input"]["datalist_input"] = isset($_POST["mos_faqs_options"]["base_input"]["datalist_input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base_input"]["datalist_input"])) : '';
 
-			$mos_faqs_options["base-input"]["select-input"] = isset($_POST["mos_faqs_options"]["base-input"]["select-input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base-input"]["select-input"])) : '';
+			$mos_faqs_options["base_input"]["select_input"] = isset($_POST["mos_faqs_options"]["base_input"]["select_input"]) ? sanitize_text_field(wp_unslash($_POST["mos_faqs_options"]["base_input"]["select_input"])) : '';
 
-			$mos_faqs_options["editor-input"] = isset($_POST["mos_faqs_options"]["editor-input"]) ? wp_kses_post(wp_unslash($_POST["mos_faqs_options"]["editor-input"])) : '';
+			$mos_faqs_options["editor_input"] = isset($_POST["mos_faqs_options"]["editor_input"]) ? wp_kses_post(wp_unslash($_POST["mos_faqs_options"]["editor_input"])) : '';
 
-			$mos_faqs_options["array-input"]["checkbox-input"] = isset($_POST["mos_faqs_options"]["array-input"]["checkbox-input"]) ? array_map('sanitize_text_field', wp_unslash($_POST["mos_faqs_options"]["array-input"]["checkbox-input"])) : [];
+			$mos_faqs_options["array_input"]["checkbox_input"] = isset($_POST["mos_faqs_options"]["array_input"]["checkbox_input"]) ? array_map('sanitize_text_field', wp_unslash($_POST["mos_faqs_options"]["array_input"]["checkbox_input"])) : [];
 
-			$mos_faqs_options["array-input"]["multi-select-input"] = isset($_POST["mos_faqs_options"]["array-input"]["multi-select-input"]) ? array_map('sanitize_text_field', wp_unslash($_POST["mos_faqs_options"]["array-input"]["multi-select-input"])) : [];
+			$mos_faqs_options["array_input"]["multi-select_input"] = isset($_POST["mos_faqs_options"]["array_input"]["multi-select_input"]) ? array_map('sanitize_text_field', wp_unslash($_POST["mos_faqs_options"]["array_input"]["multi-select_input"])) : [];
 
 			if (!$err) {
 				$_POST['settings-updated'] = true;
@@ -323,18 +323,40 @@ class Mos_Faqs_Admin
 		update_option('mos_faqs_options', $mos_faqs_options);
 	}
 	// add_action('admin_head', 'mos_faqs_option_form_submit');
-
+	private function reset_option_by_path(&$options, $defaults, $path) {
+		$keys = explode('.', $path);
+		$target =& $options;
+		$default = $defaults;
+	
+		foreach ($keys as $key) {
+			if (!isset($target[$key]) || !isset($default[$key])) {
+				return false; // path not found
+			}
+			$target =& $target[$key];
+			$default = $default[$key];
+		}
+	
+		// Set the value at the final nested level
+		$target = $default;
+		return true;
+	}
+	
 	public function mos_faqs_reset_settings()
 	{
 		// wp_send_json_success($_POST['_admin_nonce']);
 		if (isset($_POST['_admin_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_admin_nonce'])), 'mos_faqs_admin_nonce')) {
-			// wp_send_json_success(array('variation_id' => $variation_id, 'price' => $price));
 			$name = sanitize_text_field(wp_unslash($_POST['name']));
 			$mos_faqs_options = mos_faqs_get_option();
 			$mos_faqs_default_options = mos_faqs_get_default_options();
-			// need to work
-			update_option('mos_faqs_options', $mos_faqs_options);
-			wp_send_json_success();
+
+			$success = $this->reset_option_by_path($mos_faqs_options, $mos_faqs_default_options, $name);
+
+			if ($success) {
+				update_option('mos_faqs_options', $mos_faqs_options);
+				wp_send_json_success(['message' => __('Settings reset successfully.', 'mos-faqs')]);
+			} else {
+				wp_send_json_error(['error_message' => __('Invalid settings path.', 'mos-faqs')]);
+			}
 		} else {
 			wp_send_json_error(array('error_message' => esc_html__('Nonce verification failed. Please try again.', 'mos-faqs')));
 			// wp_die(esc_html__('Nonce verification failed. Please try again.', 'mos-faqs'));

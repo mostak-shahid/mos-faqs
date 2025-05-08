@@ -15,26 +15,25 @@ const settingsMenu = {
         "description": __( "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quisquam non velit recusandae maxime, soluta labore id dignissimos tenetur, vitae nesciunt? Aspernatur nemo velit veniam adipisci obcaecati impedit alias, officiis hic ratione perspiciatis, quo molestiae expedita? Aliquam, quam dolorem? Similique enim minus error tempore necessitatibus dolorum quidem modi maiores suscipit.", "mos-faqs" ), 
         "url":"/settings/array_input",
     },
-    "elements": { 
-        "title": __( "Elements", "mos-faqs" ), 
-        "url":"/elements",      
+    "components": { 
+        "title": __( "Components", "mos-faqs" ), 
+        "url":"/settings/components",      
         "sub": {
             "basic" : {
                 "title": __( "Basic", "mos-faqs" ),                
-                "url":"/elements/basic",
+                "url":"/settings/components/basic",
             },
             "advanced" : {
                 "title": __( "Advanced", "mos-faqs" ),
-                "url":"/elements/advanced",
+                "url":"/settings/components/advanced",
                 "sub": {
                     "advanced-1" : {
                         "title": __( "Advanced 1", "mos-faqs" ),                
-                        "url":"/elements/advanced/advanced-1",
+                        "url":"/settings/components/advanced/advanced-1",
                     },
                     "advanced-2" : {
                         "title": __( "Advanced 2", "mos-faqs" ),
-                        "url":"/elements/advanced/advanced-2",
-                        
+                        "url":"/settings/components/advanced/advanced-2",                        
                     }
                 }
             }

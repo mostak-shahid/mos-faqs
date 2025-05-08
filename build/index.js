@@ -30588,12 +30588,14 @@ function App() {
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_pages_Dashboard_Dashboard__WEBPACK_IMPORTED_MODULE_7__["default"], null)
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
     path: "/settings",
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Navigate, {
+      to: "/settings/base_input"
+    })
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+    path: "/settings/components/basic",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_pages_Settings_Settings__WEBPACK_IMPORTED_MODULE_9__["default"], null)
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-    path: "/settings/basic",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_pages_Settings_Settings__WEBPACK_IMPORTED_MODULE_9__["default"], null)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
-    path: "/settings/advanced",
+    path: "/settings/components/advanced",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_pages_Settings_Settings__WEBPACK_IMPORTED_MODULE_9__["default"], null)
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
     path: "/settings/base_input",
@@ -31561,25 +31563,25 @@ var settingsMenu = {
     "description": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quisquam non velit recusandae maxime, soluta labore id dignissimos tenetur, vitae nesciunt? Aspernatur nemo velit veniam adipisci obcaecati impedit alias, officiis hic ratione perspiciatis, quo molestiae expedita? Aliquam, quam dolorem? Similique enim minus error tempore necessitatibus dolorum quidem modi maiores suscipit.", "mos-faqs"),
     "url": "/settings/array_input"
   },
-  "elements": {
-    "title": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Elements", "mos-faqs"),
-    "url": "/elements",
+  "components": {
+    "title": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Components", "mos-faqs"),
+    "url": "/settings/components",
     "sub": {
       "basic": {
         "title": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Basic", "mos-faqs"),
-        "url": "/elements/basic"
+        "url": "/settings/components/basic"
       },
       "advanced": {
         "title": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Advanced", "mos-faqs"),
-        "url": "/elements/advanced",
+        "url": "/settings/components/advanced",
         "sub": {
           "advanced-1": {
             "title": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Advanced 1", "mos-faqs"),
-            "url": "/elements/advanced/advanced-1"
+            "url": "/settings/components/advanced/advanced-1"
           },
           "advanced-2": {
             "title": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Advanced 2", "mos-faqs"),
-            "url": "/elements/advanced/advanced-2"
+            "url": "/settings/components/advanced/advanced-2"
           }
         }
       }
@@ -32884,13 +32886,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_MultiLevelListGroup_MultiLevelListGroup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/MultiLevelListGroup/MultiLevelListGroup */ "./src/components/MultiLevelListGroup/MultiLevelListGroup.jsx");
 /* harmony import */ var _contexts_MainContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../contexts/MainContext */ "./src/contexts/MainContext.jsx");
 /* harmony import */ var _layouts_Notice_Notice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../layouts/Notice/Notice */ "./src/layouts/Notice/Notice.jsx");
 /* harmony import */ var _lib_Helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/Helpers */ "./src/lib/Helpers.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-BAXFHI7N.mjs");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -32913,6 +32916,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
  // Import utility function
+
 var withForm = function withForm(OriginalComponent) {
   function NewComponent() {
     var _useMain = (0,_contexts_MainContext__WEBPACK_IMPORTED_MODULE_3__.useMain)(),
@@ -32956,6 +32960,7 @@ var withForm = function withForm(OriginalComponent) {
       processing = _useState16[0],
       setProcessing = _useState16[1];
     var urlArr = (0,_lib_Helpers__WEBPACK_IMPORTED_MODULE_5__.urlToArr)();
+    var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useLocation)();
     var OPTIONS_API_URL = "/wp-json/mos-faqs/v1/options";
     (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
       var baseURL = '/wp-json/mos-faqs/v1';
@@ -32967,7 +32972,7 @@ var withForm = function withForm(OriginalComponent) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_6__["default"].get("".concat(baseURL, "/options"));
+                return axios__WEBPACK_IMPORTED_MODULE_7__["default"].get("".concat(baseURL, "/options"));
               case 3:
                 response = _context.sent;
                 setSettingData(response.data);
@@ -33003,7 +33008,7 @@ var withForm = function withForm(OriginalComponent) {
       setProcessing(true);
       setSaveLoading(true);
       setSaveError(null);
-      axios__WEBPACK_IMPORTED_MODULE_6__["default"].post(OPTIONS_API_URL, {
+      axios__WEBPACK_IMPORTED_MODULE_7__["default"].post(OPTIONS_API_URL, {
         'mos_faqs_options': settingData
       }).then(function (response) {
         window.scrollTo(0, 0);
