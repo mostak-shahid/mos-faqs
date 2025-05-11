@@ -168,9 +168,9 @@ const withForm = (OriginalComponent) => {
                                             {resetAllLoading ? __( "Resetting...", "mos-faqs" ) : __( "Reset All", "mos-faqs" )}
                                         </button>
 
-                                        {resetAllError && <div className="usfw-error">{resetAllError}</div>}
-                                        {resetError && <div className="usfw-error">{resetError}</div>}
-                                        {saveError && <div className="usfw-error">{saveError}</div>}
+                                        {resetAllError && <div className="mos-faqs-error">{resetAllError}</div>}
+                                        {resetError && <div className="mos-faqs-error">{resetError}</div>}
+                                        {saveError && <div className="mos-faqs-error">{saveError}</div>}
                                     </div>
                                 </div>
                             </div>

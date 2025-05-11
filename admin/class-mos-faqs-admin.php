@@ -104,8 +104,9 @@ class Mos_Faqs_Admin
 		 */
 		wp_enqueue_script($this->plugin_name, MOS_FAQS_URL . 'assets/js/script.js', array('jquery'), $this->version, false);
 
-
-		if (mos_faqs_is_plugin_page()) {
+		wp_enqueue_media();
+		$current_screen = get_current_screen();
+		if ($current_screen->id == 'mos-faqs_page_mos-faqs-react') {
 			wp_enqueue_script(
 				$this->plugin_name . '-react',
 				MOS_FAQS_URL . 'build/index.js',
@@ -470,5 +471,72 @@ class Mos_Faqs_Admin
 		], 404);
 		*/
 	}
+	public function mos_faqs_ajax_install_external_plugins (){
+		if (isset($_POST['_admin_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_admin_nonce'])), 'mos_faqs_admin_nonce')) {
+			
+			// wp_send_json_success('Working');
+
+			$sub_action = isset($_POST['sub_action'])?sanitize_text_field(wp_unslash($_POST['sub_action'])):'';
+			$plugin_slug = isset($_POST['plugin_slug'])?sanitize_text_field(wp_unslash($_POST['plugin_slug'])):'';//'mos-woocommerce-protected-categories';
+			$plugin_file = ($plugin_slug && isset($_POST['plugin_file']))?$plugin_slug . sanitize_text_field(wp_unslash($_POST['plugin_file'])):'';//$plugin_slug . '/mos-woocommerce-protected-categories.php';
+			$download_url = isset($_POST['download_url'])?sanitize_url(wp_unslash($_POST['download_url'])):'';//'https://github.com/mostak-shahid/mos-woocommerce-protected-categories/archive/refs/heads/main.zip';
+			if (!current_user_can('install_plugins')) {
+				wp_send_json_error('Permission denied');
+			}
+	
+
+			include_once ABSPATH . 'wp-admin/includes/file.php';
+			include_once ABSPATH . 'wp-admin/includes/misc.php';
+			include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+			include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+			if ($sub_action === 'install' || $sub_action === 'install_activate') {
+				$upgrader = new Plugin_Upgrader();
+				$installed = $upgrader->install($download_url);
+
+				if (is_wp_error($installed)) {
+					wp_send_json_error('Install failed: ' . $installed->get_error_message());
+				}
+
+				// GitHub plugin zip will likely extract with this kind of name
+				$extracted_dir = WP_PLUGIN_DIR . '/' .$plugin_slug;
+				if (is_dir($extracted_dir)) {
+					rename($extracted_dir, WP_PLUGIN_DIR . '/' . $plugin_slug);
+				}
+
+				if ($sub_action === 'install_activate') {
+					activate_plugin(WP_PLUGIN_DIR . '/' . $plugin_file);
+					wp_send_json_success('Plugin installed and activated.');
+				} else {
+					wp_send_json_success('Plugin installed successfully.');
+				}
+			}
+
+			if ($sub_action === 'activate') {
+				if (!file_exists(WP_PLUGIN_DIR . '/' . $plugin_file)) {
+					wp_send_json_error('Plugin not installed.');
+				}
+
+				$result = activate_plugin(WP_PLUGIN_DIR . '/' . $plugin_file);
+				if (is_wp_error($result)) {
+					wp_send_json_error('Activation failed: ' . $result->get_error_message());
+				} else {
+					wp_send_json_success('Plugin activated.');
+				}
+			}
+
+			wp_send_json_error(array('error_message' => esc_html__('Unknown action.', 'mos-faqs')));
+		} else {
+			wp_send_json_error(array('error_message' => esc_html__('Nonce verification failed. Please try again.', 'mos-faqs')));
+			// wp_die(esc_html__('Nonce verification failed. Please try again.', 'mos-faqs'));
+		}
+		wp_die();
+	}
+	
+
+// 	add_action('wp_ajax_mos_plugin_manage', function () {
+//   check_ajax_referer('mos_plugin_nonce', 'security');
+// });
+
 	
 }

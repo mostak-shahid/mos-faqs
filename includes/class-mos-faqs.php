@@ -179,6 +179,11 @@ class Mos_Faqs
 		$this->loader->add_action('wp_ajax_mos_faqs_reset_settings', $plugin_admin, 'mos_faqs_reset_settings');
 		$this->loader->add_action('wp_ajax_mos_faqs_reset_all_settings', $plugin_admin, 'mos_faqs_reset_all_settings');
 
+		
+
+		$this->loader->add_action('wp_ajax_mos_faqs_ajax_install_external_plugins', $plugin_admin, 'mos_faqs_ajax_install_external_plugins');
+		$this->loader->add_action('wp_ajax_nopriv_mos_faqs_ajax_install_external_plugins', $plugin_admin, 'mos_faqs_ajax_install_external_plugins');
+
 		// add_action( 'upgrader_process_complete', 'mos_faqs_update_completed', 10, 2 );
 		$this->loader->add_action('upgrader_process_complete', $plugin_admin, 'mos_faqs_update_completed', 10, 2);
 

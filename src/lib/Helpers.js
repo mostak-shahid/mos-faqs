@@ -54,7 +54,7 @@ export const formDataPost = async (action, data = {})=> {
             mos_faqs_ajax_obj.ajax_url,
             formData
         );
-        // if(action == "usfw_download_users_csv"){
+        // if(action == "mos-faqs_download_users_csv"){
         //     return response.text();
         // }
         // Check if request was successful

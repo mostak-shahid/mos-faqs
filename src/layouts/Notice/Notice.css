@@ -1,10 +1,10 @@
-.usfw-notice {
+.mos-faqs-notice {
   display: flex;
   align-items: stretch;
   background-color: #414141;
   margin-bottom: 30px;
 }
-.usfw-notice .notice-tick {
+.mos-faqs-notice .notice-tick {
   background-color: #4AB866;
   display: flex;
   align-items: center;
@@ -12,11 +12,11 @@
   flex: 0 0 48px;
   width: 48px;
 }
-.usfw-notice .notice-tick img {
+.mos-faqs-notice .notice-tick img {
   display: inline-block;
   vertical-align: top;
 }
-.usfw-notice .notice-content {
+.mos-faqs-notice .notice-content {
   flex: 1;
   color: #FFFFFF;
   font-weight: 400;
@@ -25,14 +25,14 @@
   letter-spacing: 0%;
   padding: 16px;
 }
-.usfw-notice .notice-close {
+.mos-faqs-notice .notice-close {
   flex: 0 0 40px;
   width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.usfw-notice .notice-close img {
+.mos-faqs-notice .notice-close img {
   display: inline-block;
   vertical-align: top;
   cursor: pointer;

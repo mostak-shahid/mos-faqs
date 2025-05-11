@@ -2,7 +2,6 @@ import { __ } from '@wordpress/i18n';
 import { useEffect, useState } from 'react';
 import removeMedia from '../../assets/images/removeMedia.svg';
 import uploadMedia from '../../assets/images/uploadMedia.svg';
-import Hint from '../Hint/Hint';
 import './MediaUploader.scss';
 export default function MediaUploader({ data, name, handleChange, options={} }) {    
     const [media, setMedia] = useState({});
@@ -59,15 +58,12 @@ export default function MediaUploader({ data, name, handleChange, options={} }) 
     }
     return (
         <>
-            {console.log('component-load:','MediaUploader is rendered')}
-            {console.log('data', data)}
-            {console.log('media', media)}
-            <div className="usfw-media-uploader-unit">
+            <div className="mos-faqs-media-uploader-unit">
                 <div className="media-uploader">
                     { media?.url && media?.id ?                     
                         <div className="file-name mb-medium background-primary with-close-button">
                             <img className="uploaded-image" src={media?.sizes?.thumbnail?.url? media.sizes.thumbnail.url:media.url} onClick={runUploader} />
-                            <img className="usfw-remove-image" onClick={removeImage} src={removeMedia} alt="" />
+                            <img className="mos-faqs-remove-image" onClick={removeImage} src={removeMedia} alt="" />
                         </div> : 
                         <div className="file-name mb-medium background-primary d-flex align-items-center justify-content-center" onClick={runUploader}>
                             <div className="no-media-wrap">
@@ -83,10 +79,6 @@ export default function MediaUploader({ data, name, handleChange, options={} }) 
                         </div>
                     }
                     <div className="file-detail">
-                        {
-                            options?.message?.size && 
-                            <div className="upload-help-text pl-body text-text mb-medium" dangerouslySetInnerHTML={{__html: options.message.size}}/>
-                        }
                         <div className="button-wrapper">
                             <button type="button" className="button button-primary" onClick={runUploader}>
                                 {options?.buttons?.upload || __("Upload Image", "ultimate-security")}
@@ -97,15 +89,6 @@ export default function MediaUploader({ data, name, handleChange, options={} }) 
                         </div>
                         <div className="file-link">
                             <label>
-                                <div className="input-with-hints has-hint">
-                                    {
-                                        options?.hint &&
-                                        <Hint content={options.hint} />
-                                    }
-                                    <span className="input-lavel pl-heading-1 text-heading fw-600">
-                                    {__("File link:", "ultimate-security")}
-                                    </span>
-                                </div>
                                 
                                 <input type="text" value={media?.url? media.url:''} readOnly />
                                 <input type="hidden" value={media?.id? media.id:''} readOnly/>
@@ -136,12 +119,7 @@ export default function MediaUploader({ data, name, handleChange, options={} }) 
             upload: __("Upload Image", "ultimate-security"),
             remove: __("Remove", "ultimate-security"),
             select: __("Use this image", "ultimate-security")                                            
-        },
-        hint: __("No Hint", "ultimate-security"),
-        message: {
-            size: 'Size: Optional <br> File Support: jpg, .jpeg, . gif, or .png.',
-            info: 'Select the background image for the header'
-        } 
+        }
     }}
 />
 */

@@ -34,7 +34,7 @@ export default function Notice() {
         <>
             {
                 show && 
-                    <div ref={noticeRef} className={`usfw-notice ${additionalClass}`}>
+                    <div ref={noticeRef} className={`mos-faqs-notice ${additionalClass}`}>
                         <div className="notice-tick" >
                             <img src={noticeTick} alt="" />
                         </div>

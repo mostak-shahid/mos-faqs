@@ -7,9 +7,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, Navigate, Route, Routes } from "react-router-dom";
 import ArrayInput from "./pages/ArrayInput";
 import BaseInput from "./pages/BaseInput";
+import ComponentsAdvanced from "./pages/ComponentsAdvanced";
+import ComponentsBasic from "./pages/ComponentsBasic";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Page from "./pages/Page";
-import Settings from "./pages/Settings/Settings";
 const NotFound = () => (
   <div>
     <h2>{__("404 - Page Not Found", "mos-faqs")}</h2>
@@ -27,8 +28,8 @@ function App() {
         {/* <Route path="/"  element={<Navigate to="/restrictions/settings" />} /> */}
         <Route path="/" element={<Dashboard />} />
         <Route path="/settings" element={<Navigate to="/settings/base_input" />} />
-        <Route path="/settings/components/basic" element={<Settings />} />
-        <Route path="/settings/components/advanced" element={<Settings />} />
+        <Route path="/settings/components/basic" element={<ComponentsBasic />} />
+        <Route path="/settings/components/advanced" element={<ComponentsAdvanced />} />
         <Route path="/settings/base_input" element={<BaseInput />} />
         <Route path="/settings/array_input" element={<ArrayInput />} />
         <Route path="/page" element={<Page />} />

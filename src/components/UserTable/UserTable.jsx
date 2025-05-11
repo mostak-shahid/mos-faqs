@@ -30,9 +30,9 @@ export default function UserTable() {
             sortable: true,
         },
         { 
-            id: 'usfw-2fa-provider',
+            id: 'mos-faqs-2fa-provider',
             name: '2FA Type',
-            selector: row => row.data.user_meta['usfw-2fa-provider']?row.data.user_meta['usfw-2fa-provider']:'N/A',
+            selector: row => row.data.user_meta['mos-faqs-2fa-provider']?row.data.user_meta['mos-faqs-2fa-provider']:'N/A',
             sortable: true,
         },
         { 
@@ -151,7 +151,7 @@ export default function UserTable() {
         // console.log("Reset 2fa for: ", user_id)
         const confirmed = window.confirm(__('Are you sure you want to proceed?', 'mos-faqs'));
         if (confirmed) {
-            apiService.formDataPost('usfw_user_2fa_reset',{"user_id": user_id})
+            apiService.formDataPost('mos-faqs_user_2fa_reset',{"user_id": user_id})
             .then(data=> {
                 // setForceLogoutLoading(false)            
                 if(data.success){
@@ -186,7 +186,7 @@ export default function UserTable() {
     const handleClick2faResetAll = () => {
         const confirmed = window.confirm(__('Are you sure you want to proceed?', 'mos-faqs'));
         if (confirmed) {
-            apiService.formDataPost('usfw_user_2fa_reset_all', {})
+            apiService.formDataPost('mos-faqs_user_2fa_reset_all', {})
             .then(data=> {
                 console.log(data)
                 // setForceLogoutLoading(false)            
@@ -231,7 +231,7 @@ export default function UserTable() {
 
             if (bulkAction === "reset") {
                 console.log("Reset these ids", ids)
-                apiService.formDataPost('usfw_user_2fa_reset_users',{"user_ids": ids})
+                apiService.formDataPost('mos-faqs_user_2fa_reset_users',{"user_ids": ids})
                 .then(data=> {
                     console.log(data)
                     // setForceLogoutLoading(false)            
@@ -262,7 +262,7 @@ export default function UserTable() {
 
             } else if (bulkAction === "delete") {
                 console.log("Delete these ids", ids)
-                // apiService.formDataPost('usfw_send_password_reset_emails',{"user_ids": ids})
+                // apiService.formDataPost('mos-faqs_send_password_reset_emails',{"user_ids": ids})
                 // .then(data=> {
                 //     // setForceLogoutLoading(false)            
                 //     if(data.success){

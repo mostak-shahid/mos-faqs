@@ -1,8 +1,10 @@
+import '@coreui/icons/css/all.css';
 import { __ } from "@wordpress/i18n";
 import React from 'react';
 import { useMain } from '../contexts/MainContext';
 import withForm from '../pages/withForm';
-const Page = ({handleChange}) => {
+
+const ComponentsBasic = ({handleChange}) => {
     const {
         settingData,
         settingLoading
@@ -26,12 +28,15 @@ const Page = ({handleChange}) => {
                     {
                         !settingLoading &&                               
                         <div className="col-lg-5">
-                            <input 
-                                className="form-control"
-                                type="text"
-                                value={settingData?.base_input?.text_input}
-                                onChange={(e) => handleChange('base_input.text_input', e.target.value)}
-                            />                          
+                            <div class="input-group">
+                                <input 
+                                    className="form-control"
+                                    type="text"
+                                    value={settingData?.components?.basic?.ip}
+                                    onChange={(e) => handleChange('components.basic.ip', e.target.value)}
+                                />
+                                <span class="input-group-text" id="basic-addon1"><i className="cil-reload"></i></span>
+                            </div>                            
                         </div>
                     }
                 </div>
@@ -39,4 +44,4 @@ const Page = ({handleChange}) => {
         </>
     )
 }
-export default withForm(Page);
+export default withForm(ComponentsBasic);
