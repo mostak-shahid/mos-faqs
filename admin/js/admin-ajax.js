@@ -47,21 +47,24 @@ jQuery(document).ready(function($) {
         }        
     });
     $('body').on('click', '.mos-faqs-install-github-plugin', function(e){
-        console.log('clicked');
         e.preventDefault();
         var self = $(this);
-        let sub_action= $(this).data('sub_action');
-        let download_url = $(this).data('download_url');
-        let plugin_slug = $(this).data('plugin_slug');
-        let plugin_file = $(this).data('plugin_file');
-        if(sub_action &&  download_url && plugin_slug && plugin_file) {
+        let sub_action = self.data('sub_action');
+        let download_url = self.data('download_url');
+        let plugin_slug = self.data('plugin_slug');
+        let plugin_file = self.data('plugin_file');
+        let plugin_source = self.data('plugin_source');
+        // console.log(plugin_source);
+
+        if(sub_action &&  plugin_source && plugin_slug ) {
             var dataJSON = {
-                action: 'mos_faqs_ajax_install_external_plugins',
+                action: 'mos_faqs_ajax_install_plugins',
                 _admin_nonce: mos_faqs_ajax_obj._admin_nonce,
                 sub_action: sub_action,
                 download_url: download_url,
                 plugin_slug: plugin_slug,
                 plugin_file: plugin_file,
+                plugin_source: plugin_source,
             };
             $.ajax({
                 cache: false,
