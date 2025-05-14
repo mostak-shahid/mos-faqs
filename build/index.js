@@ -42544,7 +42544,7 @@ function Dashboard() {
   }, "Extend Your Website"), /*#__PURE__*/React.createElement("div", {
     className: "card-body"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "row"
+    className: "row mb-3"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-auto"
   }, /*#__PURE__*/React.createElement("div", {
@@ -42555,8 +42555,10 @@ function Dashboard() {
     }
   })), /*#__PURE__*/React.createElement("div", {
     className: "col"
-  }, /*#__PURE__*/React.createElement("h5", null, "title"), /*#__PURE__*/React.createElement("p", {
-    className: "intro"
+  }, /*#__PURE__*/React.createElement("h5", {
+    className: "title m-0"
+  }, "title"), /*#__PURE__*/React.createElement("p", {
+    className: "intro m-0"
   }, "Lorem ipsum dolor sit amet."), /*#__PURE__*/React.createElement("div", {
     className: "action"
   }, /*#__PURE__*/React.createElement("a", {
@@ -42574,8 +42576,10 @@ function Dashboard() {
     }
   })), /*#__PURE__*/React.createElement("div", {
     className: "col"
-  }, /*#__PURE__*/React.createElement("h5", null, "title"), /*#__PURE__*/React.createElement("p", {
-    className: "intro"
+  }, /*#__PURE__*/React.createElement("h5", {
+    className: "title m-0"
+  }, "title"), /*#__PURE__*/React.createElement("p", {
+    className: "intro m-0"
   }, "Lorem ipsum dolor sit amet."), /*#__PURE__*/React.createElement("div", {
     className: "action"
   }, /*#__PURE__*/React.createElement("a", {

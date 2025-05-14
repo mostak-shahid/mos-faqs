@@ -56,13 +56,13 @@ export default function Dashboard() {
                                 Extend Your Website
                             </div>
                             <div className="card-body">
-                                <div className="row">
+                                <div className="row mb-3">
                                     <div className="col-auto">
                                         <div style={{width:'60px', height:'60px', background:'#eaeaea'}}></div>
                                     </div>
                                     <div className="col">
-                                        <h5>title</h5>
-                                        <p className="intro">Lorem ipsum dolor sit amet.</p>
+                                        <h5 className="title m-0">title</h5>
+                                        <p className="intro m-0">Lorem ipsum dolor sit amet.</p>
                                         <div className="action"><a href="#" className="card-link">Card link</a></div>
                                     </div>
                                 </div><div className="row">
@@ -70,8 +70,8 @@ export default function Dashboard() {
                                         <div style={{width:'60px', height:'60px', background:'#eaeaea'}}></div>
                                     </div>
                                     <div className="col">
-                                        <h5>title</h5>
-                                        <p className="intro">Lorem ipsum dolor sit amet.</p>
+                                        <h5 className="title m-0">title</h5>
+                                        <p className="intro m-0">Lorem ipsum dolor sit amet.</p>
                                         <div className="action"><a href="#" className="card-link">Card link</a></div>
                                     </div>
                                 </div>
