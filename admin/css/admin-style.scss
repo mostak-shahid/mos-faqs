@@ -12,100 +12,110 @@
 }
 .mos-faqs-settings-template {
   position: relative;
-  font-family: "Open Sans", sans-serif;
-  h6,
-  .h6,
-  h5,
-  .h5,
-  h4,
-  .h4,
-  h3,
-  .h3,
-  h2,
-  .h2,
-  h1,
-  .h1 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-  }
-
-  h1,
-  .h1 {
-    font-size: 36px;
-    line-height: 40px;
-  }
-
-  h2,
-  .h2 {
-    font-size: 30px;
-    line-height: 33px;
-  }
-
-  h3,
-  .h3 {
-    font-size: 24px;
-    line-height: 26px;
-  }
-
-  h4,
-  .h4 {
-    font-size: 18px;
-    line-height: 19px;
-  }
-
-  h5,
-  .h5 {
-    font-size: 14px;
-    line-height: 15px;
-  }
-
-  h6,
-  .h6 {
-    font-size: 12px;
-    line-height: 13px;
-  }
-
-  p,
-  .p {
-    font-size: 14px;
-    line-height: 20px;
-  }
-  input[type="color"].form-control,
-  input[type="date"].form-control,
-  input[type="datetime-local"].form-control,
-  input[type="datetime"].form-control,
-  input[type="email"].form-control,
-  input[type="month"].form-control,
-  input[type="number"].form-control,
-  input[type="password"].form-control,
-  input[type="search"].form-control,
-  input[type="tel"].form-control,
-  input[type="text"].form-control,
-  input[type="time"].form-control,
-  input[type="url"].form-control,
-  input[type="week"].form-control,
-  select.form-control,
-  select.form-select,
-  textarea.form-control {
-    border: 1px solid #dee2e6;
-  }
-  input[type="color"].form-control {
-    padding: 2px;
-    width: 27px;
-  }
+  
   #wpcontent {
     padding-left: 0;
     #wpbody {
       #wpbody-content {
+        padding-bottom: 0!important;
         .mos-faqs-settings-wrapper {
+          font-family: "Inter",sans-serif;
+          a {
+            text-decoration: none;
+          }
+          h6,
+          .h6,
+          h5,
+          .h5,
+          h4,
+          .h4,
+          h3,
+          .h3,
+          h2,
+          .h2,
+          h1,
+          .h1 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 500;
+            line-height: 1.2;
+          }
+
+          h1,
+          .h1 {
+            font-size: 36px;
+            line-height: 40px;
+          }
+
+          h2,
+          .h2 {
+            font-size: 30px;
+            line-height: 33px;
+          }
+
+          h3,
+          .h3 {
+            font-size: 24px;
+            line-height: 26px;
+          }
+
+          h4,
+          .h4 {
+            font-size: 18px;
+            line-height: 19px;
+          }
+
+          h5,
+          .h5 {
+            font-size: 14px;
+            line-height: 15px;
+          }
+
+          h6,
+          .h6 {
+            font-size: 12px;
+            line-height: 13px;
+          }
+
+          p,
+          .p {
+            font-size: 14px;
+            line-height: 20px;
+            margin: 0;
+            margin-bottom: 10px;
+          }
+          input[type="color"].form-control,
+          input[type="date"].form-control,
+          input[type="datetime-local"].form-control,
+          input[type="datetime"].form-control,
+          input[type="email"].form-control,
+          input[type="month"].form-control,
+          input[type="number"].form-control,
+          input[type="password"].form-control,
+          input[type="search"].form-control,
+          input[type="tel"].form-control,
+          input[type="text"].form-control,
+          input[type="time"].form-control,
+          input[type="url"].form-control,
+          input[type="week"].form-control,
+          select.form-control,
+          select.form-select,
+          textarea.form-control {
+            border: 1px solid #dee2e6;
+          }
+          input[type="color"].form-control {
+            padding: 2px;
+            width: 27px;
+          }
           .mos-faqs-settings-container {
             .top-bar {
               background-color: #343a40;
             }
             nav.navbar {
               top: 32px;
+              @media screen and (max-width: 600px) {
+                top: 0;
+              }
               .nav-item {
                 margin-bottom: 0;
               }
@@ -145,7 +155,7 @@
   &.h4,
   &.h5,
   &.h6 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 10px;
   }
   &.h1 {
     height: 40px;
@@ -173,7 +183,7 @@
 
   &.p {
     height: 20px;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
   }
 }
 @keyframes shimmer {

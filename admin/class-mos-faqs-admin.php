@@ -74,7 +74,7 @@ class Mos_Faqs_Admin
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_enqueue_style($this->plugin_name .'-google-font', 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap', array(), $this->version, 'all');
+		wp_enqueue_style($this->plugin_name . '-google-font', 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap', array(), $this->version, 'all');
 		wp_enqueue_style($this->plugin_name, MOS_FAQS_URL . 'assets/css/style.css', array(), $this->version, 'all');
 		wp_enqueue_style($this->plugin_name . '-admin', MOS_FAQS_URL . 'admin/css/admin-style.css', array(), $this->version, 'all');
 		// wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/mos-faqs-admin.css', array(), $this->version, 'all');			
@@ -324,24 +324,25 @@ class Mos_Faqs_Admin
 		update_option('mos_faqs_options', $mos_faqs_options);
 	}
 	// add_action('admin_head', 'mos_faqs_option_form_submit');
-	private function reset_option_by_path(&$options, $defaults, $path) {
+	private function reset_option_by_path(&$options, $defaults, $path)
+	{
 		$keys = explode('.', $path);
-		$target =& $options;
+		$target = &$options;
 		$default = $defaults;
-	
+
 		foreach ($keys as $key) {
 			if (!isset($target[$key]) || !isset($default[$key])) {
 				return false; // path not found
 			}
-			$target =& $target[$key];
+			$target = &$target[$key];
 			$default = $default[$key];
 		}
-	
+
 		// Set the value at the final nested level
 		$target = $default;
 		return true;
 	}
-	
+
 	public function mos_faqs_reset_settings()
 	{
 		// wp_send_json_success($_POST['_admin_nonce']);
@@ -471,20 +472,21 @@ class Mos_Faqs_Admin
 		], 404);
 		*/
 	}
-	public function mos_faqs_ajax_install_plugins (){		
-			
+	public function mos_faqs_ajax_install_plugins()
+	{
+
 		if (!current_user_can('install_plugins')) {
 			wp_send_json_error('Permission denied');
 		}
 		if (isset($_POST['_admin_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_admin_nonce'])), 'mos_faqs_admin_nonce')) {
-			
+
 			// wp_send_json_success('Working');
 
-			$sub_action = isset($_POST['sub_action'])?sanitize_text_field(wp_unslash($_POST['sub_action'])):'';
-			$plugin_slug = isset($_POST['plugin_slug'])?sanitize_text_field(wp_unslash($_POST['plugin_slug'])):'';//'mos-woocommerce-protected-categories';
-			
-			
-			$plugin_source = isset($_POST['plugin_source'])?sanitize_text_field(wp_unslash($_POST['plugin_source'])):'internal';//$plugin_slug . '/mos-woocommerce-protected-categories.php';		
+			$sub_action = isset($_POST['sub_action']) ? sanitize_text_field(wp_unslash($_POST['sub_action'])) : '';
+			$plugin_slug = isset($_POST['plugin_slug']) ? sanitize_text_field(wp_unslash($_POST['plugin_slug'])) : ''; //'mos-woocommerce-protected-categories';
+
+
+			$plugin_source = isset($_POST['plugin_source']) ? sanitize_text_field(wp_unslash($_POST['plugin_source'])) : 'internal'; //$plugin_slug . '/mos-woocommerce-protected-categories.php';		
 
 			include_once ABSPATH . 'wp-admin/includes/file.php';
 			include_once ABSPATH . 'wp-admin/includes/misc.php';
@@ -492,16 +494,15 @@ class Mos_Faqs_Admin
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 			$plugin_file = '';
-			if ($plugin_source == 'external' ) {
-				$plugin_file = ($plugin_slug && isset($_POST['plugin_file']))?$plugin_slug . '/'. sanitize_text_field(wp_unslash($_POST['plugin_file'])):'';//$plugin_slug . '/mos-woocommerce-protected-categories.php';
-			}
-			else {
+			if ($plugin_source == 'external') {
+				$plugin_file = ($plugin_slug && isset($_POST['plugin_file'])) ? $plugin_slug . '/' . sanitize_text_field(wp_unslash($_POST['plugin_file'])) : ''; //$plugin_slug . '/mos-woocommerce-protected-categories.php';
+			} else {
 				$plugin_file = $plugin_slug . '/' . $plugin_slug . '.php';
 			}
 			if ($sub_action === 'install' || $sub_action === 'install_activate') {
-				if ($plugin_source == 'external' ) {
-					$download_url = isset($_POST['download_url'])?sanitize_url(wp_unslash($_POST['download_url'])):'';//'https://github.com/mostak-shahid/mos-woocommerce-protected-categories/archive/refs/heads/main.zip';
-					
+				if ($plugin_source == 'external') {
+					$download_url = isset($_POST['download_url']) ? sanitize_url(wp_unslash($_POST['download_url'])) : ''; //'https://github.com/mostak-shahid/mos-woocommerce-protected-categories/archive/refs/heads/main.zip';
+
 					$upgrader = new Plugin_Upgrader();
 					$installed = $upgrader->install($download_url);
 
@@ -510,12 +511,12 @@ class Mos_Faqs_Admin
 					}
 
 					// GitHub plugin zip will likely extract with this kind of name
-					$extracted_dir = WP_PLUGIN_DIR . '/' .$plugin_slug;
+					$extracted_dir = WP_PLUGIN_DIR . '/' . $plugin_slug;
 					if (is_dir($extracted_dir)) {
 						rename($extracted_dir, WP_PLUGIN_DIR . '/' . $plugin_slug);
 					}
 				} else {
-					
+
 					include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 
 					$api = plugins_api('plugin_information', ['slug' => $plugin_slug, 'fields' => ['sections' => false]]);
@@ -529,11 +530,10 @@ class Mos_Faqs_Admin
 					if (is_wp_error($install_result)) {
 						wp_send_json_error(['message' => 'Install failed: ' . $install_result->get_error_message()]);
 					}
-					
-				}				
+				}
 
-				if ($sub_action === 'install') {	
-					wp_send_json_success('Plugin installed.');					
+				if ($sub_action === 'install') {
+					wp_send_json_success('Plugin installed.');
 				}
 			}
 
@@ -557,11 +557,11 @@ class Mos_Faqs_Admin
 		}
 		wp_die();
 	}
-	
 
-// 	add_action('wp_ajax_mos_plugin_manage', function () {
-//   check_ajax_referer('mos_plugin_nonce', 'security');
-// });
 
-	
+	// 	add_action('wp_ajax_mos_plugin_manage', function () {
+	//   check_ajax_referer('mos_plugin_nonce', 'security');
+	// });
+
+
 }

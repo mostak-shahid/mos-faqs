@@ -42473,7 +42473,7 @@ function Dashboard() {
     className: "row"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-lg-7"
-  }, /*#__PURE__*/React.createElement("h6", {
+  }, /*#__PURE__*/React.createElement("h4", {
     className: "card-subtitle mb-2 text-body-secondary"
   }, "Hello Admin!"), /*#__PURE__*/React.createElement("h2", {
     className: "card-title"
@@ -42501,11 +42501,9 @@ function Dashboard() {
     className: "card-header"
   }, "Shortcode"), /*#__PURE__*/React.createElement("div", {
     className: "card-body"
-  }, /*#__PURE__*/React.createElement("h5", {
+  }, /*#__PURE__*/React.createElement("h4", {
     className: "card-title"
-  }, "Card title"), /*#__PURE__*/React.createElement("h6", {
-    className: "card-subtitle mb-2 text-body-secondary"
-  }, "Card subtitle"), /*#__PURE__*/React.createElement("p", {
+  }, "Card title"), /*#__PURE__*/React.createElement("p", {
     className: "card-text"
   }, "Some quick example text to build on the card title and make up the bulk of the card's content."), /*#__PURE__*/React.createElement("a", {
     href: "#",
@@ -42544,7 +42542,7 @@ function Dashboard() {
   }, "Extend Your Website"), /*#__PURE__*/React.createElement("div", {
     className: "card-body"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "row mb-3"
+    className: "row g-2 mb-3"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-auto"
   }, /*#__PURE__*/React.createElement("div", {
@@ -42555,9 +42553,9 @@ function Dashboard() {
     }
   })), /*#__PURE__*/React.createElement("div", {
     className: "col"
-  }, /*#__PURE__*/React.createElement("h5", {
+  }, /*#__PURE__*/React.createElement("h4", {
     className: "title m-0"
-  }, "title"), /*#__PURE__*/React.createElement("p", {
+  }, "Title"), /*#__PURE__*/React.createElement("p", {
     className: "intro m-0"
   }, "Lorem ipsum dolor sit amet."), /*#__PURE__*/React.createElement("div", {
     className: "action"
@@ -42565,7 +42563,7 @@ function Dashboard() {
     href: "#",
     className: "card-link"
   }, "Card link")))), /*#__PURE__*/React.createElement("div", {
-    className: "row"
+    className: "row g-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-auto"
   }, /*#__PURE__*/React.createElement("div", {
@@ -42576,9 +42574,9 @@ function Dashboard() {
     }
   })), /*#__PURE__*/React.createElement("div", {
     className: "col"
-  }, /*#__PURE__*/React.createElement("h5", {
+  }, /*#__PURE__*/React.createElement("h4", {
     className: "title m-0"
-  }, "title"), /*#__PURE__*/React.createElement("p", {
+  }, "Title"), /*#__PURE__*/React.createElement("p", {
     className: "intro m-0"
   }, "Lorem ipsum dolor sit amet."), /*#__PURE__*/React.createElement("div", {
     className: "action"
