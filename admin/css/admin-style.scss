@@ -12,14 +12,14 @@
 }
 .mos-faqs-settings-template {
   position: relative;
-  
+
   #wpcontent {
     padding-left: 0;
     #wpbody {
       #wpbody-content {
-        padding-bottom: 0!important;
+        padding-bottom: 0 !important;
         .mos-faqs-settings-wrapper {
-          font-family: "Inter",sans-serif;
+          font-family: "Inter", sans-serif;
           a {
             text-decoration: none;
           }
@@ -115,6 +115,15 @@
               top: 32px;
               @media screen and (max-width: 600px) {
                 top: 0;
+              }
+              .navbar-brand {
+                img {
+                  width: 40px;
+                  height: auto;
+                }
+                span {
+                  font-weight: 700;
+                }
               }
               .nav-item {
                 margin-bottom: 0;

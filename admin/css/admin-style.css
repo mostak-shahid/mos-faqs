@@ -114,6 +114,13 @@
     top: 0;
   }
 }
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container nav.navbar .navbar-brand img {
+  width: 40px;
+  height: auto;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container nav.navbar .navbar-brand span {
+  font-weight: 700;
+}
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container nav.navbar .nav-item {
   margin-bottom: 0;
 }

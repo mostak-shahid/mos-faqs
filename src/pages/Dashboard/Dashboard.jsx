@@ -1,5 +1,26 @@
-
+import { __ } from "@wordpress/i18n";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import Details from '../../data/details.json';
 export default function Dashboard() {
+    const [plugins, setPlugins] = useState([]);
+    const [pluginsLoading, setPluginsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    useEffect(() => {
+        const baseURL = '/wp-json/mos-faqs/v1';        
+        const fetchPlugins = async () => {
+            try {
+                const response = await axios.get(`${baseURL}/plugins`);
+                setPlugins(response.data);
+                setPluginsLoading(false)
+            } catch (error) {
+                setError(error);
+            }
+        };
+    
+        fetchPlugins();
+    }, []);
+    
     return (
         <div className="mos-faqs-settings">
             <div className="container-fluid p-0">
@@ -7,8 +28,7 @@ export default function Dashboard() {
                     <div className="card-body">
                         <div className="row">
                             <div className="col-lg-7">
-                                    <h4 className="card-subtitle mb-2 text-body-secondary">Hello Admin!</h4>
-                                    <h2 className="card-title">Welcome to Plugin Name <span class="badge text-bg-light">Light</span></h2>
+                                    <h2 className="card-title">{__(`Welcome to ${Details?.name}`, "mos-faqs")} <span class="badge text-bg-light">Light</span></h2>
                                     <p className="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus illum sed, facilis consequuntur ipsa consequatur dolores nisi, sit vel est earum autem ipsam voluptas odit vero quisquam natus dolorem! Maxime tempora deserunt dolorem exercitationem animi doloremque enim maiores distinctio non!</p>
                                     <button type="button" class="btn btn-primary">Primary</button>
                                     <button type="button" class="btn">Base class</button>
@@ -55,7 +75,22 @@ export default function Dashboard() {
                                 Extend Your Website
                             </div>
                             <div className="card-body">
-                                <div className="row g-2 mb-3">
+                                {
+                                    pluginsLoading 
+                                    ? 
+                                    <div className="row g-2 mb-3">                                    
+                                        <div className="col-auto">
+                                            <div className="loading-skeleton" style={{width:'60px', height:'60px'}}></div>
+                                        </div>
+                                        <div className="col">
+                                            <div className="loading-skeleton h4" style={{width:'60%', height: '15px', marginBottom: '5px'}}></div>
+                                            <div className="loading-skeleton p" style={{width:'80%',height: '15px', marginBottom: '5px'}}></div>
+                                            <div className="action"><div className="loading-skeleton p mb-0" style={{width:'80%',height: '15px', marginBottom: '5px'}}></div></div>
+                                        </div>
+                                    </div>
+                                    : <h4>{__("Text Input", "mos-faqs")}{console.log(plugins)}</h4>
+                                }
+                                <div className="row g-2 mb-3">                                    
                                     <div className="col-auto">
                                         <div style={{width:'60px', height:'60px', background:'#eaeaea'}}></div>
                                     </div>
@@ -64,7 +99,8 @@ export default function Dashboard() {
                                         <p className="intro m-0">Lorem ipsum dolor sit amet.</p>
                                         <div className="action"><a href="#" className="card-link">Card link</a></div>
                                     </div>
-                                </div><div className="row g-2">
+                                </div>
+                                <div className="row g-2">
                                     <div className="col-auto">
                                         <div style={{width:'60px', height:'60px', background:'#eaeaea'}}></div>
                                     </div>

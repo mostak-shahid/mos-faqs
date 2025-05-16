@@ -51,7 +51,7 @@ const withForm = (OriginalComponent) => {
             };
         
             fetchSettingData();
-          }, [settingReload]);
+        }, [settingReload]);
 
         // Handle changes from child components
         const handleChange = (fieldPath, value) => {

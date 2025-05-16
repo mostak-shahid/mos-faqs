@@ -1,9 +1,9 @@
 import { __ } from "@wordpress/i18n";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Nav, Navbar, NavDropdown, Offcanvas } from 'react-bootstrap';
 import { Link, NavLink } from "react-router-dom";
+import logo from '../../assets/images/logo-128x128.png';
 import Details from '../../data/details.json';
-
 export default function Header() {
     const [show, setShow] = useState(false);
 
@@ -23,16 +23,15 @@ export default function Header() {
 
             <Navbar expanded={expanded} onToggle={setExpanded} bg="light" variant="light" expand="lg" className="bg-white border-bottom sticky-top">
                 <div className="container-fluid">
-                    <Navbar.Brand href="#home" href="/">Mos FAQs</Navbar.Brand>
+                    <Navbar.Brand href="#home" href="/">
+                        <div className="d-flex align-items-center gap-2">
+                            <img src={logo} alt="" />
+                            <span>{Details?.name}</span>
+                        </div>
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <Link to="/" className="nav-link" onClick={handleNavClick}>Home</Link>
-                            </li>
-                            <li className="nav-item d-none d-lg-block">
-                                <Link to="/settings" className="nav-link" onClick={handleNavClick}>Settings</Link>
-                            </li>
                             <Nav.Link as={NavLink} to="/" end onClick={handleNavClick}>
                                 Home
                             </Nav.Link>

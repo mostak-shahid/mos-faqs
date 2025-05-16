@@ -34,7 +34,7 @@ const MultiLevelListGroup = ({ data, level = 0 }) => {
               className="d-flex justify-content-between align-items-center"
               style={{
                 cursor: 'pointer',
-                paddingLeft: `${1 + level * 1.25}rem`,
+                // paddingLeft: `${1 + level * 1.25}rem`,
               }}
             >
               <span>{item.title}</span>
