@@ -562,6 +562,28 @@ class Mos_Faqs_Admin
 	// 	add_action('wp_ajax_mos_plugin_manage', function () {
 	//   check_ajax_referer('mos_plugin_nonce', 'security');
 	// });
+	public function mos_faqs_ajax_plugins_status()
+	{
 
-
+		if (!current_user_can('install_plugins')) {
+			wp_send_json_error('Permission denied');
+		}
+		if (isset($_POST['_admin_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_admin_nonce'])), 'mos_faqs_admin_nonce')) {
+			$slug='';
+			$file='';
+			if (!is_plugin_active('woocommerce/woocommerce.php') && !file_exists(WP_PLUGIN_DIR . '/woocommerce/woocommerce.php')) {
+				wp_send_json_success(array('success_message' => esc_html('not_installed')));
+			}
+			elseif (!is_plugin_active('woocommerce/woocommerce.php') && file_exists(WP_PLUGIN_DIR . '/woocommerce/woocommerce.php')) {
+				wp_send_json_success(array('success_message' => esc_html('not_active')));
+			}
+			elseif (is_plugin_active('woocommerce/woocommerce.php')){
+				wp_send_json_success(array('success_message' => esc_html('active')));
+			}
+		} else {
+			wp_send_json_error(array('error_message' => esc_html__('Nonce verification failed. Please try again.', 'mos-faqs')));
+			// wp_die(esc_html__('Nonce verification failed. Please try again.', 'mos-faqs'));
+		}
+		wp_die();
+	}
 }
