@@ -1,25 +1,26 @@
 import { __ } from "@wordpress/i18n";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import PluginCard from "../../components/PluginCard/PluginCard";
 import Details from '../../data/details.json';
 export default function Dashboard() {
     const [plugins, setPlugins] = useState([]);
     const [pluginsLoading, setPluginsLoading] = useState(true);
     const [error, setError] = useState(null);
     useEffect(() => {
-        const baseURL = '/wp-json/mos-faqs/v1';        
-        const fetchPlugins = async () => {
-            try {
-                const response = await axios.get(`${baseURL}/plugins`);
-                setPlugins(response.data);
-                setPluginsLoading(false)
-            } catch (error) {
-                setError(error);
-            }
-        };
-    
-        fetchPlugins();
-    }, []);
+    const fetchPlugins = async () => {
+      try {
+        const response = await axios.get('https://raw.githubusercontent.com/mostak-shahid/update/refs/heads/master/plugin-details.json');
+        setPlugins(response.data);
+      } catch (error) {
+        console.error('Error fetching plugin data:', error);
+      } finally {
+        setPluginsLoading(false);
+      }
+    };
+
+    fetchPlugins();
+  }, []);
     
     return (
         <div className="mos-faqs-settings">
@@ -85,10 +86,22 @@ export default function Dashboard() {
                                         <div className="col">
                                             <div className="loading-skeleton h4" style={{width:'60%', height: '15px', marginBottom: '5px'}}></div>
                                             <div className="loading-skeleton p" style={{width:'80%',height: '15px', marginBottom: '5px'}}></div>
-                                            <div className="action"><div className="loading-skeleton p mb-0" style={{width:'80%',height: '15px', marginBottom: '5px'}}></div></div>
+                                            <div className="action"><div className="loading-skeleton p mb-0" style={{width:'80%',height: '24px', marginBottom: '5px'}}></div></div>
                                         </div>
                                     </div>
-                                    : <h4>{__("Text Input", "mos-faqs")}{console.log(plugins)}</h4>
+                                    : <>
+                                    {Object.entries(plugins).map(([slug, plugin]) => (
+                                        // <div key={slug} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
+                                        // <h3>{plugin.name}</h3>
+                                        // <p><strong>Slug:</strong> {slug}</p>
+                                        // <p><strong>Source:</strong> {plugin.source}</p>
+                                        // {plugin.description && <p><strong>Description:</strong> {plugin.description}</p>}
+                                        // </div>
+                                        <div className="row g-2 mb-3" key={slug}>
+                                            <PluginCard image={plugin.image} name={plugin.name} intro={plugin.intro} source={plugin.source} slug={slug}/>    
+                                        </div>
+                                    ))}
+                                    </>
                                 }
                                 <div className="row g-2 mb-3">                                    
                                     <div className="col-auto">
