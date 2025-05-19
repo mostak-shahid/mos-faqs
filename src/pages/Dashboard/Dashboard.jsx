@@ -96,32 +96,12 @@ export default function Dashboard() {
                                         // <p><strong>Source:</strong> {plugin.source}</p>
                                         // {plugin.description && <p><strong>Description:</strong> {plugin.description}</p>}
                                         // </div>
-                                        <div className="row g-2 mb-3" key={slug}>
-                                            <PluginCard image={plugin.image} name={plugin.name} intro={plugin.intro} source={plugin.source} slug={slug}/>    
-                                        </div>
+                                        
+                                            <PluginCard key={slug} image={plugin.image} name={plugin.name} intro={plugin.intro} source={plugin.source} slug={slug} plugin_file={plugin.file}/>    
+                                        
                                     ))}
                                     </>
                                 }
-                                <div className="row g-2 mb-3">                                    
-                                    <div className="col-auto">
-                                        <div style={{width:'60px', height:'60px', background:'#eaeaea'}}></div>
-                                    </div>
-                                    <div className="col">
-                                        <h4 className="title m-0">Title</h4>
-                                        <p className="intro m-0">Lorem ipsum dolor sit amet.</p>
-                                        <div className="action"><a href="#" className="card-link">Card link</a></div>
-                                    </div>
-                                </div>
-                                <div className="row g-2">
-                                    <div className="col-auto">
-                                        <div style={{width:'60px', height:'60px', background:'#eaeaea'}}></div>
-                                    </div>
-                                    <div className="col">
-                                        <h4 className="title m-0">Title</h4>
-                                        <p className="intro m-0">Lorem ipsum dolor sit amet.</p>
-                                        <div className="action"><a href="#" className="card-link">Card link</a></div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div className="card mt-0 mb-3 rounded-0">

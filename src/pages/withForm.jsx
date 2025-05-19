@@ -1,12 +1,12 @@
 
 import { __ } from "@wordpress/i18n";
 import axios from "axios";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import MultiLevelListGroup from "../components/MultiLevelListGroup/MultiLevelListGroup";
 import { useMain } from "../contexts/MainContext";
 import Notice from "../layouts/Notice/Notice";
 import { formDataPost, setNestedValue, urlToArr } from "../lib/Helpers"; // Import utility function
-import { useLocation } from 'react-router-dom';
 const withForm = (OriginalComponent) => {     
     function NewComponent() {
         const {

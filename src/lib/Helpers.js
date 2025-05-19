@@ -54,12 +54,7 @@ export const formDataPost = async (action, data = {})=> {
             mos_faqs_ajax_obj.ajax_url,
             formData
         );
-        // if(action == "mos-faqs_download_users_csv"){
-        //     return response.text();
-        // }
-        // Check if request was successful
         if (response.data.success) {
-            // return true;
             return response.data; 
         } else {
             throw new Error(response.data.data.error_message || 'Reset failed');
