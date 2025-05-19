@@ -11,7 +11,8 @@
     "format": "wp-scripts format",
     "lint:css": "wp-scripts lint-style",
     "lint:js": "wp-scripts lint-js",
-    "plugin-zip": "wp-scripts plugin-zip"
+    "plugin-zip": "wp-scripts plugin-zip",
+    "postinstall": "composer install"
   },
   "dependencies": {
     "@coreui/icons": "^3.0.1",

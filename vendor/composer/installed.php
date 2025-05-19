@@ -3,7 +3,7 @@
         'name' => 'mos/mos-faqs',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '86f866ba96d1d16f691f16b5c2b38da6833c84c6',
+        'reference' => '643af58887362a64e4ae926719923914bd5b6818',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'mos/mos-faqs' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '86f866ba96d1d16f691f16b5c2b38da6833c84c6',
+            'reference' => '643af58887362a64e4ae926719923914bd5b6818',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

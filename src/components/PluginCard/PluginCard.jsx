@@ -1,5 +1,22 @@
-
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 export default function PluginCard({image, name, intro, action='checking', source='internal', download_url='', slug='', plugin_file=''}) {
+    const [status, setStatus] = useState('checking');
+    const [pluginStatusLoading, setPluginStatusLoading] = useState(true);
+    const [error, setError] = useState(null);
+    useEffect(() => {
+        const fetchPluginStatus = async () => {
+        try {
+            const response = await axios.get('https://raw.githubusercontent.com/mostak-shahid/update/refs/heads/master/plugin-details.json');
+            setPlugins(response.data);
+        } catch (error) {
+            setError('Error fetching plugin data:', error);
+        } finally {
+            setPluginStatusLoading(false);
+        }
+        };
+        fetchPluginStatus();
+    }, []);
     return (
         <>                                    
             <div className="col-auto">

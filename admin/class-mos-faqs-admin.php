@@ -566,18 +566,25 @@ class Mos_Faqs_Admin
 	{
 
 		if (!current_user_can('install_plugins')) {
-			wp_send_json_error('Permission denied');
+			wp_send_json_error(array('error_message' => esc_html__('Permission denied', 'mos-faqs')));
 		}
 		if (isset($_POST['_admin_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_admin_nonce'])), 'mos_faqs_admin_nonce')) {
-			$slug='';
-			$file='';
-			if (!is_plugin_active('woocommerce/woocommerce.php') && !file_exists(WP_PLUGIN_DIR . '/woocommerce/woocommerce.php')) {
+			$slug = isset($_POST['slug']) ? sanitize_text_field(wp_unslash($_POST['slug'])) : '';
+			$file = isset($_POST['file']) ? sanitize_text_field(wp_unslash($_POST['file'])) : '';
+			$plugin_path = '';
+			if ($slug && $file) {
+				$plugin_path = $slug . '/' . $file;
+			} else if ($file) {
+				$plugin_path = $file;
+			} else {
+				wp_send_json_error(array('error_message' => esc_html__('Invalid plugin slug or file.', 'mos-faqs')));
+			}
+
+			if (!is_plugin_active($plugin_path) && !file_exists(WP_PLUGIN_DIR . '/' . $plugin_path)) {
 				wp_send_json_success(array('success_message' => esc_html('not_installed')));
-			}
-			elseif (!is_plugin_active('woocommerce/woocommerce.php') && file_exists(WP_PLUGIN_DIR . '/woocommerce/woocommerce.php')) {
+			} elseif (!is_plugin_active($plugin_path) && file_exists(WP_PLUGIN_DIR . '/' . $plugin_path)) {
 				wp_send_json_success(array('success_message' => esc_html('not_active')));
-			}
-			elseif (is_plugin_active('woocommerce/woocommerce.php')){
+			} elseif (is_plugin_active($plugin_path)) {
 				wp_send_json_success(array('success_message' => esc_html('active')));
 			}
 		} else {

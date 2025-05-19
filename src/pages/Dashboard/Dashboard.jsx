@@ -8,19 +8,18 @@ export default function Dashboard() {
     const [pluginsLoading, setPluginsLoading] = useState(true);
     const [error, setError] = useState(null);
     useEffect(() => {
-    const fetchPlugins = async () => {
-      try {
-        const response = await axios.get('https://raw.githubusercontent.com/mostak-shahid/update/refs/heads/master/plugin-details.json');
-        setPlugins(response.data);
-      } catch (error) {
-        console.error('Error fetching plugin data:', error);
-      } finally {
-        setPluginsLoading(false);
-      }
-    };
-
-    fetchPlugins();
-  }, []);
+        const fetchPlugins = async () => {
+        try {
+            const response = await axios.get('https://raw.githubusercontent.com/mostak-shahid/update/refs/heads/master/plugin-details.json');
+            setPlugins(response.data);
+        } catch (error) {
+            setError('Error fetching plugin data:', error);
+        } finally {
+            setPluginsLoading(false);
+        }
+        };
+        fetchPlugins();
+    }, []);
     
     return (
         <div className="mos-faqs-settings">
