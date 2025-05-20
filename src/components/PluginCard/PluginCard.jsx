@@ -1,27 +1,19 @@
 import { useEffect, useState } from 'react';
 import { formDataPost } from "../../lib/Helpers"; // Import utility function
 import './PluginCard.scss';
+// import { __ } from "@wordpress/i18n";
 export default function PluginCard({image, name, intro, action='checking', source='internal', download_url='', slug='', plugin_file=''}) {
-    const [status, setStatus] = useState({});
+    const [status, setStatus] = useState('checking');
     const [pluginStatusLoading, setPluginStatusLoading] = useState(true);
     const [error, setError] = useState(null);
     useEffect(() => {
         const fetchPluginStatus = async () => {
-            // try {
-            //     const response = await axios.get('https://raw.githubusercontent.com/mostak-shahid/update/refs/heads/master/plugin-details.json');
-            //     setPlugins(response.data);
-            // } catch (error) {
-            //     setError('Error fetching plugin data:', error);
-            // } finally {
-            //     setPluginStatusLoading(false);
-            // }
-
-
-
             try {
-                result = await formDataPost('mos_faqs_ajax_plugins_status', {file:plugin_file}); 
-                setStatus(result?.success_message);
-                console.log(result)
+                const result = await formDataPost('mos_faqs_ajax_plugins_status', {
+                    file:plugin_file
+                });
+                console.log("Result:", result); // check structure here
+                setStatus(result?.data?.success_message); // Fix this line based on actual response
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -29,12 +21,27 @@ export default function PluginCard({image, name, intro, action='checking', sourc
             }
         };
         fetchPluginStatus();
-    }, [plugin_file]);
+    }, []);
+    const handlePlugin = async (name) => {
+              
+        setProcessing(true);     
+        setResetLoading(true);
+        setResetError(null);            
+        try {
+            result = await formDataPost('mos_faqs_ajax_install_plugins', {name:name}); 
+            setSettingReload(Math.random);
+        } catch (error) {
+            setResetError(error.message);
+        } finally {
+            setResetLoading(false);
+            setProcessing(false);
+        }
+    };
     return (
         <div className="row g-2 PluginCard"> 
             {
-                pluginStatusLoading && 
-                console.log('slug', slug, ', plugin_file', plugin_file, ', status', status)
+                // pluginStatusLoading && 
+                // console.log('slug', slug, ', plugin_file', plugin_file, ', status', status)
             }                                  
             <div className="col-auto">
                 <div style={{width:'60px', height:'60px'}}>
@@ -46,9 +53,24 @@ export default function PluginCard({image, name, intro, action='checking', sourc
                 {/* <p className="intro m-0" dangerouslySetInnerHTML={{ __html: intro }}/> */}
                 
                 {
-                    pluginStatusLoading ?
-                    <div className="loading-skeleton h4" style={{width:'60%', height: '24px', marginBottom: '5px'}}></div> :
-                    <div className="action"><a href="#">{status}</a></div>
+                    pluginStatusLoading 
+                    ? <div className="loading-skeleton h4" style={{width:'60%', height: '24px', marginBottom: '5px'}}></div> 
+                    : <div className="action">
+                        {
+                            status !== 'active' 
+                            ?
+                            <span className="link"
+                                href="#"
+                                onClick={() => handlePlugin()}
+                            >
+                                {
+                                    status === 'not_active'?'Activate':'Not Installed'
+                                }
+                            </span>
+                            : <span className="link">Activated</span>
+                        }
+                        
+                    </div>
                 }
             </div>
             {/* 

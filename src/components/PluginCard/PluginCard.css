@@ -1,3 +1,11 @@
+.PluginCard .title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 .PluginCard + .PluginCard {
   margin-top: 0.5rem;
 }/*# sourceMappingURL=PluginCard.css.map */

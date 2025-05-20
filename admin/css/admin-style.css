@@ -23,8 +23,15 @@
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper {
   font-family: "Inter", sans-serif;
 }
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .link,
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper a {
   text-decoration: none;
+  cursor: pointer;
+  color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .link:hover,
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper a:hover {
+  color: #135e96;
 }
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper h6,
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .h6,

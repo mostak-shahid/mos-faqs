@@ -21545,9 +21545,17 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `.PluginCard + .PluginCard {
+___CSS_LOADER_EXPORT___.push([module.id, `.PluginCard .title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.PluginCard + .PluginCard {
   margin-top: 0.5rem;
-}`, "",{"version":3,"sources":["webpack://./src/components/PluginCard/PluginCard.scss"],"names":[],"mappings":"AACE;EACE,kBAAA;AAAJ","sourcesContent":[".PluginCard {\r\n  + .PluginCard {\r\n    margin-top: 0.5rem;\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/components/PluginCard/PluginCard.scss"],"names":[],"mappings":"AACE;EACE,gBAAA;EACA,uBAAA;EACA,oBAAA;EACA,qBAAA;EACA,aAAA;EACA,4BAAA;AAAJ;AAEE;EACE,kBAAA;AAAJ","sourcesContent":[".PluginCard {\r\n  .title {\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    display: -webkit-box;\r\n    -webkit-line-clamp: 2;\r\n    line-clamp: 2;\r\n    -webkit-box-orient: vertical;\r\n  }\r\n  + .PluginCard {\r\n    margin-top: 0.5rem;\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -41036,6 +41044,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
  // Import utility function
 
+// import { __ } from "@wordpress/i18n";
 function PluginCard(_ref) {
   var image = _ref.image,
     name = _ref.name,
@@ -41050,7 +41059,7 @@ function PluginCard(_ref) {
     slug = _ref$slug === void 0 ? '' : _ref$slug,
     _ref$plugin_file = _ref.plugin_file,
     plugin_file = _ref$plugin_file === void 0 ? '' : _ref$plugin_file;
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('checking'),
     _useState2 = _slicedToArray(_useState, 2),
     status = _useState2[0],
     setStatus = _useState2[1];
@@ -41065,7 +41074,7 @@ function PluginCard(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var fetchPluginStatus = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _result;
+        var _result$data, _result;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -41075,9 +41084,9 @@ function PluginCard(_ref) {
                 file: plugin_file
               });
             case 3:
-              result = _context.sent;
-              setStatus((_result = result) === null || _result === void 0 ? void 0 : _result.success_message);
-              console.log(result);
+              _result = _context.sent;
+              console.log("Result:", _result); // check structure here
+              setStatus(_result === null || _result === void 0 || (_result$data = _result.data) === null || _result$data === void 0 ? void 0 : _result$data.success_message); // Fix this line based on actual response
               _context.next = 11;
               break;
             case 8:
@@ -41099,10 +41108,47 @@ function PluginCard(_ref) {
       };
     }();
     fetchPluginStatus();
-  }, [plugin_file]);
+  }, []);
+  var handlePlugin = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(name) {
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
+          case 0:
+            setProcessing(true);
+            setResetLoading(true);
+            setResetError(null);
+            _context2.prev = 3;
+            _context2.next = 6;
+            return (0,_lib_Helpers__WEBPACK_IMPORTED_MODULE_1__.formDataPost)('mos_faqs_ajax_install_plugins', {
+              name: name
+            });
+          case 6:
+            result = _context2.sent;
+            setSettingReload(Math.random);
+            _context2.next = 13;
+            break;
+          case 10:
+            _context2.prev = 10;
+            _context2.t0 = _context2["catch"](3);
+            setResetError(_context2.t0.message);
+          case 13:
+            _context2.prev = 13;
+            setResetLoading(false);
+            setProcessing(false);
+            return _context2.finish(13);
+          case 17:
+          case "end":
+            return _context2.stop();
+        }
+      }, _callee2, null, [[3, 10, 13, 17]]);
+    }));
+    return function handlePlugin(_x) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
   return /*#__PURE__*/React.createElement("div", {
     className: "row g-2 PluginCard"
-  }, pluginStatusLoading && console.log('slug', slug, ', plugin_file', plugin_file, ', status', status), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "col-auto"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -41129,9 +41175,15 @@ function PluginCard(_ref) {
     }
   }) : /*#__PURE__*/React.createElement("div", {
     className: "action"
-  }, /*#__PURE__*/React.createElement("a", {
-    href: "#"
-  }, status))));
+  }, status !== 'active' ? /*#__PURE__*/React.createElement("span", {
+    className: "link",
+    href: "#",
+    onClick: function onClick() {
+      return handlePlugin();
+    }
+  }, status === 'not_active' ? 'Activate' : 'Not Installed') : /*#__PURE__*/React.createElement("span", {
+    className: "link"
+  }, "Activated"))));
 }
 
 /***/ }),
