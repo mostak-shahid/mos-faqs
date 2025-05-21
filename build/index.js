@@ -41049,8 +41049,6 @@ function PluginCard(_ref) {
   var image = _ref.image,
     name = _ref.name,
     intro = _ref.intro,
-    _ref$action = _ref.action,
-    action = _ref$action === void 0 ? 'checking' : _ref$action,
     _ref$source = _ref.source,
     source = _ref$source === void 0 ? 'internal' : _ref$source,
     _ref$download_url = _ref.download_url,
@@ -41071,10 +41069,22 @@ function PluginCard(_ref) {
     _useState6 = _slicedToArray(_useState5, 2),
     error = _useState6[0],
     setError = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState8 = _slicedToArray(_useState7, 2),
+    processing = _useState8[0],
+    setProcessing = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState0 = _slicedToArray(_useState9, 2),
+    actionError = _useState0[0],
+    setActionError = _useState0[1];
+  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Checking...'),
+    _useState10 = _slicedToArray(_useState1, 2),
+    buttonText = _useState10[0],
+    setButtonText = _useState10[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var fetchPluginStatus = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _result$data, _result;
+        var _result$data, result;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -41084,65 +41094,84 @@ function PluginCard(_ref) {
                 file: plugin_file
               });
             case 3:
-              _result = _context.sent;
-              console.log("Result:", _result); // check structure here
-              setStatus(_result === null || _result === void 0 || (_result$data = _result.data) === null || _result$data === void 0 ? void 0 : _result$data.success_message); // Fix this line based on actual response
-              _context.next = 11;
+              result = _context.sent;
+              // console.log("Result:", result); // check structure here
+              setStatus(result === null || result === void 0 || (_result$data = result.data) === null || _result$data === void 0 ? void 0 : _result$data.success_message); // Fix this line based on actual response
+              _context.next = 10;
               break;
-            case 8:
-              _context.prev = 8;
+            case 7:
+              _context.prev = 7;
               _context.t0 = _context["catch"](0);
               setError(_context.t0.message);
-            case 11:
-              _context.prev = 11;
+            case 10:
+              _context.prev = 10;
               setPluginStatusLoading(false);
-              return _context.finish(11);
-            case 14:
+              return _context.finish(10);
+            case 13:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 8, 11, 14]]);
+        }, _callee, null, [[0, 7, 10, 13]]);
       }));
       return function fetchPluginStatus() {
         return _ref2.apply(this, arguments);
       };
     }();
     fetchPluginStatus();
-  }, []);
+  }, [status]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (status === 'not_active') {
+      setButtonText('Activate');
+    } else if (status === 'active') {
+      setButtonText('Activated');
+    } else if (status === 'activating') {
+      setButtonText('Activating');
+    } else if (status === 'installing') {
+      setButtonText('Installing');
+    } else if (status === 'not_installed') {
+      setButtonText('Install');
+    } else {
+      setButtonText('Checking..');
+    }
+  }, [status]);
+  var action = status === 'not_active' ? 'activate' : 'install';
   var handlePlugin = /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(name) {
+    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(action, slug) {
+      var result;
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
             setProcessing(true);
-            setResetLoading(true);
-            setResetError(null);
+            setActionError(null);
+            setStatus(status === 'not_active' ? 'activating' : 'installing');
             _context2.prev = 3;
             _context2.next = 6;
             return (0,_lib_Helpers__WEBPACK_IMPORTED_MODULE_1__.formDataPost)('mos_faqs_ajax_install_plugins', {
-              name: name
+              sub_action: action,
+              slug: slug,
+              plugin_file: plugin_file
             });
           case 6:
             result = _context2.sent;
-            setSettingReload(Math.random);
+            setStatus(result.data);
             _context2.next = 13;
             break;
           case 10:
             _context2.prev = 10;
             _context2.t0 = _context2["catch"](3);
-            setResetError(_context2.t0.message);
+            setActionError(_context2.t0.message);
           case 13:
             _context2.prev = 13;
-            setResetLoading(false);
             setProcessing(false);
+            // setStatus(status === 'activating'?'active':'not_active') 
             return _context2.finish(13);
-          case 17:
+          case 16:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[3, 10, 13, 17]]);
+      }, _callee2, null, [[3, 10, 13, 16]]);
     }));
-    return function handlePlugin(_x) {
+    return function handlePlugin(_x, _x2) {
       return _ref3.apply(this, arguments);
     };
   }();
@@ -41179,9 +41208,9 @@ function PluginCard(_ref) {
     className: "link",
     href: "#",
     onClick: function onClick() {
-      return handlePlugin();
+      return handlePlugin(action, slug, plugin_file);
     }
-  }, status === 'not_active' ? 'Activate' : 'Not Installed') : /*#__PURE__*/React.createElement("span", {
+  }, buttonText) : /*#__PURE__*/React.createElement("span", {
     className: "link"
   }, "Activated"))));
 }

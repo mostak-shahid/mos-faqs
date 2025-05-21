@@ -2,17 +2,21 @@ import { useEffect, useState } from 'react';
 import { formDataPost } from "../../lib/Helpers"; // Import utility function
 import './PluginCard.scss';
 // import { __ } from "@wordpress/i18n";
-export default function PluginCard({image, name, intro, action='checking', source='internal', download_url='', slug='', plugin_file=''}) {
+export default function PluginCard({image, name, intro, source='internal', download_url='', slug='', plugin_file=''}) {
     const [status, setStatus] = useState('checking');
     const [pluginStatusLoading, setPluginStatusLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const [processing, setProcessing] = useState(false);
+    const [actionError, setActionError] = useState(null);
+    const [buttonText, setButtonText] = useState('Checking...');
     useEffect(() => {
         const fetchPluginStatus = async () => {
             try {
                 const result = await formDataPost('mos_faqs_ajax_plugins_status', {
-                    file:plugin_file
+                    file:plugin_file,
                 });
-                console.log("Result:", result); // check structure here
+                // console.log("Result:", result); // check structure here
                 setStatus(result?.data?.success_message); // Fix this line based on actual response
             } catch (error) {
                 setError(error.message);
@@ -21,20 +25,41 @@ export default function PluginCard({image, name, intro, action='checking', sourc
             }
         };
         fetchPluginStatus();
-    }, []);
-    const handlePlugin = async (name) => {
-              
+    }, [status]);
+    useEffect(() => {
+        if (status === 'not_active') {
+            setButtonText('Activate');
+        } else if (status === 'active') {
+            setButtonText('Activated');
+        } else if (status === 'activating') {
+            setButtonText('Activating');
+        } else if (status === 'installing') {
+            setButtonText('Installing');
+        } else if (status === 'not_installed') {
+            setButtonText('Install');
+        } else {
+            setButtonText('Checking..');
+        }
+    }, [status]);
+
+    const action = status === 'not_active' ? 'activate' : 'install';
+
+    const handlePlugin = async (action, slug) => {              
         setProcessing(true);     
-        setResetLoading(true);
-        setResetError(null);            
+        setActionError(null);   
+        setStatus(status === 'not_active'?'activating':'installing')         
         try {
-            result = await formDataPost('mos_faqs_ajax_install_plugins', {name:name}); 
-            setSettingReload(Math.random);
+            const result = await formDataPost('mos_faqs_ajax_install_plugins', {
+                sub_action:action,
+                slug:slug,
+                plugin_file:plugin_file
+            }); 
+            setStatus(result.data)
         } catch (error) {
-            setResetError(error.message);
+            setActionError(error.message);
         } finally {
-            setResetLoading(false);
             setProcessing(false);
+            // setStatus(status === 'activating'?'active':'not_active') 
         }
     };
     return (
@@ -61,10 +86,10 @@ export default function PluginCard({image, name, intro, action='checking', sourc
                             ?
                             <span className="link"
                                 href="#"
-                                onClick={() => handlePlugin()}
+                                onClick={() => handlePlugin(action, slug, plugin_file)}
                             >
                                 {
-                                    status === 'not_active'?'Activate':'Not Installed'
+                                    buttonText
                                 }
                             </span>
                             : <span className="link">Activated</span>

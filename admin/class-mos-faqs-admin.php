@@ -483,22 +483,16 @@ class Mos_Faqs_Admin
 			// wp_send_json_success('Working');
 
 			$sub_action = isset($_POST['sub_action']) ? sanitize_text_field(wp_unslash($_POST['sub_action'])) : '';
-			$plugin_slug = isset($_POST['plugin_slug']) ? sanitize_text_field(wp_unslash($_POST['plugin_slug'])) : ''; //'mos-woocommerce-protected-categories';
+			$plugin_slug = isset($_POST['plugin_slug']) ? sanitize_text_field(wp_unslash($_POST['plugin_slug'])) : '';			
+			$plugin_file = isset($_POST['plugin_file']) ? sanitize_text_field(wp_unslash($_POST['plugin_file'])) : '';
+			$plugin_source = isset($_POST['plugin_source']) ? sanitize_text_field(wp_unslash($_POST['plugin_source'])) : 'internal'; 
 
-
-			$plugin_source = isset($_POST['plugin_source']) ? sanitize_text_field(wp_unslash($_POST['plugin_source'])) : 'internal'; //$plugin_slug . '/mos-woocommerce-protected-categories.php';		
 
 			include_once ABSPATH . 'wp-admin/includes/file.php';
 			include_once ABSPATH . 'wp-admin/includes/misc.php';
 			include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-			$plugin_file = '';
-			if ($plugin_source == 'external') {
-				$plugin_file = ($plugin_slug && isset($_POST['plugin_file'])) ? $plugin_slug . '/' . sanitize_text_field(wp_unslash($_POST['plugin_file'])) : ''; //$plugin_slug . '/mos-woocommerce-protected-categories.php';
-			} else {
-				$plugin_file = $plugin_slug . '/' . $plugin_slug . '.php';
-			}
 			if ($sub_action === 'install' || $sub_action === 'install_activate') {
 				if ($plugin_source == 'external') {
 					$download_url = isset($_POST['download_url']) ? sanitize_url(wp_unslash($_POST['download_url'])) : ''; //'https://github.com/mostak-shahid/mos-woocommerce-protected-categories/archive/refs/heads/main.zip';
@@ -515,6 +509,7 @@ class Mos_Faqs_Admin
 					if (is_dir($extracted_dir)) {
 						rename($extracted_dir, WP_PLUGIN_DIR . '/' . $plugin_slug);
 					}
+					
 				} else {
 
 					include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
@@ -533,20 +528,16 @@ class Mos_Faqs_Admin
 				}
 
 				if ($sub_action === 'install') {
-					wp_send_json_success('Plugin installed.');
+					wp_send_json_success('not_active.');
 				}
 			}
 
 			if ($sub_action === 'install_activate' || $sub_action === 'activate') {
-				// wp_send_json_success(WP_PLUGIN_DIR . '/' .$plugin_file);
-				// if (!file_exists(WP_PLUGIN_DIR . '/' . $plugin_file)) {
-				// 	wp_send_json_error('Plugin not installed.');
-				// }
 				$result = activate_plugin(WP_PLUGIN_DIR . '/' . $plugin_file);
 				if (is_wp_error($result)) {
 					wp_send_json_error('Activation failed: ' . $result->get_error_message());
 				} else {
-					wp_send_json_success('Plugin activated.');
+					wp_send_json_success('active.');
 				}
 			}
 
