@@ -497,8 +497,11 @@ class Mos_Faqs_Admin
 				if ($plugin_source == 'external') {
 					$download_url = isset($_POST['download_url']) ? sanitize_url(wp_unslash($_POST['download_url'])) : ''; //'https://github.com/mostak-shahid/mos-woocommerce-protected-categories/archive/refs/heads/main.zip';
 
-					$upgrader = new Plugin_Upgrader();
+					// $upgrader = new Plugin_Upgrader();
+					// $installed = $upgrader->install($download_url);
+					$upgrader = new Plugin_Upgrader(new WP_Ajax_Upgrader_Skin());
 					$installed = $upgrader->install($download_url);
+
 
 					if (is_wp_error($installed)) {
 						wp_send_json_error('Install failed: ' . $installed->get_error_message());
@@ -513,13 +516,15 @@ class Mos_Faqs_Admin
 				} else {
 
 					include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-
+					
 					$api = plugins_api('plugin_information', ['slug' => $plugin_slug, 'fields' => ['sections' => false]]);
 					if (is_wp_error($api)) {
 						wp_send_json_error(['message' => 'Plugin info fetch failed']);
 					}
 
+					// wp_send_json_success($_POST);
 					$upgrader = new Plugin_Upgrader(new WP_Ajax_Upgrader_Skin());
+					// wp_send_json_success($upgrader);
 					$install_result = $upgrader->install($api->download_link);
 
 					if (is_wp_error($install_result)) {

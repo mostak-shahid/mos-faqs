@@ -2,7 +2,19 @@ import { useEffect, useState } from 'react';
 import { formDataPost } from "../../lib/Helpers"; // Import utility function
 import './PluginCard.scss';
 // import { __ } from "@wordpress/i18n";
-export default function PluginCard({image, name, intro, source='internal', download_url='', slug='', plugin_file=''}) {
+export default function PluginCard({image, name, intro, plugin_source='internal', plugin_slug='', plugin_file='', download_url=''}) {
+    /*
+    data-sub_action="install_activate" 
+    data-plugin_source="external" 
+    data-download_url="https://github.com/mostak-shahid/mos-woocommerce-protected-categories/archive/refs/heads/main.zip"
+    data-plugin_slug="mos-woocommerce-protected-categories-main" 
+    data-plugin_file="mos-woocommerce-protected-categories.php" 
+
+    data-sub_action="install_activate"  
+    data-plugin_source="internal" 
+    data-plugin_slug="mos-product-specifications-tab" 
+
+    */
     const [status, setStatus] = useState('checking');
     const [pluginStatusLoading, setPluginStatusLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -42,18 +54,21 @@ export default function PluginCard({image, name, intro, source='internal', downl
         }
     }, [status]);
 
-    const action = status === 'not_active' ? 'activate' : 'install';
+    const sub_action = status === 'not_active' ? 'activate' : 'install';
 
-    const handlePlugin = async (action, slug) => {              
+    const handlePlugin = async () => {              
         setProcessing(true);     
         setActionError(null);   
         setStatus(status === 'not_active'?'activating':'installing')         
         try {
             const result = await formDataPost('mos_faqs_ajax_install_plugins', {
-                sub_action:action,
-                slug:slug,
-                plugin_file:plugin_file
+                sub_action:sub_action,
+                download_url:download_url,                
+                plugin_slug:plugin_slug,
+                plugin_file:plugin_file,
+                plugin_source:plugin_source,
             }); 
+            console.log("Result:", result); // check structure here
             setStatus(result.data)
         } catch (error) {
             setActionError(error.message);
@@ -86,7 +101,7 @@ export default function PluginCard({image, name, intro, source='internal', downl
                             ?
                             <span className="link"
                                 href="#"
-                                onClick={() => handlePlugin(action, slug, plugin_file)}
+                                onClick={() => handlePlugin()}
                             >
                                 {
                                     buttonText
@@ -99,12 +114,23 @@ export default function PluginCard({image, name, intro, source='internal', downl
                 }
             </div>
             {/* 
-            <button type="button" data-sub_action="install_activate" data-plugin_source="external" data-download_url="https://github.com/mostak-shahid/mos-woocommerce-protected-categories/archive/refs/heads/main.zip" data-plugin_slug="mos-woocommerce-protected-categories-main" data-plugin_file="mos-woocommerce-protected-categories.php" id="mos-install-activate" class="mos-faqs-install-github-plugin button button-primary">Install & Activate Plugin</button>
+            <button type="button" 
+                data-sub_action="install_activate" 
+                data-plugin_source="external" 
+                data-download_url="https://github.com/mostak-shahid/mos-woocommerce-protected-categories/archive/refs/heads/main.zip"
+                data-plugin_slug="mos-woocommerce-protected-categories-main" 
+                data-plugin_file="mos-woocommerce-protected-categories.php" 
+
+                 id="mos-install-activate" class="mos-faqs-install-github-plugin button button-primary">Install & Activate Plugin</button>
             <button type="button" data-sub_action="install" data-plugin_source="external" data-download_url="https://github.com/mostak-shahid/mos-woocommerce-protected-categories/archive/refs/heads/main.zip" data-plugin_slug="mos-woocommerce-protected-categories-main" data-plugin_file="mos-woocommerce-protected-categories.php" id="mos-install" class="mos-faqs-install-github-plugin button">Install Plugin</button>
             <button type="button" data-sub_action="activate" data-plugin_source="external" data-download_url="https://github.com/mostak-shahid/mos-woocommerce-protected-categories/archive/refs/heads/main.zip" data-plugin_slug="mos-woocommerce-protected-categories-main" data-plugin_file="mos-woocommerce-protected-categories.php" id="mos-activate" class="mos-faqs-install-github-plugin button">Activate Plugin</button>
 
             <!-- mos-product-specifications-tab -->
-            <button type="button" data-sub_action="install_activate"  data-plugin_source="internal" data-plugin_slug="mos-product-specifications-tab" id="mos-install-activate" class="mos-faqs-install-github-plugin button button-primary">Install & Activate Plugin</button>
+            <button type="button" 
+                data-sub_action="install_activate"  
+                data-plugin_source="internal" 
+                data-plugin_slug="mos-product-specifications-tab" 
+                id="mos-install-activate" class="mos-faqs-install-github-plugin button button-primary">Install & Activate Plugin</button>
             <button type="button" data-sub_action="install"  data-plugin_source="internal" data-plugin_slug="mos-product-specifications-tab" id="mos-install" class="mos-faqs-install-github-plugin button">Install Plugin</button>
             <button type="button" data-sub_action="activate"  data-plugin_source="internal" data-plugin_slug="mos-product-specifications-tab" id="mos-activate" class="mos-faqs-install-github-plugin button">Activate Plugin</button>
             */}

@@ -41049,14 +41049,24 @@ function PluginCard(_ref) {
   var image = _ref.image,
     name = _ref.name,
     intro = _ref.intro,
-    _ref$source = _ref.source,
-    source = _ref$source === void 0 ? 'internal' : _ref$source,
-    _ref$download_url = _ref.download_url,
-    download_url = _ref$download_url === void 0 ? '' : _ref$download_url,
-    _ref$slug = _ref.slug,
-    slug = _ref$slug === void 0 ? '' : _ref$slug,
+    _ref$plugin_source = _ref.plugin_source,
+    plugin_source = _ref$plugin_source === void 0 ? 'internal' : _ref$plugin_source,
+    _ref$plugin_slug = _ref.plugin_slug,
+    plugin_slug = _ref$plugin_slug === void 0 ? '' : _ref$plugin_slug,
     _ref$plugin_file = _ref.plugin_file,
-    plugin_file = _ref$plugin_file === void 0 ? '' : _ref$plugin_file;
+    plugin_file = _ref$plugin_file === void 0 ? '' : _ref$plugin_file,
+    _ref$download_url = _ref.download_url,
+    download_url = _ref$download_url === void 0 ? '' : _ref$download_url;
+  /*
+  data-sub_action="install_activate" 
+  data-plugin_source="external" 
+  data-download_url="https://github.com/mostak-shahid/mos-woocommerce-protected-categories/archive/refs/heads/main.zip"
+  data-plugin_slug="mos-woocommerce-protected-categories-main" 
+  data-plugin_file="mos-woocommerce-protected-categories.php" 
+    data-sub_action="install_activate"  
+  data-plugin_source="internal" 
+  data-plugin_slug="mos-product-specifications-tab" 
+    */
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('checking'),
     _useState2 = _slicedToArray(_useState, 2),
     status = _useState2[0],
@@ -41134,9 +41144,9 @@ function PluginCard(_ref) {
       setButtonText('Checking..');
     }
   }, [status]);
-  var action = status === 'not_active' ? 'activate' : 'install';
+  var sub_action = status === 'not_active' ? 'activate' : 'install';
   var handlePlugin = /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(action, slug) {
+    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
       var result;
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
@@ -41147,31 +41157,34 @@ function PluginCard(_ref) {
             _context2.prev = 3;
             _context2.next = 6;
             return (0,_lib_Helpers__WEBPACK_IMPORTED_MODULE_1__.formDataPost)('mos_faqs_ajax_install_plugins', {
-              sub_action: action,
-              slug: slug,
-              plugin_file: plugin_file
+              sub_action: sub_action,
+              download_url: download_url,
+              plugin_slug: plugin_slug,
+              plugin_file: plugin_file,
+              plugin_source: plugin_source
             });
           case 6:
             result = _context2.sent;
+            console.log("Result:", result); // check structure here
             setStatus(result.data);
-            _context2.next = 13;
+            _context2.next = 14;
             break;
-          case 10:
-            _context2.prev = 10;
+          case 11:
+            _context2.prev = 11;
             _context2.t0 = _context2["catch"](3);
             setActionError(_context2.t0.message);
-          case 13:
-            _context2.prev = 13;
+          case 14:
+            _context2.prev = 14;
             setProcessing(false);
             // setStatus(status === 'activating'?'active':'not_active') 
-            return _context2.finish(13);
-          case 16:
+            return _context2.finish(14);
+          case 17:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[3, 10, 13, 16]]);
+      }, _callee2, null, [[3, 11, 14, 17]]);
     }));
-    return function handlePlugin(_x, _x2) {
+    return function handlePlugin() {
       return _ref3.apply(this, arguments);
     };
   }();
@@ -41208,7 +41221,7 @@ function PluginCard(_ref) {
     className: "link",
     href: "#",
     onClick: function onClick() {
-      return handlePlugin(action, slug, plugin_file);
+      return handlePlugin();
     }
   }, buttonText) : /*#__PURE__*/React.createElement("span", {
     className: "link"
@@ -42957,9 +42970,10 @@ function Dashboard() {
         image: plugin.image,
         name: plugin.name,
         intro: plugin.intro,
-        source: plugin.source,
-        slug: slug,
-        plugin_file: plugin.file
+        plugin_source: plugin.source,
+        plugin_slug: slug,
+        plugin_file: plugin.file,
+        download_url: plugin.download
       })
     );
   })))), /*#__PURE__*/React.createElement("div", {

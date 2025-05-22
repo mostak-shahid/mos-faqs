@@ -97,7 +97,16 @@ export default function Dashboard() {
                                         // {plugin.description && <p><strong>Description:</strong> {plugin.description}</p>}
                                         // </div>
                                         
-                                            <PluginCard key={slug} image={plugin.image} name={plugin.name} intro={plugin.intro} source={plugin.source} slug={slug} plugin_file={plugin.file}/>    
+                                            <PluginCard 
+                                                key={slug} 
+                                                image={plugin.image} 
+                                                name={plugin.name} 
+                                                intro={plugin.intro} 
+                                                plugin_source={plugin.source} 
+                                                plugin_slug={slug} 
+                                                plugin_file={plugin.file} 
+                                                download_url={plugin.download}
+                                            />    
                                         
                                     ))}
                                     </>
