@@ -41067,7 +41067,7 @@ function PluginCard(_ref) {
   data-plugin_source="internal" 
   data-plugin_slug="mos-product-specifications-tab" 
     */
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('checking'),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
     _useState2 = _slicedToArray(_useState, 2),
     status = _useState2[0],
     setStatus = _useState2[1];
@@ -41087,10 +41087,7 @@ function PluginCard(_ref) {
     _useState0 = _slicedToArray(_useState9, 2),
     actionError = _useState0[0],
     setActionError = _useState0[1];
-  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Checking...'),
-    _useState10 = _slicedToArray(_useState1, 2),
-    buttonText = _useState10[0],
-    setButtonText = _useState10[1];
+  // const [buttonText, setButtonText] = useState('Processing...');
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var fetchPluginStatus = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -41129,21 +41126,23 @@ function PluginCard(_ref) {
     }();
     fetchPluginStatus();
   }, [status]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (status === 'not_active') {
-      setButtonText('Activate');
-    } else if (status === 'active') {
-      setButtonText('Activated');
-    } else if (status === 'activating') {
-      setButtonText('Activating');
-    } else if (status === 'installing') {
-      setButtonText('Installing');
-    } else if (status === 'not_installed') {
-      setButtonText('Install');
-    } else {
-      setButtonText('Checking..');
-    }
-  }, [status]);
+  // useEffect(() => {
+  //     if (status === 'not_active') {
+  //         setButtonText('Activate');
+  //     } else if (status === 'active') {
+  //         setButtonText('Activated');
+  //     } else if (status === 'activating') {
+  //         setButtonText('Activating');
+  //     } else if (status === 'installing') {
+  //         setButtonText('Installing');
+  //     } else if (status === 'not_installed') {
+  //         setButtonText('Install');
+  //     } else {
+  //         setButtonText('Processing...');
+  //     }
+  // }, [status]);
+
+  var buttonText = processing ? 'Processing...' : actionError ? actionError : status === 'not_active' ? 'Activate' : status === 'active' ? 'Activated' : status === 'activating' ? 'Activating' : status === 'installing' ? 'Installing' : 'Install';
   var sub_action = status === 'not_active' ? 'activate' : 'install';
   var handlePlugin = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {

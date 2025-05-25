@@ -15,13 +15,13 @@ export default function PluginCard({image, name, intro, plugin_source='internal'
     data-plugin_slug="mos-product-specifications-tab" 
 
     */
-    const [status, setStatus] = useState('checking');
+    const [status, setStatus] = useState('');
     const [pluginStatusLoading, setPluginStatusLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const [processing, setProcessing] = useState(false);
     const [actionError, setActionError] = useState(null);
-    const [buttonText, setButtonText] = useState('Checking...');
+    // const [buttonText, setButtonText] = useState('Processing...');
     useEffect(() => {
         const fetchPluginStatus = async () => {
             try {
@@ -38,22 +38,23 @@ export default function PluginCard({image, name, intro, plugin_source='internal'
         };
         fetchPluginStatus();
     }, [status]);
-    useEffect(() => {
-        if (status === 'not_active') {
-            setButtonText('Activate');
-        } else if (status === 'active') {
-            setButtonText('Activated');
-        } else if (status === 'activating') {
-            setButtonText('Activating');
-        } else if (status === 'installing') {
-            setButtonText('Installing');
-        } else if (status === 'not_installed') {
-            setButtonText('Install');
-        } else {
-            setButtonText('Checking..');
-        }
-    }, [status]);
+    // useEffect(() => {
+    //     if (status === 'not_active') {
+    //         setButtonText('Activate');
+    //     } else if (status === 'active') {
+    //         setButtonText('Activated');
+    //     } else if (status === 'activating') {
+    //         setButtonText('Activating');
+    //     } else if (status === 'installing') {
+    //         setButtonText('Installing');
+    //     } else if (status === 'not_installed') {
+    //         setButtonText('Install');
+    //     } else {
+    //         setButtonText('Processing...');
+    //     }
+    // }, [status]);
 
+    const buttonText = processing ? 'Processing...' : (actionError ? actionError : (status === 'not_active' ? 'Activate' : (status === 'active' ? 'Activated' : (status === 'activating' ? 'Activating' : (status === 'installing' ? 'Installing' : 'Install')))));
     const sub_action = status === 'not_active' ? 'activate' : 'install';
 
     const handlePlugin = async () => {              
@@ -80,6 +81,7 @@ export default function PluginCard({image, name, intro, plugin_source='internal'
     return (
         <div className="row g-2 PluginCard"> 
             {
+                // console.log('PluginCard',', status', status)
                 // pluginStatusLoading && 
                 // console.log('slug', slug, ', plugin_file', plugin_file, ', status', status)
             }                                  
