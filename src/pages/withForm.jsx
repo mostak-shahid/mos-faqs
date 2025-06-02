@@ -128,7 +128,7 @@ const withForm = (OriginalComponent) => {
                 <div className="mos-faqs-settings">
                     <div className="container">
                         <div className="row g-0">
-                            <div className="col-lg-3 d-none d-lg-block">
+                            <div className="col-lg-3 d-none d-lg-block sidebar">
                                 <div className="card mt-0 rounded-0" style={{marginRight:'-1px', height: "100%"}}>                            
                                 <MultiLevelListGroup  data={settingsMenu}/>
                                 </div>

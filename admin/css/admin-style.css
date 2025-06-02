@@ -26,12 +26,14 @@
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .link,
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper a {
   text-decoration: none;
-  cursor: pointer;
-  color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
 }
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .link:hover,
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper a:hover {
   color: #135e96;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .link {
+  cursor: pointer;
+  color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
 }
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper h6,
 .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .h6,
@@ -141,6 +143,18 @@
   margin-top: 0;
   padding: 0;
   max-width: unset;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings .sidebar .list-group-item {
+  border-style: none;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings .sidebar .list-group-item:focus, .mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings .sidebar .list-group-item:hover {
+  background-color: transparent;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings .sidebar .submenu {
+  margin-left: 16px;
+}
+.mos-faqs-settings-template #wpcontent #wpbody #wpbody-content .mos-faqs-settings-wrapper .mos-faqs-settings-container .mos-faqs-settings .sidebar .submenu .list-group-item {
+  border-left: 2px solid #eaeaea;
 }
 .loading-skeleton {
   background: linear-gradient(45deg, #e0e0e0 25%, #f8f8f8 50%, #e0e0e0 75%);

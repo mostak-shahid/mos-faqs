@@ -20,7 +20,7 @@ const MultiLevelListGroup = ({ data, level = 0 }) => {
   };
 
   return (
-    <ListGroup variant="flush" className={level > 0 ? 'ms-3' : ''}>
+    <ListGroup variant="flush" className={level > 0 ? 'submenu' : ''}>
       {Object.entries(data).map(([key, item]) => {
         const hasSub = !!item.sub;
         const isOpen = openKeys[key];
@@ -39,7 +39,7 @@ const MultiLevelListGroup = ({ data, level = 0 }) => {
             >
               <span>{item.title}</span>
               {hasSub && (
-                <span style={{ fontSize: '0.8rem' }}>{isOpen ? '▲' : '▼'}</span>
+                <span style={{ fontSize: '0.8rem' }}>{isOpen ? <span class="dashicons dashicons-arrow-up-alt2"></span> : <span class="dashicons dashicons-arrow-down-alt2"></span>}</span>
               )}
             </ListGroup.Item>
 

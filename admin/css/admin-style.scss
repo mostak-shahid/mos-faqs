@@ -23,11 +23,13 @@
           .link,
           a {
             text-decoration: none;
-            cursor: pointer;
-            color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
             &:hover {
               color: #135e96;
             }
+          }
+          .link {
+            cursor: pointer;
+            color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
           }
           h6,
           .h6,
@@ -146,6 +148,22 @@
                 margin-top: 0;
                 padding: 0;
                 max-width: unset;
+              }
+              .sidebar {
+                .list-group-item {
+                  border-style: none;
+                  &:focus,
+                  &:hover {
+                    background-color: transparent;
+                  }
+                }
+                .submenu {
+                  margin-left: 16px;
+                  .list-group-item {
+                    border-left: 2px solid #eaeaea;
+                    
+                  }
+                }
               }
               .setting-unit {
                 .title-group {

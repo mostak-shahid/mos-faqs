@@ -40627,7 +40627,7 @@ var _MultiLevelListGroup = function MultiLevelListGroup(_ref) {
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
     variant: "flush",
-    className: level > 0 ? 'ms-3' : ''
+    className: level > 0 ? 'submenu' : ''
   }, Object.entries(data).map(function (_ref2) {
     var _ref3 = _slicedToArray(_ref2, 2),
       key = _ref3[0],
@@ -40651,7 +40651,11 @@ var _MultiLevelListGroup = function MultiLevelListGroup(_ref) {
       style: {
         fontSize: '0.8rem'
       }
-    }, isOpen ? '▲' : '▼')), hasSub && isOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_MultiLevelListGroup, {
+    }, isOpen ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+      "class": "dashicons dashicons-arrow-up-alt2"
+    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+      "class": "dashicons dashicons-arrow-down-alt2"
+    }))), hasSub && isOpen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_MultiLevelListGroup, {
       data: item.sub,
       level: level + 1
     }));
@@ -43316,7 +43320,7 @@ var withForm = function withForm(OriginalComponent) {
     }, /*#__PURE__*/React.createElement("div", {
       className: "row g-0"
     }, /*#__PURE__*/React.createElement("div", {
-      className: "col-lg-3 d-none d-lg-block"
+      className: "col-lg-3 d-none d-lg-block sidebar"
     }, /*#__PURE__*/React.createElement("div", {
       className: "card mt-0 rounded-0",
       style: {
