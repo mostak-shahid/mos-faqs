@@ -19,10 +19,10 @@
  * For more information, see the following discussion:
  * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
  *
- * @link       https://www.programmelab.com/
- * @since      3.0.0
+ * @link       https://mostak-shahid.github.io/
+ * @since      1.0.0
  *
- * @package    Mos_FAQs
+ * @package    Mos_Faqs
  */
 
 // If uninstall not called from WordPress, then exit.

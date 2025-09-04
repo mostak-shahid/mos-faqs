@@ -1,0 +1,92 @@
+.mos-faqs-switcher {
+    label {
+        display: block;
+        float: left !important;
+        cursor: pointer;
+        position: relative;
+        width: 36px;
+        flex: 0 0 36px;
+        height: 18px;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        -moz-border-radius: 50rem;
+        -webkit-border-radius: 50rem;
+        border-radius: 50rem;
+        span {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 14px;
+            height: 14px;
+            background-color: #fff;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            border-radius: 50%;
+            -moz-transition: left 0.15s ease-out;
+            -o-transition: left 0.15s ease-out;
+            -webkit-transition: left 0.15s ease-out;
+            transition: left 0.15s ease-out;
+        }
+        input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            &:checked {
+                ~ {
+                em {
+                    background-color:var(--mos-faqs-color);
+                    &::before {
+                    opacity: 0;
+                    }
+                    &::after {
+                    opacity: 1;
+                    }
+                }
+                span {
+                    left: 20px;
+                }
+                }
+            }
+        }
+        em {
+            -moz-border-radius: 50rem;
+            -webkit-border-radius: 50rem;
+            border-radius: 50rem;
+            font-size: 11px;
+            line-height: 26px;
+            font-weight: 500;
+            font-style: normal;
+            text-transform: uppercase;
+            color: #fff;
+            position: relative;
+            display: block;
+            height: inherit;
+            background-color: #b2b2b2;
+            -moz-transition: background 0.15s ease-out;
+            -o-transition: background 0.15s ease-out;
+            -webkit-transition: background 0.15s ease-out;
+            transition: background 0.15s ease-out;
+            &::before {
+            position: absolute;
+            -moz-transition: opacity 0.15s ease-out;
+            -o-transition: opacity 0.15s ease-out;
+            -webkit-transition: opacity 0.15s ease-out;
+            transition: opacity 0.15s ease-out;
+            // content: attr(data-off);
+            right: 14px;
+            }
+            &::after {
+            position: absolute;
+            -moz-transition: opacity 0.15s ease-out;
+            -o-transition: opacity 0.15s ease-out;
+            -webkit-transition: opacity 0.15s ease-out;
+            transition: opacity 0.15s ease-out;
+            // content: attr(data-on);
+            left: 14px;
+            opacity: 0;
+            }
+        }
+    }      
+}

@@ -1,0 +1,88 @@
+1. Basic
+    i. General
+        a. FAQs Page (select pages)
+        b. Custom CSS
+        c. Turn On Comment Support (Toggle)
+        d. Disable Microdata (Toggle)
+        e. Include Permalink (radio: None/Text/Icon/Both)
+        f. Permalink Destination (radio: Main FAQ Page/Individual FAQ Page)
+
+    ii. Display
+        a. Hide Categories (Toggle)
+        b. Hide Tags (Toggle)
+        c. Display Post Author (Toggle)
+        d. Display Post Date (Toggle)
+2. Ordering
+    i. Settings
+        a. Group FAQs by Category (Toggle)
+        b. Display FAQ Category Count (Toggle)
+        c. Sort Categories (select: Name/FAQ Count/Slug)
+        d. Sort Categories Ordering (radio: Ascending/Descending)
+        e. FAQ Ordering (radio: Created Date/Title/Modified Date)
+        f. Sort FAQs Ordering (radio: Ascending/Descending)
+
+3. Premium
+    i. Display
+        a. FAQ Display Style (radio: Default/Block/Border Block/Contemporary/List/Minimalist)
+        b. Number of Columns (radio: One/Two/Three/Four)
+        c. Responsive Columns (Toggle)
+    ii. General
+        a. FAQ Ratings (Toggle)
+        b. FAQ Ratings 'Thumbs Up' Image (Media Uploader)
+        c. FAQ Ratings 'Thumbs Down' Image (Media Uploader)
+
+4. Preset
+    i. GENERAL FAQ PRESET
+        a. Select Preset
+    ii. WOOCOMMERCE FAQ PRESET
+        a. Select Preset
+
+5. Labelling
+    i. FAQ PAGE AND SEARCH
+        a. Posted
+        b. By
+        c. On
+        d. Categories
+        e. Tags
+        f Permalink
+    ii. FAQ SUBMIT PAGE
+        a. Thank you for submitting an FAQ
+        b. Submit a Question
+        c. Please fill out the form below to submit a Question
+        d. Send Question
+        e. Question Title
+        f. What question is being answered?
+
+6. Styling
+    i. TOGGLE SYMBOL
+        a. Toggle SYMBOL
+        b. Toggle Background
+        c. Toggle Color
+        d. Toggle Border Color
+        e. Toggle font size
+        f. Border Size
+    ii. FAQ ELEMENTS
+        a. Question Font Color
+        b. Question Font Family
+        c. Question Font Size
+        d. Question Margin
+        e. Question Padding
+        f. Toggle Symbol Top Margin
+        g. Answer Font Color
+        h. Answer Font Family
+
+7. Import/Export FAQs
+8. Social Sharing
+9. Support
+
+<body itemscope itemtype="https://schema.org/FAQPage">
+  <h1>Frequently Asked Questions</h1>
+
+  <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h2 itemprop="name">What is your return policy?</h2>
+    <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+      <p itemprop="text">
+        You can return any item within 30 days of purchase for a full refund, as long as it is in its original condition.
+      </p>
+    </div>
+  </div>

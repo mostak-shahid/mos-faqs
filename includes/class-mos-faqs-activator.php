@@ -3,11 +3,11 @@
 /**
  * Fired during plugin activation
  *
- * @link       https://www.programmelab.com/
- * @since      3.0.0
+ * @link       https://mostak-shahid.github.io/
+ * @since      1.0.0
  *
- * @package    Mos_FAQs
- * @subpackage Mos_FAQs/includes
+ * @package    Mos_Faqs
+ * @subpackage Mos_Faqs/includes
  */
 
 /**
@@ -15,12 +15,12 @@
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      3.0.0
- * @package    Mos_FAQs
- * @subpackage Mos_FAQs/includes
- * @author     Programmelab <rizvi@programmelab.com>
+ * @since      1.0.0
+ * @package    Mos_Faqs
+ * @subpackage Mos_Faqs/includes
+ * @author     Programmelab <mostak.shahid@gmail.com>
  */
-class Mos_FAQs_Activator
+class Mos_Faqs_Activator
 {
 
 	/**
@@ -28,7 +28,7 @@ class Mos_FAQs_Activator
 	 *
 	 * Long Description.
 	 *
-	 * @since    3.0.0
+	 * @since    1.0.0
 	 */
 	public static function activate()
 	{

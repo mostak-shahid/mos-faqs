@@ -1,0 +1,79 @@
+.accordion-container {
+  flex: 1;
+}
+.accordion-container .add-btn {
+  background-color: transparent;
+  border-style: none;
+  padding: 0;
+  margin-bottom: 24px;
+  text-decoration: underline;
+}
+.accordion-container .accordion-item {
+  border: 1px solid #d8d9db;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.accordion-container .accordion-item .accordion-header {
+  border-bottom: 1px solid #d8d9db;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: -1px;
+  display: flex;
+  justify-content: space-between;
+}
+.accordion-container .accordion-item .accordion-header .left-part,
+.accordion-container .accordion-item .accordion-header .right-part {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.accordion-container .accordion-item .accordion-header .left-part .eleble {
+  border: 1px solid #d8d9db;
+  border-radius: 2px;
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+.accordion-container .accordion-item .accordion-header .left-part .eleble.checked {
+  background-color: var(--mos-faqs-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.accordion-container .accordion-item .accordion-header .left-part .eleble.checked::after {
+  content: url('data:image/svg+xml,<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.94064 1.6485L3.94211 9.71586L0.178504 6.91742L0.924359 5.91432L3.68487 7.96691L8.93754 0.902641L9.94064 1.6485Z" fill="white"/></svg>');
+}
+.accordion-container .accordion-item .accordion-content {
+  padding: 24px;
+}
+.accordion-container .accordion-item .accordion-content .unit-accordion {
+  margin-bottom: 12px;
+}
+.accordion-container .accordion-item .accordion-content .unit-accordion label.field-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #000000;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 1%;
+  font-size: 16px;
+}
+.accordion-container .accordion-item .accordion-content .unit-accordion .checkbox-group-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.accordion-container .accordion-item .accordion-content .unit-accordion select,
+.accordion-container .accordion-item .accordion-content .unit-accordion input[type=text],
+.accordion-container .accordion-item .accordion-content .unit-accordion input[type=number],
+.accordion-container .accordion-item .accordion-content .unit-accordion input[type=date],
+.accordion-container .accordion-item .accordion-content .unit-accordion input[type=datetime-local],
+.accordion-container .accordion-item .accordion-content .unit-accordion input[type=email],
+.accordion-container .accordion-item .accordion-content .unit-accordion input[type=time],
+.accordion-container .accordion-item .accordion-content .unit-accordion input[type=tel],
+.accordion-container .accordion-item .accordion-content .unit-accordion input[type=url],
+.accordion-container .accordion-item .accordion-content .unit-accordion textarea {
+  width: 100%;
+  max-width: unset;
+}/*# sourceMappingURL=SortableAccordion.css.map */

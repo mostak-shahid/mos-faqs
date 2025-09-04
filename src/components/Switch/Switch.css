@@ -1,0 +1,66 @@
+.mos-faqs-switcher label {
+  display: block;
+  float: left !important;
+  cursor: pointer;
+  position: relative;
+  width: 36px;
+  flex: 0 0 36px;
+  height: 18px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 50rem;
+}
+.mos-faqs-switcher label span {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: left 0.15s ease-out;
+}
+.mos-faqs-switcher label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.mos-faqs-switcher label input:checked ~ em {
+  background-color: var(--mos-faqs-color);
+}
+.mos-faqs-switcher label input:checked ~ em::before {
+  opacity: 0;
+}
+.mos-faqs-switcher label input:checked ~ em::after {
+  opacity: 1;
+}
+.mos-faqs-switcher label input:checked ~ span {
+  left: 20px;
+}
+.mos-faqs-switcher label em {
+  border-radius: 50rem;
+  font-size: 11px;
+  line-height: 26px;
+  font-weight: 500;
+  font-style: normal;
+  text-transform: uppercase;
+  color: #fff;
+  position: relative;
+  display: block;
+  height: inherit;
+  background-color: #b2b2b2;
+  transition: background 0.15s ease-out;
+}
+.mos-faqs-switcher label em::before {
+  position: absolute;
+  transition: opacity 0.15s ease-out;
+  right: 14px;
+}
+.mos-faqs-switcher label em::after {
+  position: absolute;
+  transition: opacity 0.15s ease-out;
+  left: 14px;
+  opacity: 0;
+}/*# sourceMappingURL=Switch.css.map */

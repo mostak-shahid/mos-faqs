@@ -1,0 +1,92 @@
+.radio-group .form-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.radio-group .form-check .form-check-input {
+  float: none;
+  margin: 0;
+  border: 2px solid #636366;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.radio-group .form-check .form-check-input:checked {
+  background-color: transparent;
+  border-color: var(--mos-faqs-color);
+}
+.radio-group .form-check .form-check-input:checked::before {
+  background-color: var(--mos-faqs-color);
+}
+.radio-group .form-check .form-check-input::before {
+  width: 10px;
+  height: 10px;
+  content: "";
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  line-height: 10px;
+}
+.radio-group .form-check .content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.radio-group.radio-group-inline .form-check {
+  display: inline-flex;
+  vertical-align: middle;
+  flex-direction: row-reverse;
+  padding-left: 0;
+  margin-right: 12px;
+}
+.radio-group.radio-group-inline .form-check .content {
+  flex-direction: row-reverse;
+}
+.radio-group.radio-group-inline .form-check:last-child {
+  margin-right: 0;
+}
+.radio-group.radio-group-block .form-check {
+  width: 100%;
+  justify-content: space-between;
+}
+.radio-group.radio-group-block .form-check .form-check-input {
+  order: 2;
+  margin: 0;
+}
+.radio-group.radio-group-block .form-check .content .form-check-label {
+  order: 2;
+}
+.radio-group.radio-group-block .form-check .content .hint-tooltip {
+  order: 1;
+}
+.radio-group.radio-group-block .form-check.with-hints {
+  padding-left: 0;
+}
+.radio-group.has-media {
+  grid-gap: 10px;
+}
+.radio-group.has-media.radio-group-inline {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.radio-group.has-media .form-check {
+  margin-right: 0;
+}
+.radio-group.has-media .form-check .form-check-input {
+  display: none;
+}
+.radio-group.has-media .form-check .form-check-input:checked ~ .content img {
+  border-color: var(--mos-faqs-color);
+}
+.radio-group.has-media .form-check .content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.radio-group.has-media .form-check .content img {
+  max-width: 100%;
+  height: auto;
+  border: 10px solid #eaeaea;
+}/*# sourceMappingURL=Radio.css.map */
