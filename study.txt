@@ -1,3 +1,34 @@
+Header Menu
+1. Dashboard
+2. Settings
+3. Analytics
+
+Analytics
+    DataTable
+        1. FAQs Title
+        2. Category
+        3. Impression
+        4. Liked
+        5. Disliked
+    Line chart
+        x axis time (month)
+        y axis impression,liked, disliked
+Settings Menu
+* Design
+    FAQ Unit
+    FAQ Title
+    FAQ Content
+    FAQ Icon
+* Woocommerce Faqs
+* Export
+    Export FAQs
+    Export Settings
+* Import
+    Import FAQs
+    Import Settings
+* More    
+* Feedback
+
 1. Basic
     i. General
         a. FAQs Page (select pages)

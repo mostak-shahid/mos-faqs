@@ -5,58 +5,63 @@ import { createContext, useContext, useState } from "react";
 // import menuData from "../data/pages.json"; // Load menu JSON
 const MainContext = createContext();
 const settingsMenu = {
-    "base_input": { 
-        "title": __( "Base Input", "mos-faqs" ), 
+    "general" : {
+        "title": __( "General", "mos-faqs" ), 
         "description": __( "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quisquam non velit recusandae maxime, soluta labore id dignissimos tenetur, vitae nesciunt? Aspernatur nemo velit veniam adipisci obcaecati impedit alias, officiis hic ratione perspiciatis, quo molestiae expedita? Aliquam, quam dolorem? Similique enim minus error tempore necessitatibus dolorum quidem modi maiores suscipit.", "mos-faqs" ), 
-        "url":"/settings/base_input"
-    },
-    'array_input': {
-        "title": __( "Array Input", "mos-faqs" ),
-        "description": __( "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quisquam non velit recusandae maxime, soluta labore id dignissimos tenetur, vitae nesciunt? Aspernatur nemo velit veniam adipisci obcaecati impedit alias, officiis hic ratione perspiciatis, quo molestiae expedita? Aliquam, quam dolorem? Similique enim minus error tempore necessitatibus dolorum quidem modi maiores suscipit.", "mos-faqs" ), 
-        "url":"/settings/array_input",
-    },
-    "datatable": { 
-        "title": __( "Datatable", "mos-faqs" ), 
-        "url":"/settings/datatable",      
+        "url":"/settings/general",
         "sub": {
-            "basic_table" : {
-                "title": __( "Basic Table", "mos-faqs" ),                
-                "url":"/settings/datatable/basic_table",
+            "unit" : {
+                "title": __( "FAQ Unit", "mos-faqs" ),                
+                "url":"/settings/general/unit",
             },
-            "ajax_table" : {
-                "title": __( "Ajax table", "mos-faqs" ),
-                "url":"/settings/datatable/ajax_table",
-            }
+            "title" : {
+                "title": __( "FAQ Title", "mos-faqs" ),                
+                "url":"/settings/general/title",
+            },
+            "content" : {
+                "title": __( "FAQ Content", "mos-faqs" ),                
+                "url":"/settings/general/content",
+            },
+            "icon" : {
+                "title": __( "FAQ Icon", "mos-faqs" ),                
+                "url":"/settings/general/icon",
+            },
         }
     },
-    "components": { 
-        "title": __( "Components", "mos-faqs" ), 
-        "url":"/settings/components",      
+    "woocommerce": {
+        "title": __( "WooCommerce", "mos-faqs" ), 
+        "description": __( "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quisquam non velit recusandae maxime, soluta labore id dignissimos tenetur, vitae nesciunt? Aspernatur nemo velit veniam adipisci obcaecati impedit alias, officiis hic ratione perspiciatis, quo molestiae expedita? Aliquam, quam dolorem? Similique enim minus error tempore necessitatibus dolorum quidem modi maiores suscipit.", "mos-faqs" ), 
+        "url":"/settings/woocommerce",
+    },
+    "export": { 
+        "title": __( "Expport", "mos-faqs" ), 
+        "description": __( "Export your settings and FAQs.", "mos-faqs" ), 
+        "url":"/settings/export",
         "sub": {
-            "basic" : {
-                "title": __( "Basic", "mos-faqs" ),                
-                "url":"/settings/components/basic",
+            "faqs" : {
+                "title": __( "FAQs", "mos-faqs" ),                
+                "url":"/settings/export/faqs",
             },
-            "advanced" : {
-                "title": __( "Advanced", "mos-faqs" ),
-                "url":"/settings/components/advanced",
-                "sub": {
-                    "advanced-1" : {
-                        "title": __( "Advanced 1", "mos-faqs" ),                
-                        "url":"/settings/components/advanced/advanced-1",
-                    },
-                    "advanced-2" : {
-                        "title": __( "Advanced 2", "mos-faqs" ),
-                        "url":"/settings/components/advanced/advanced-2",                        
-                    }
-                }
-            }
+            "settings" : {
+                "title": __( "Settings", "mos-faqs" ),                
+                "url":"/settings/export/settings",
+            },
         }
     },
-    "import_export": { 
-        "title": __( "Import & Expport", "mos-faqs" ), 
-        "description": __( "Import and Export your settings.", "mos-faqs" ), 
-        "url":"/settings/import_export"
+    "import": { 
+        "title": __( "Import", "mos-faqs" ), 
+        "description": __( "Import your settings and FAQs.", "mos-faqs" ), 
+        "url":"/settings/import",
+        "sub": {
+            "faqs" : {
+                "title": __( "FAQs", "mos-faqs" ),                
+                "url":"/settings/import/faqs",
+            },
+            "settings" : {
+                "title": __( "Settings", "mos-faqs" ),                
+                "url":"/settings/import/settings",
+            },
+        }
     },
     "more": { 
         "title": __( "More", "mos-faqs" ), 

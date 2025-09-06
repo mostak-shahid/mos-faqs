@@ -1,10 +1,5 @@
-.mos-faqs-media-uploader-unit {
-  margin-left: 25px;
-}
 .mos-faqs-media-uploader-unit .media-uploader .file-name {
   position: relative;
-  width: 100%;
-  max-width: 222px;
   margin-top: 12px;
   border: 1px dashed #dcdcde;
   border-radius: 4px;
@@ -59,11 +54,6 @@
   font-size: 10px;
   line-height: 14px;
   letter-spacing: 0%;
-}
-.mos-faqs-media-uploader-unit .media-uploader .file-detail .button-wrapper {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
 }
 .mos-faqs-media-uploader-unit .media-uploader .file-detail .file-link {
   width: 100%;

@@ -2,7 +2,6 @@ import { __ } from "@wordpress/i18n";
 import { useState } from 'react';
 import { Button, Nav, Navbar, NavDropdown, Offcanvas } from 'react-bootstrap';
 import { Link, NavLink } from "react-router-dom";
-import logo from '../../assets/images/logo.svg';
 import Details from '../../data/details.json';
 export default function Header() {
     const [show, setShow] = useState(false);
@@ -13,7 +12,7 @@ export default function Header() {
     const [expanded, setExpanded] = useState(false);
 
     const handleNavClick = () => {
-      setExpanded(false); // Close menu on link click
+        setExpanded(false); // Close menu on link click
     };
     return (
         <>
@@ -25,26 +24,29 @@ export default function Header() {
                 <div className="container-fluid">
                     <Navbar.Brand href="#/" className="p-0">
                         <div className="d-flex align-items-center gap-2">
-                            <img src={logo} alt="" />
+                            <img className="img-fluid" src={`${mos_faqs_ajax_obj.image_url}logo.svg`} alt="" width="40" height="40" />
                         </div>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="navbar-nav me-auto mb-2 mb-lg-0">
                             <Nav.Link as={NavLink} to="/" end onClick={handleNavClick}>
-                                Home
+                                {__('Dashboard', 'mos-faqs')}
                             </Nav.Link>
                             <Nav.Link as={NavLink} to="/settings" onClick={handleNavClick}>
-                                Settings
+                                {__('Settings', 'mos-faqs')}
                             </Nav.Link>
                             <div className="d-block d-lg-none">
-                            <NavDropdown title="Settings">
-                                <li><Link to="/settings/basic" className="dropdown-item" onClick={handleNavClick}>Basic</Link></li>
-                                <li><Link to="/settings/advanced" className="dropdown-item" onClick={handleNavClick}>Advanced</Link></li>
-                                <li><hr className="dropdown-divider"/></li>
-                                <li><a className="dropdown-item" href="#">Something else here</a></li>
-                            </NavDropdown>
+                                <NavDropdown title="Settings">
+                                    <li><Link to="/settings/basic" className="dropdown-item" onClick={handleNavClick}>Basic</Link></li>
+                                    <li><Link to="/settings/advanced" className="dropdown-item" onClick={handleNavClick}>Advanced</Link></li>
+                                    <li><hr className="dropdown-divider"/></li>
+                                    <li><a className="dropdown-item" href="#">Something else here</a></li>
+                                </NavDropdown>
                             </div>
+                            <Nav.Link as={NavLink} to="/page" onClick={handleNavClick}>
+                                {__('Analytics', 'mos-faqs')}
+                            </Nav.Link>
                             <li className="nav-item">
                                 <Link to="/page" className="nav-link">Contact</Link>
                             </li>
@@ -58,7 +60,7 @@ export default function Header() {
                                 </Nav.Link>
                             </NavDropdown>
                             <li className="nav-item">
-                            <a className="nav-link disabled" aria-disabled="true">Disabled</a>
+                                <a className="nav-link disabled" aria-disabled="true">Disabled</a>
                             </li>
                         </Nav>
                         {/* <Nav className="navbar-nav-left navbar-nav me-auto mb-2 mb-lg-0">

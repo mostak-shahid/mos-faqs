@@ -23,19 +23,17 @@ const Background = ({options, defaultValues = {}, name, handleChange}) => {
     return (
         <>
             <div className="background-wrapper">
-                <div className="grid grid-cols-1 gap-3">
-                    {options.map((option) => (
-                    <div key={option} className="flex flex-col gap-1">
-                        <label className="font-medium capitalize">{option}</label>
-
+                {options.map((option) => (
+                    <div key={option} className={`mb-2 from-group from-group-${option}`}>
+                        <label className="form-label text-capitalize">{option}</label>
                         {/* color → color picker */}
                         {option === "color" && (
-                        <input
-                            type="color"
-                            value={values[option] || "#ffffff"}
-                            onChange={(e) => updateValue(option, e.target.value)}
-                            className="w-16 h-8 cursor-pointer"
-                        />
+                            <input
+                                type="color"
+                                value={values[option] || "#ffffff"}
+                                onChange={(e) => updateValue(option, e.target.value)}
+                                className="form-control form-control-color"
+                            />
                         )}
 
                         {/* image → external component */}
@@ -60,24 +58,23 @@ const Background = ({options, defaultValues = {}, name, handleChange}) => {
 
                         {/* rest → select dropdown */}
                         {option !== "color" && option !== "image" && (
-                        <select
-                            value={values[option] || ""}
-                            onChange={(e) => updateValue(option, e.target.value)}
-                            className="border rounded px-2 py-1"
-                        >
-                            <option value="">Select {option}</option>
-                            {selectOptions[option]?.map((val) => (
-                            <option key={val} value={val}>
-                                {val}
-                            </option>
-                            ))}
-                        </select>
+                            <select
+                                value={values[option] || ""}
+                                onChange={(e) => updateValue(option, e.target.value)}
+                                className="form-select"
+                            >
+                                <option value="">Select {option}</option>
+                                {selectOptions[option]?.map((val) => (
+                                <option key={val} value={val}>
+                                    {val}
+                                </option>
+                                ))}
+                            </select>
                         )}
                     </div>
-                    ))}
-                </div>
+                ))}
                 {/* {console.log(options)} */}
-                {console.log(defaultValues)} 
+                {/* {console.log(defaultValues)}  */}
             </div>
         </>
     );    

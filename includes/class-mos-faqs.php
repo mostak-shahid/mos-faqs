@@ -121,6 +121,7 @@ class Mos_Faqs
 		require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-mos-faqs-public.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-mos-faqs-import-export.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-mos-faqs-more.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-mos-faqs-post_types.php';
 
 		$this->loader = new Mos_Faqs_Loader();
 	}

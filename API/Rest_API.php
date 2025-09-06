@@ -2,6 +2,16 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_action( 'rest_api_init', function () {
+    register_rest_route('mos-faqs/v1', '/plugins', [
+        'methods' => 'GET',
+        'callback' => function () {
+            $response = wp_remote_get('https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[author]=mostakshahid&request[per_page]=24');
+            if (is_wp_error($response)) {
+                return new WP_Error('api_error', 'Failed to fetch plugins', ['status' => 500]);
+            }
+            return json_decode(wp_remote_retrieve_body($response), true);
+        },
+    ]);
     
     // ✅ Get posts (with embed info)
     // GET /wp-json/mos-faqs/v1/posts?page=1&per_page=10&status=publish&search=hello

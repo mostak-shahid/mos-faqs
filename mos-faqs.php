@@ -16,7 +16,7 @@
  * Plugin Name:       Mos FAQs
  * Plugin URI:        https://www.mdmostakshahid.com/mos-faqs/
  * Description:       Mos faqs boilerplate for WordPress
- * Version:           1.0.0
+ * Version:           3.0.0
  * Author:            Md. Mostak Shahid
  * Author URI:        https://www.mdmostakshahid.com/
  * License:           GPL-2.0+
@@ -127,6 +127,11 @@ function mos_faqs_get_tabs()
 function mos_faqs_get_default_options()
 {
 	$mos_faqs_default_options = [
+		'general' => [
+			'unit' => [
+				'view' => 'accordion'
+			]
+		],
 		'base_input' => [
 			'text_input' => '',
 			'email_input' => '',
@@ -246,6 +251,7 @@ function mos_faqs_is_plugin_page()
 		if (
 			$current_screen->id == 'toplevel_page_mos-faqs'
 			|| $current_screen->id == 'mos-faqs_page_mos-faqs-react'
+			|| $current_screen->id == 'qa_page_faq_settings'
 			|| in_array($current_screen->id, $pages)
 		) {
 			return true;

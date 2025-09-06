@@ -161,7 +161,7 @@ const withForm = (OriginalComponent) => {
                             <div className="col-lg-3 d-none d-lg-block">
                                 <div className="mos-faqs-sidebar card mt-0 py-3 rounded-0" style={{marginRight:'-1px', height: "100%"}}> 
                                     <div className="plugin-info d-flex flex-column align-items-center gap-2 p-3 border-bottom">
-                                        <img className="img-fluid" src={logo} alt="" width="100" />
+                                        <img className="img-fluid" src={`${mos_faqs_ajax_obj.image_url}logo.svg`} alt="" width="100" height="100" />
                                         <span className="fw-bold">{Details?.name}</span>
                                         <span>{Details?.version}</span>
                                     </div>                           

@@ -12,6 +12,11 @@
 class Mos_Faqs_Post_Types
 {
 
+    public function __construct()
+	{
+		add_action('init', [$this, 'create_custom_post_type']);
+	}
+
     /**
      * Register custom post type
      *
@@ -316,3 +321,4 @@ class Mos_Faqs_Post_Types
     // ...
 
 }
+new Mos_Faqs_Post_Types();

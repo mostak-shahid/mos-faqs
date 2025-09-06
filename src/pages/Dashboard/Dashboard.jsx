@@ -5,6 +5,7 @@ import PluginCard from "../../components/PluginCard/PluginCard";
 import { useMain } from '../../contexts/MainContext';
 import Details from '../../data/details.json';
 import './Dashboard.scss';
+// axios.defaults.headers.common["X-WP-Nonce"] = mos_faqs_ajax_obj.api_nonce;
 export default function Dashboard() {
     const {
         settingsMenu,
@@ -14,16 +15,16 @@ export default function Dashboard() {
     const [error, setError] = useState(null);
     useEffect(() => {
         const fetchPlugins = async () => {
-        try {
-            // const response = await axios.get('https://raw.githubusercontent.com/mostak-shahid/update/refs/heads/master/plugin-details.json');
-            const response = await axios.get('https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[author]=mostakshahid&request[per_page]=24');
-            // 
-            setPlugins(response.data.plugins);
-        } catch (error) {
-            setError('Error fetching plugin data:', error);
-        } finally {
-            setPluginsLoading(false);
-        }
+            try {
+                // const response = await axios.get('https://raw.githubusercontent.com/mostak-shahid/update/refs/heads/master/plugin-details.json');
+                const response = await axios.get(`/wp-json/mos-faqs/v1/plugins`);
+                // 
+                setPlugins(response.data.plugins);
+            } catch (error) {
+                setError('Error fetching plugin data:', error);
+            } finally {
+                setPluginsLoading(false);
+            }
         };
         fetchPlugins();
     }, []);
@@ -33,18 +34,27 @@ export default function Dashboard() {
             <div className="container">
                 <div className="card mt-0 mb-3 rounded-0">
                     <div className="card-body p-5">
-                        <div className="row">
-                            <div className="col-lg-12">
-                                    <h2 className="card-title">{__(`Welcome to ${Details?.name}`, "mos-faqs")}</h2>
-                                    <div className="card-text">
-                                        <p>
-                                            {__("Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste mollitia voluptates molestiae nihil! Atque repellendus, nulla, aut magni in, sunt optio labore commodi at ipsa voluptatibus provident eveniet perferendis consequuntur.", "mos-faqs")}
-                                        </p>
-                                        
-                                        <p>                                            
-                                            {__("Mos FAQs is an all-in-one toolkit to enhance your WooCommerce store. This is a highly effective plugin developed for assisting online businesses in improving sales and profits.", "mos-faqs")}
-                                        </p>
-                                    </div>
+                        <div className="row align-items-center">
+                            <div className="col-lg-8">
+                                <h2 className="card-title">{__(`Welcome to ${Details?.name}`, "mos-faqs")}</h2>
+                                <div className="card-text">
+                                    <p>
+                                        {__("A simple FAQ plugin that lets you create FAQs, order FAQs, publicize FAQs, etc. It uses custom post types and taxonomies to manage an FAQ section for your site. You can display your every FAQ section in 3 different ways accordion, collapsible, and block view. Includes shortcode options for different display configurations.", "mos-faqs")}
+                                    </p>
+                                    
+                                    <p>                                            
+                                        {__("Mos FAQs can do more than just FAQs. If you have a help desk or knowledge base and need to pass on information to your visitors and/or users, the question/answer formatting is perfect. With the various options related to toggling, as well as the custom fields functionality, you can easily create an in-depth knowledge base and help desk.", "mos-faqs")}
+                                    </p>
+                                    <p>
+                                        {__('Mos FAQs has a responsive design that makes your FAQs look good on all screen sizes and all devices. No more worrying about what your mobile FAQs might look like. All options and styling will be applied across all devices, so you can focus on your content.', 'mos-faqs')}
+                                    </p>
+                                    <p>
+                                        {__('A few extra seconds could have a huge impact on your ability to engage visitors and make sales. This means that having a fast site is essential — not just for ranking well with Google, but for keeping your bottom-line profits high. So losing page speed for a plugin is a very pain full experience, by default Mos FAQs plugin fully optimized and it will not add any additional load into your website.', 'mos-faqs')}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="col-lg-4 text-center mt-4 mt-lg-0">
+                                <img className="img-fluid" src={`${mos_faqs_ajax_obj.image_url}dashboard-banner.png`} alt="" />
                             </div>
                         </div>
                         
@@ -110,7 +120,7 @@ export default function Dashboard() {
                                                     intro={plugin.short_description} 
                                                     plugin_source='internal'
                                                     plugin_slug={plugin.slug} 
-                                                    plugin_file={`${plugin.file}/${plugin.slug}`} 
+                                                    plugin_file={`${plugin.slug}/${plugin.slug}.php`} 
                                                     download_url={plugin.download_link}
                                                 /> 
                                             </div> 

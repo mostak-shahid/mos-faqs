@@ -109,7 +109,8 @@ class Mos_Faqs_Admin
 		wp_enqueue_script('jquery-ui-tabs');
 		wp_enqueue_media();
 		$current_screen = get_current_screen();
-		if ($current_screen->id == 'toplevel_page_mos-faqs') {
+		// var_dump($current_screen->id);
+		if ($current_screen->id == 'qa_page_faq_settings') {
 			wp_enqueue_script(
 				$this->plugin_name . '-react',
 				MOS_FAQS_URL . 'build/index.js',
@@ -140,14 +141,23 @@ class Mos_Faqs_Admin
 	 */
 	public function mos_faqs_admin_menu()
 	{
-		add_menu_page(
-			esc_html(MOS_FAQS_NAME),
-			esc_html(MOS_FAQS_NAME),
+		// add_menu_page(
+		// 	esc_html(MOS_FAQS_NAME),
+		// 	esc_html(MOS_FAQS_NAME),
+		// 	'manage_options',
+		// 	$this->plugin_name,
+		// 	// 'edit.php?post_type=qa',
+		// 	array($this, 'mos_faqs_dashboard_react_page_html'),
+		// 	plugin_dir_url(__DIR__) . 'admin/images/menu-icon.svg',
+		// 	57
+		// );
+		add_submenu_page(
+			'edit.php?post_type=qa',
+			esc_html__('Settings', 'mos-faqs'),
+			esc_html__('Settings', 'mos-faqs'),
 			'manage_options',
-			$this->plugin_name,
+			'faq_settings',
 			array($this, 'mos_faqs_dashboard_react_page_html'),
-			plugin_dir_url(__DIR__) . 'admin/images/menu-icon.svg',
-			57
 		);
 	}
 	/**

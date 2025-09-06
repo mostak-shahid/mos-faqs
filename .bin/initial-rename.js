@@ -14,8 +14,8 @@ const files = glob.sync(filePath, {
 const options = {
     files: files,
     from: [
-        /plugin-starter/g,
-        /plugin_starter/g,
+        /mos-faqs/g,
+        /mos_faqs/g,
         /plugin starter/g,
         /PLUGIN-STARTER/g,
         /PLUGIN_STARTER/g,
@@ -53,12 +53,12 @@ const renamedResults = [];
 async function renamePHPFiles() {
     const renamePromises = files
         .filter((file) => file.endsWith('.php'))
-        .filter((file) => /plugin-starter/.test(file))
+        .filter((file) => /mos-faqs/.test(file))
         .map(async (file) => {
             const dir = path.dirname(file);
             const baseName = path.basename(file);
             const newBaseName = baseName.replace(
-                /plugin-starter/gi,
+                /mos-faqs/gi,
                 'mos-faqs'
             );
             const newFileName = path.join(dir, newBaseName);
