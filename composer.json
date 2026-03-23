@@ -1,11 +1,11 @@
 {
-  "name": "mos/mos-faqs",
-  "description": "Mos faqs boilerplate for WordPress",
+  "name": "mospress/mos-faqs",
+  "description": "Mos FAQs plugin that lets you easily create, order and publicize FAQs using shortcodes.",
   "type": "wordpress-plugin",
   "license": "GPLv2",
   "autoload": {
     "psr-4": {
-      "Mos\\MosFaqs\\": "src/"
+      "MosPress\\MosFaqs\\": "includes/"
     }
   },
   "authors": [
@@ -16,12 +16,19 @@
   ],
   "minimum-stability": "stable",
   "require-dev": {
-    "wp-coding-standards/wpcs": "^3.1"
+    "wp-cli/wp-cli": "^2.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+    "wp-coding-standards/wpcs": "^3.1",
+    "wp-cli/i18n-command": "^2"
   },
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
   },
-  "require": {}
+
+  "require": {},
+  "scripts": {
+    "makepot": "wp i18n make-pot ."
+  }
 }

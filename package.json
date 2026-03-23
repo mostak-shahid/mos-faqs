@@ -1,41 +1,40 @@
 {
   "name": "mos-faqs",
   "version": "1.0.0",
-  "description": "Mos faqs boilerplate for WordPress",
+  "description": "Mos FAQs plugin that lets you easily create, order and publicize FAQs using shortcodes.",
   "author": "Md. Mostak Shahid",
   "license": "GPL-2.0-or-later",
-  "keywords": [],
   "scripts": {
-    "build": "wp-scripts build",
-    "start": "wp-scripts start",
-    "format": "wp-scripts format",
-    "lint:css": "wp-scripts lint-style",
-    "lint:js": "wp-scripts lint-js",
-    "plugin-zip": "wp-scripts plugin-zip",
-    "plugin-build": "zip -r dist.zip . -x '*.git*' 'node_modules/*' '*.DS_Store*' 'package*.json' 'webpack.config.js' 'src/*'",
-    "postinstall": "composer install"
+    "build": "webpack --config assets/webpack.config.js",
+    "dev": "webpack --config assets/webpack.config.js --watch"
   },
   "dependencies": {
-    "@coreui/icons": "^1.0.0",
-    "ace-builds": "^1.43.2",
-    "axios": "^1.11.0",
-    "bootstrap": "^5.3.8",
-    "datatables.net": "^2.3.3",
-    "datatables.net-bs5": "^2.3.3",
-    "datatables.net-buttons-bs5": "^3.2.4",
-    "datatables.net-dt": "^2.3.3",
-    "datatables.net-react": "^1.0.1",
-    "datatables.net-responsive-bs5": "^3.0.6",
+    "@douyinfe/semi-ui": "^2.0.0",
+    "@visactor/react-vchart": "^2.0.16",
+    "@visactor/vchart-semi-theme": "^1.12.3",
+    "@wordpress/api-fetch": "^7.39.0",
+    "@wordpress/components": "^32.1.0",
+    "@wordpress/i18n": "^6.12.0",
+    "react": "^18.2.0",
     "react-ace": "^14.0.1",
-    "react-bootstrap": "^2.10.9",
-    "react-router-dom": "^7.5.2"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^30.22.0",
-    "css-loader": "^7.1.2",
-    "file-loader": "^6.2.0",
-    "sass": "^1.84.0",
-    "sass-loader": "^16.0.4",
-    "style-loader": "^4.0.0"
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "@babel/preset-react": "^7.22.5",
+    "@douyinfe/semi-webpack-plugin": "^2.80.0",
+    "autoprefixer": "^10.4.15",
+    "babel-loader": "^9.1.3",
+    "css-loader": "^6.8.1",
+    "mini-css-extract-plugin": "^2.7.6",
+    "postcss": "^8.4.31",
+    "postcss-loader": "^7.3.3",
+    "sass": "^1.97.3",
+    "sass-loader": "^13.3.3",
+    "tailwindcss": "^3.3.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }

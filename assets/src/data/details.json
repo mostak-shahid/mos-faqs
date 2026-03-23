@@ -1,0 +1,8 @@
+{
+  "name": "Mos FAQs",
+  "description": "Mos FAQs plugin that lets you easily create, order and publicize FAQs using shortcodes.",
+  "version": "1.0.0",
+  "author": "Md. Mostak Shahid",
+  "authorURI": "https://mostak-shahid.github.io/",
+  "pluginURI": "https://mostak-shahid.github.io/plugins/mos-faqs.html"
+}

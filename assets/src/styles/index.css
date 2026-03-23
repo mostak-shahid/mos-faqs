@@ -1,0 +1,8 @@
+.mos-faqs-settings-template #wpcontent {
+  padding-left: 0;
+}
+.mos-faqs-settings-template input[type=color], .mos-faqs-settings-template input[type=date], .mos-faqs-settings-template input[type=datetime-local], .mos-faqs-settings-template input[type=datetime], .mos-faqs-settings-template input[type=email], .mos-faqs-settings-template input[type=month], .mos-faqs-settings-template input[type=number], .mos-faqs-settings-template input[type=password], .mos-faqs-settings-template input[type=search], .mos-faqs-settings-template input[type=tel], .mos-faqs-settings-template input[type=text], .mos-faqs-settings-template input[type=time], .mos-faqs-settings-template input[type=url], .mos-faqs-settings-template input[type=week], .mos-faqs-settings-template select, .mos-faqs-settings-template textarea {
+  border-radius: unset;
+  border: unset;
+  background-color: unset;
+}/*# sourceMappingURL=index.css.map */

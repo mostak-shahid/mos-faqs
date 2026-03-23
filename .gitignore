@@ -1,62 +1,51 @@
-
-# Operating System files
+# Ignore OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# IDE files
-.idea
-.vscode/*
-project.xml
-project.properties
-.project
-.settings*
-*.sublime-project
-*.sublime-workspace
-.sublimelinterrc
-
-# Sass
-.sass-cache/
-
-# Logs
-logs/
-
-# Environment files
-wp-cli.local.yml
-yarn-error.log
-npm-debug.log
-.pnpm-debug.log
-
-# Build files
-*.sql
-*.swp
-*.zip
-
-# Built packages
-build/
-build-module/
-build-style/
-build-types/
-dist/
-
-# Project files
+# Ignore dependencies managed by package managers
+release/
+vendor/
 node_modules/
-vendor/
-
-# TypeScript files
-tsconfig.tsbuildinfo
-
-# Node Package Dependencies
 package-lock.json
+composer.lock
 
-# wp-env config
-.wp-env.override.json
+# Ignore log files
+*.log
 
-# Unit tests
-tmp/
+# Ignore database files
+*.sql
 
-# Composer
-vendor/
-bin/composer/**/vendor/
-lib/vendor/
-contributors.md
-contributors.html
+# Ignore environment/config files (create them from .example files)
+.env
+wp-config-local.php
+
+# Ignore built/compiled assets
+# /assets/css/*.css
+# /assets/css/*.css.map
+# /assets/js/*.js
+# /assets/js/*.js.map
+# !assets/css/source/
+# !assets/js/source/
+
+# Ignore the final distribution ZIP (we'll build it)
+*.zip
+*.tar.gz
+
+# Ignore IDE specific files
+.idea/
+*.swp
+*.swo
+*~
+*.map
+*.map.js
+*.map.css
+
+# Ignore build directories
+assets/build/
+build/
+dist/
