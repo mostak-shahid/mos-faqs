@@ -33,13 +33,12 @@ class Post_Type
 	{
         $this->plugin_name = $plugin_name;
         $this->version = $version;
-        add_action('init', array($this, 'register_faq_post_type'));
         add_action('init', array($this, 'register_qa_post_type'));
         add_action('init', array($this, 'register_faq_category_taxonomy'));
         add_action('init', array($this, 'register_faq_tag_taxonomy'));
     }
 
-    public function register_faq_post_type()
+    public function register_qa_post_type()
     {
         $labels = array(
             'name'                  => __('FAQs', 'mos-faqs'),
@@ -71,56 +70,6 @@ class Post_Type
         $args = array(
             'labels'             => $labels,
             'description'        => __('FAQ post type.', 'mos-faqs'),
-            'public'             => true,
-            'publicly_queryable' => true,
-            'show_ui'            => true,
-            'show_in_menu'       => true,
-            'query_var'          => true,
-            'rewrite'            => array('slug' => 'faq'),
-            'capability_type'    => 'post',
-            'has_archive'        => true,
-            'hierarchical'       => false,
-            'menu_position'      => null,
-            'menu_icon'          => 'dashicons-format-chat',
-            'supports'           => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
-            'show_in_rest'       => true,
-        );
-
-        register_post_type('faq', $args);
-    }
-
-    public function register_qa_post_type()
-    {
-        $labels = array(
-            'name'                  => __('Q&A', 'mos-faqs'),
-            'singular_name'         => __('Q&A', 'mos-faqs'),
-            'menu_name'             => __('Q&A', 'mos-faqs'),
-            'name_admin_bar'        => __('Q&A', 'mos-faqs'),
-            'add_new'               => __('Add New', 'mos-faqs'),
-            'add_new_item'          => __('Add New Q&A', 'mos-faqs'),
-            'new_item'              => __('New Q&A', 'mos-faqs'),
-            'edit_item'             => __('Edit Q&A', 'mos-faqs'),
-            'view_item'             => __('View Q&A', 'mos-faqs'),
-            'all_items'             => __('All Q&A', 'mos-faqs'),
-            'search_items'          => __('Search Q&A', 'mos-faqs'),
-            'parent_item_colon'     => __('Parent Q&A:', 'mos-faqs'),
-            'not_found'             => __('No Q&A found.', 'mos-faqs'),
-            'not_found_in_trash'    => __('No Q&A found in Trash.', 'mos-faqs'),
-            'featured_image'        => __('Q&A Image', 'mos-faqs'),
-            'set_featured_image'    => __('Set Q&A image', 'mos-faqs'),
-            'remove_featured_image' => __('Remove Q&A image', 'mos-faqs'),
-            'use_featured_image'    => __('Use as Q&A image', 'mos-faqs'),
-            'archives'              => __('Q&A archives', 'mos-faqs'),
-            'insert_into_item'      => __('Insert into Q&A', 'mos-faqs'),
-            'uploaded_to_this_item' => __('Uploaded to this Q&A', 'mos-faqs'),
-            'filter_items_list'     => __('Filter Q&A list', 'mos-faqs'),
-            'items_list_navigation' => __('Q&A list navigation', 'mos-faqs'),
-            'items_list'            => __('Q&A list', 'mos-faqs'),
-        );
-
-        $args = array(
-            'labels'             => $labels,
-            'description'        => __('Q&A post type.', 'mos-faqs'),
             'public'             => true,
             'publicly_queryable' => true,
             'show_ui'            => true,
