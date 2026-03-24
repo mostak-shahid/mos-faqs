@@ -40,7 +40,7 @@ function mos_faqs_is_plugin_page()
 	if (function_exists('get_current_screen')) {
 		$current_screen = get_current_screen();
 		// var_dump($current_screen->id);
-		$pages = [];
+		$pages = ['qa_page_mos-faqs'];
 		if (
 			$current_screen->id == 'toplevel_page_mos-faqs'
 			|| in_array($current_screen->id, $pages)
