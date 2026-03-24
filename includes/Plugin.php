@@ -4,6 +4,7 @@ namespace MosPress\MosFaqs;
 
 defined('ABSPATH') || exit;
 
+use MosPress\MosFaqs\Admin\Post_Type;
 
 use MosPress\MosFaqs\API\Ajax_API;
 use MosPress\MosFaqs\API\Rest_API;
@@ -59,6 +60,7 @@ class Plugin {
 		Action_Hook::get_instance();
 		Filter_Hook::get_instance();
 		
+		new Post_Type($this->plugin_name, $this->version);
 		// Instantiate additional core classes
 		new ImportExport();
 		new More();

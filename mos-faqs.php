@@ -16,7 +16,7 @@
  * Plugin Name:       Mos FAQs
  * Plugin URI:        https://mostak-shahid.github.io/plugins/mos-faqs.html
  * Description:       Mos FAQs plugin that lets you easily create, order and publicize FAQs using shortcodes.
- * Version:           1.0.0
+ * Version:           3.0.0
  * Author:            Md. Mostak Shahid
  * Author URI:        https://mostak-shahid.github.io/
  * License:           GPL-2.0+
@@ -31,7 +31,7 @@ defined('ABSPATH') || exit;
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('MOS_FAQS_VERSION', '1.0.0');
+define('MOS_FAQS_VERSION', '3.0.0');
 define('MOS_FAQS_NAME', 'Mos FAQs');
 define('MOS_FAQS_PATH', plugin_dir_path(__FILE__));
 define('MOS_FAQS_URL', plugin_dir_url(__FILE__));
