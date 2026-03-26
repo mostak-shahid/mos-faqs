@@ -9,6 +9,7 @@ use MosPress\MosFaqs\Public\Shortcode;
 
 use MosPress\MosFaqs\Render\VC_Element;
 use MosPress\MosFaqs\Render\Block;
+use MosPress\MosFaqs\Render\Elementor_Widget;
 
 use MosPress\MosFaqs\API\Ajax_API;
 use MosPress\MosFaqs\API\Rest_API;
@@ -74,6 +75,12 @@ class Plugin {
 		new More();
 		new Tools();
 		new UserMeta();
+
+		// Load Elementor widget if Elementor is active
+		if (defined('ELEMENTOR_VERSION')) {
+			// require_once MOS_FAQS_PATH . 'includes/Render/Elementor_Widget.php';
+			add_action('elementor/widgets/register', [$this, 'mos_faqs_register_elementor_widget']);
+		}
 	}
 
 
@@ -153,4 +160,9 @@ class Plugin {
             true
         );
     }
+	public function mos_faqs_register_elementor_widget() {
+		if (defined('ELEMENTOR_VERSION')) {
+			\Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Elementor_Widget());
+		}
+	}
 }
