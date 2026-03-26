@@ -25,7 +25,7 @@ const units = [
     { value: 'rem', label: 'rem' },
     { value: 'vw', label: 'vw' },
 ];
-const FontControl = ({defaultValues = {}, name, handleChange, className=''}) => {
+const FontControl = ({defaultValues = {}, name, onChange, className=''}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [values, setValues] = useState(() => ({ ...sanitizeDefaults(defaultValues) }));
 
@@ -36,10 +36,10 @@ const FontControl = ({defaultValues = {}, name, handleChange, className=''}) => 
     const updateValue = useCallback((option, value) => {
         setValues(prev => {
             const updated = { ...prev, [option]: value };
-            handleChange(name, updated);
+            onChange(name, updated);
             return updated;
         });
-    }, [handleChange, name]);
+    }, [onChange, name]);
 
     const enableFont = Boolean(values.enabled);
     const options = ["font-family", "color", "font-size", "font-weight", "font-style", "font-variant", "font-stretch", "text-align", "text-decoration", "text-transform", "line-height", "letter-spacing", "word-spacing", ];
@@ -70,11 +70,11 @@ const FontControl = ({defaultValues = {}, name, handleChange, className=''}) => 
                                                 <ColorPickerControl
                                                     defaultValue={values[option] || "#000000"}
                                                     label={__('Font Color', 'mos-faqs')}
-                                                    handleChange={(value) => updateValue(option, value)}
+                                                    onChange={(value) => updateValue(option, value)}
                                                     mode='color'
-                                                /> 
+                                                />
                                             </div>
-                                        ) : option === "font-size" ? 
+                                        ) : option === "font-size" ?
                                         (
                                             <UnitControl
                                                 label={__('Size', 'mos-faqs')}
@@ -148,10 +148,10 @@ const FontControl = ({defaultValues = {}, name, handleChange, className=''}) => 
 export default FontControl;
 /*
 // Uses
-<FontControl 
+<FontControl
     defaultValues={settingData?.customizer?.redesign?.fields?.label_font}
-    name='customizer.redesign.fields.label_font' 
-    handleChange={handleChange}
+    name='customizer.redesign.fields.label_font'
+    onChange={handleChange}
     options = {["color", "font-size", "font-weight", "font-style", "font-variant", "font-stretch", "text-align", "text-decoration", "text-transform" ]}
 /> 
 Core Font Attributes:

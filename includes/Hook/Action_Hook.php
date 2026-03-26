@@ -39,7 +39,7 @@ class Action_Hook
 	{
 		if (get_option('mos_faqs_do_activation_redirect')) {
 			delete_option('mos_faqs_do_activation_redirect');
-			wp_safe_redirect(admin_url('edit.php?post_type=qa&page=' . $this->plugin_name));
+			wp_safe_redirect(admin_url('admin.php?page=' . $this->plugin_name));
 		}
 	}
 
@@ -59,6 +59,15 @@ class Action_Hook
 			$this->plugin_name,
 			array($this, 'mos_faqs_dashboard_react_page_html')
 		);
+		// add_menu_page(
+		// 	esc_html(MOS_FAQS_NAME),
+		// 	esc_html(MOS_FAQS_NAME),
+		// 	'manage_options',
+		// 	$this->plugin_name,
+		// 	array($this, 'mos_faqs_dashboard_react_page_html'),
+		// 	MOS_FAQS_URL . 'admin/images/menu-icon.svg',
+		// 	57
+		// );
 	}
 	/**
 	 * Loading plugin Welcome page.

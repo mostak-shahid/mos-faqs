@@ -1,6 +1,6 @@
 {
   "name": "Mos FAQs",
-  "description": "Mos FAQs plugin that lets you easily create, order and publicize FAQs using shortcodes.",
+  "description": "A simple FAQ plugin that lets you create FAQs, order FAQs, publicize FAQs, etc. It uses custom post types and taxonomies to manage an FAQ section for your site.",
   "version": "1.0.0",
   "author": "Md. Mostak Shahid",
   "authorURI": "https://mostak-shahid.github.io/",

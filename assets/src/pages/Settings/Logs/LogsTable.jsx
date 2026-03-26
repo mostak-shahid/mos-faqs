@@ -13,7 +13,7 @@ import {
     Popconfirm,
     DatePicker,
     Dropdown,
-    Toast,
+    Notification,
     Row,
     Col,
 } from '@douyinfe/semi-ui';
@@ -59,21 +59,36 @@ export default function LogsTable({ onDataRefresh }) {
                 path: `/mos-faqs/v1/logs/${id}`,
                 method: 'DELETE',
             });
-            Toast.success(__('Log deleted successfully', 'mos-faqs'));
+            Notification.success({
+                title: __("Success", "mos-faqs"),
+                content: __("Log deleted successfully", "mos-faqs"),
+                duration: 3,
+                position: 'topRight',
+            });
             fetchData();
             if (onDataRefresh) {
                 onDataRefresh();
             }
         } catch (error) {
             console.error('Error deleting log:', error);
-            Toast.error(__('Failed to delete log', 'mos-faqs'));
+            Notification.error({
+                title: __("Error", "mos-faqs"),
+                content: __("Failed to delete log", "mos-faqs"),
+                duration: 3,
+                position: 'topRight',
+            });
         }
     };
 
     const handleBulkDelete = async () => {
         console.log('Bulk delete clicked, selected keys:', selectedRowKeys);
         if (selectedRowKeys.length === 0) {
-            Toast.warning(__('Please select logs to delete', 'mos-faqs'));
+            Notification.warning({
+                title: __("Warning", "mos-faqs"),
+                content: __("Please select logs to delete", "mos-faqs"),
+                duration: 3,
+                position: 'topRight',
+            });
             return;
         }
 
@@ -85,7 +100,12 @@ export default function LogsTable({ onDataRefresh }) {
                 method: 'DELETE',
                 data: { ids: selectedRowKeys },
             });
-            Toast.success(`${selectedRowKeys.length} ${__('logs deleted successfully', 'mos-faqs')}`);
+            Notification.success({
+                title: __("Success", "mos-faqs"),
+                content: `${selectedRowKeys.length} ${__('logs deleted successfully', 'mos-faqs')}`,
+                duration: 3,
+                position: 'topRight',
+            });
             setSelectedRowKeys([]);
             fetchData();
             if (onDataRefresh) {
@@ -93,7 +113,12 @@ export default function LogsTable({ onDataRefresh }) {
             }
         } catch (error) {
             console.error('Error bulk deleting logs:', error);
-            Toast.error(__('Failed to delete logs', 'mos-faqs'));
+            Notification.error({
+                title: __("Error", "mos-faqs"),
+                content: __("Failed to delete logs", "mos-faqs"),
+                duration: 3,
+                position: 'topRight',
+            });
         } finally {
             setDeleting(false);
         }

@@ -13,7 +13,7 @@ import { Card, Breadcrumb } from '@douyinfe/semi-ui';
 const generateBreadcrumbs = (pathname, menuData) => {
     const breadcrumbs = [
         {
-            name: __("Home", "authpress"),
+            name: __("Home", "mos-faqs"),
             href: '#/',
             path: '/'
         }
@@ -41,8 +41,8 @@ const generateBreadcrumbs = (pathname, menuData) => {
                 }
 
                 // If has submenu, search in submenu
-                if (item.items && item.items.length > 0) {
-                    const subResult = findInMenu(item.items, path, currentCrumbs);
+                if (item.sub && item.sub.length > 0) {
+                    const subResult = findInMenu(item.sub, path, currentCrumbs);
                     if (subResult) {
                         return subResult;
                     }
@@ -54,8 +54,8 @@ const generateBreadcrumbs = (pathname, menuData) => {
             }
 
             // Search in submenu even if parent doesn't match
-            if (item.items && item.items.length > 0) {
-                const subResult = findInMenu(item.items, path, [...parentCrumbs, {
+            if (item.sub && item.sub.length > 0) {
+                const subResult = findInMenu(item.sub, path, [...parentCrumbs, {
                     name: item.text,
                     path: item.url,
                     href: item.url

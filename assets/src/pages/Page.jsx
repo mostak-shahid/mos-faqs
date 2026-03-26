@@ -60,7 +60,7 @@ const Page = () => {
                             <BackgroundControl
                                 defaultValues={settingData?.page?.background}
                                 name="page.background"
-                                handleChange={handleChange}
+                                onChange={handleChange}
                             />  
                         </Col>
                     }
@@ -218,10 +218,10 @@ const Page = () => {
                     {
                         !settingLoading &&                               
                         <Col xs={24} lg={12} xl={10}>
-                            <MediaUploaderControl 
-                                    data={settingData?.page?.media_uploader} 
+                            <MediaUploaderControl
+                                    data={settingData?.page?.media_uploader}
                                     name={'page.media_uploader'}
-                                    handleChange={handleChange}
+                                    onChange={handleChange}
                                     options = {{
                                         frame:{
                                             title: __("Select or Upload Image", "mos-faqs"),

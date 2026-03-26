@@ -9,6 +9,7 @@ import menuItems from '../../data/menu.json';
 import { getMenu } from '../../data/menu.js';
 import {BreadcrumbControl, PageInfo, VerticalMenuControl} from "../../components";
 import { Logo } from '../../lib/Illustrations';
+import { setNestedValue } from '../../lib/Helpers';
 const { Header, Sider, Content } = Layout;
 import Details from '../../data/details.json';
 import './Settings.css';
@@ -40,10 +41,12 @@ const Settings = () => {
 
     const handleSubmit = async (section, values) => {
         try {
+            const newSettings = setNestedValue(settings, section, values);
+
             const result = await apiFetch({
                 path: "/mos-faqs/v1/options",
                 method: 'POST',
-                data: { mos_faqs_options: { ...settings, [section]: values } }
+                data: { mos_faqs_options: newSettings }
             });
             if (result.success) {
                 setSettingsReload(Math.random());

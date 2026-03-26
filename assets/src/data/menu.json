@@ -1,21 +1,21 @@
 [
     {
-        "itemKey": "page",
-        "text": "Page",
-        "description": "Page settings",
-        "url": "/settings/page",
+        "itemKey": "components",
+        "text": "Components",
+        "description": "Components page description",
+        "url": "/settings/components",
         "items": [
             {
-                "itemKey": "page-1",
-                "text": "Page 1",
-                "description": "Page 1 settings",
-                "url": "/settings/page/page-1"
+                "itemKey": "free-components",
+                "text": "Free Components",
+                "description": "Free components settings",
+                "url": "/settings/components/free-components"
             },
             {
-                "itemKey": "page-2",
-                "text": "Page 2",
-                "description": "Page 2 settings",
-                "url": "/settings/page/page-2"
+                "itemKey": "pro-components",
+                "text": "Pro Components",
+                "description": "Pro components settings",
+                "url": "/settings/components/pro-components"
             }
         ]
     },

@@ -62,7 +62,7 @@ const BoxShadowControl = ({ value = {}, onChange, className='' }) => {
                     />
                     <ColorPickerControl
                         defaultValue={shadow.color || "#000000"}
-                        handleChange={(color) => update('color', color)}
+                        onChange={(color) => update('color', color)}
                         mode='color'
                         label={__('Shadow Color', 'mos-faqs')}
                         className="w-full"

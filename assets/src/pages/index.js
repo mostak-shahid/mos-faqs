@@ -14,6 +14,7 @@ import NotFound from './NotFound';
 //layouts
 import About from './About';
 import Contact from './Contact';
+import ComponentsFree from './Settings/ComponentsFree';
 import BoxedLeftSidebar from './Layouts/BoxedLeftSidebar';
 import BoxedNoSidebar from './Layouts/BoxedNoSidebar';
 import BoxedRightSidebar from './Layouts/BoxedRightSidebar';
@@ -22,8 +23,6 @@ import FullWidthNoSidebar from './Layouts/FullWidthNoSidebar';
 import FullWidthRightSidebar from './Layouts/FullWidthRightSidebar';
 export {
     Dashboard,
-    About,
-    Contact,
     Settings,
     BasicInputs,
     ArrayInputs,
@@ -37,6 +36,9 @@ export {
     FreeVsPro,
     NotFound,
     //Delete these
+    About,
+    Contact,
+    ComponentsFree,
     BoxedLeftSidebar,
     BoxedNoSidebar,
     BoxedRightSidebar,

@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Mos FAQs
  * Plugin URI:        https://mostak-shahid.github.io/plugins/mos-faqs.html
- * Description:       Mos FAQs plugin that lets you easily create, order and publicize FAQs using shortcodes.
+ * Description:       A simple FAQ plugin that lets you create FAQs, order FAQs, publicize FAQs, etc. It uses custom post types and taxonomies to manage an FAQ section for your site.
  * Version:           3.0.0
  * Author:            Md. Mostak Shahid
  * Author URI:        https://mostak-shahid.github.io/

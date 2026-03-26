@@ -128,7 +128,6 @@ class AdminClass
 		wp_enqueue_script($this->plugin_name, MOS_FAQS_URL . 'assets/js/script.js', array('jquery'), $this->version, false);
 		wp_enqueue_script('jquery');
 		wp_enqueue_media();
-		// var_dump($hook);
 		if ($hook == 'toplevel_page_mos-faqs' || $hook == 'qa_page_mos-faqs') {
 			// wp_enqueue_script(
 			// 	$this->plugin_name . '-react',

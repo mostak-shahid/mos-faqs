@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import ProfileApp from "./ProfileApp";
 
-import "./styles/tailwind.css";
+import "../styles/tailwind.css";
 // Profile-specific styles (create this file if you need page-specific CSS)
 // import "./styles/profile.css";
 

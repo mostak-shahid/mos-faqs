@@ -63,6 +63,7 @@ class Plugin {
 		
 		new Post_Type($this->plugin_name, $this->version);
 		new Shortcode($this->plugin_name, $this->version);
+		
 		// Instantiate additional core classes
 		new ImportExport();
 		new More();

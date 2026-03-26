@@ -369,5 +369,5 @@ function mos_faqs_data_cleanup(){
 	}
 
 	// Log the uninstall (optional)
-	error_log( 'Mos FAQs: Complete uninstall cleanup completed.' );
+	// error_log( 'Mos FAQs: Complete uninstall cleanup completed.' );
 }

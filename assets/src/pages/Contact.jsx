@@ -1,6 +1,7 @@
+import { __ } from "@wordpress/i18n";
 import { useState } from 'react';
 import {BoxedLayout} from '../layouts';
-import { Card, Input, TextArea, Button, Toast } from '@douyinfe/semi-ui';
+import { Card, Input, TextArea, Button, Notification } from '@douyinfe/semi-ui';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -12,7 +13,12 @@ const Contact = () => {
     const handleSubmit = () => {
         // In a real app, you'd save to backend
         console.log('Form submitted:', formData);
-        Toast.success('Contact form submitted successfully!');
+        Notification.success({
+            title: __("Success", "mos-faqs"),
+            content: __("Contact form submitted successfully!", "mos-faqs"),
+            duration: 3,
+            position: 'topRight',
+        });
     };
 
     const handleFieldChange = (field, value) => {

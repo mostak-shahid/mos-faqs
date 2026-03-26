@@ -94,29 +94,47 @@ class Filter_Hook {
      */
     public function modify_mos_faqs_default_options( $opts ) {
         $defaults = [
-            'page' => [
-                'background' => [],
-                'boxshadow' => [
-                    'enabled' => false,
-                    'inset' => false,
+            'components' => [
+                'free' => [
+                    'background' => [],
+                    'boxshadow' => [
+                        'enabled' => false,
+                        'inset' => false,
+                    ],
+                    // 'color' => '#ffffff',
+                    'colorpicker' => '',
+                    // 'gradient' => 'linear-gradient(135deg, #ff8c00 0%, #fcff41 100%)',
+                    'gradient' => '',
+                    'font' => [
+                        'enabled' => false,
+                    ],
+                    'media_uploader' => [],
+                    'multicolor' => [],
+                    'textshadow' => [
+                        'enabled' => false,
+                    ],
+                    'unitcontrol' => '',
                 ],
-                // 'color' => '#ffffff',
-                'color' => '',
-                // 'gradient' => 'linear-gradient(135deg, #ff8c00 0%, #fcff41 100%)',
-                'gradient' => '',
-                'font' => [
-                    'enabled' => false,
+                'pro' => [
+                    'background' => [],
+                    'boxshadow' => [
+                        'enabled' => false,
+                        'inset' => false,
+                    ],
+                    // 'color' => '#ffffff',
+                    'colorpicker' => '',
+                    // 'gradient' => 'linear-gradient(135deg, #ff8c00 0%, #fcff41 100%)',
+                    'gradient' => '',
+                    'font' => [
+                        'enabled' => false,
+                    ],
+                    'media_uploader' => [],
+                    'multicolor' => [],
+                    'textshadow' => [
+                        'enabled' => false,
+                    ],
+                    'unitcontrol' => '',
                 ],
-                'media_uploader' => [],
-                'multicolor' => [],
-                'repeatable_field' => [
-                    ['address' => '123 Main St, Cityville, Country' ],
-                    ['address' => '456 Side St, Townsville, Country' ],
-                ],
-                'textshadow' => [
-                    'enabled' => false,
-                ],
-                'unitcontrol' => '',
             ],
             'basic' => [
                 'text' => '',

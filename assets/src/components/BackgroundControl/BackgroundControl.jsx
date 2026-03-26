@@ -12,7 +12,7 @@ const SELECT_OPTIONS = {
     attachment: ["scroll", "fixed", "local"],
 };
 
-const BackgroundControl = ({defaultValues = {}, name, handleChange, className=''}) => {
+const BackgroundControl = ({defaultValues = {}, name, onChange, className=''}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [values, setValues] = useState(() => (
         defaultValues && typeof defaultValues === 'object' ? { ...defaultValues } : {}
@@ -25,18 +25,18 @@ const BackgroundControl = ({defaultValues = {}, name, handleChange, className=''
     const updateValue = useCallback((option, value) => {
         setValues(prev => {
             const updated = { ...prev, [option]: value };
-            handleChange(name, updated);
+            onChange(name, updated);
             return updated;
         });
-    }, [handleChange, name]);
+    }, [onChange, name]);
 
     const handleImageChange = useCallback((_, value) => {
         setValues(prev => {
             const updated = { ...prev, image: value };
-            handleChange(name, updated);
+            onChange(name, updated);
             return updated;
         });
-    }, [handleChange, name]);
+    }, [onChange, name]);
 
     const imageData = values?.image && typeof values.image === 'object'
         ? values.image
@@ -55,7 +55,7 @@ const BackgroundControl = ({defaultValues = {}, name, handleChange, className=''
                                 <Space className='justify-between' style={{width: '100%'}} align='center'>
                                     <ColorPickerControl
                                         defaultValue={values[option]}
-                                        handleChange={(value) => updateValue(option, value)}
+                                        onChange={(value) => updateValue(option, value)}
                                         mode='both'
                                         label={__("Background Color", "mos-faqs")}
                                     />
@@ -73,10 +73,10 @@ const BackgroundControl = ({defaultValues = {}, name, handleChange, className=''
                                 <>
                                     {/* image → external component */}
                                     {option === "image" &&  (
-                                        <MediaUploaderControl 
-                                            data={imageData} 
+                                        <MediaUploaderControl
+                                            data={imageData}
                                             name={`${name}.image`}
-                                            handleChange={handleImageChange}
+                                            onChange={handleImageChange}
                                             options = {{
                                                 frame:{
                                                     title: __("Select or Upload Image", "mos-faqs"),
@@ -85,7 +85,7 @@ const BackgroundControl = ({defaultValues = {}, name, handleChange, className=''
                                                 buttons: {
                                                     upload: __("Upload Image", "mos-faqs"),
                                                     remove: __("Remove", "mos-faqs"),
-                                                    select: __("Use this image", "mos-faqs")                                            
+                                                    select: __("Use this image", "mos-faqs")
                                                 }
                                             }}
                                         />

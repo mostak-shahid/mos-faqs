@@ -4,7 +4,7 @@ import './MediaUploaderControl.css';
 import { Dashicon } from '@wordpress/components';
 
 import { Row, Col, Input, InputGroup, Skeleton, Button } from '@douyinfe/semi-ui';
-export default function MediaUploaderControl({ data={}, name, handleChange, options={}, className='' }) {    
+export default function MediaUploaderControl({ data={}, name, onChange, options={}, className='' }) {    
     const [media, setMedia] = useState({});
 
     useEffect(()=> {
@@ -46,7 +46,7 @@ export default function MediaUploaderControl({ data={}, name, handleChange, opti
             // console.log(media);
             var thumbnail = (media?.sizes?.thumbnail?.url)?media.sizes.thumbnail.url:(media?.sizes?.full?.url)?media.sizes.full.url:media.thumb.src;
             setMedia({id:media.id, url:media.url, thumbnail:thumbnail});
-            handleChange(name, {id:media.id, url:media.url, thumbnail:thumbnail});
+            onChange(name, {id:media.id, url:media.url, thumbnail:thumbnail});
         });	
 
         // Finally, open the modal on click
@@ -55,7 +55,7 @@ export default function MediaUploaderControl({ data={}, name, handleChange, opti
     const removeImage  = (event) => {
         event.preventDefault();
         setMedia({id:0, url:''});
-        handleChange(name, {id:0, url:'', thumbnail:''});
+        onChange(name, {id:0, url:'', thumbnail:''});
     }
     return (
         <>
@@ -122,10 +122,10 @@ export default function MediaUploaderControl({ data={}, name, handleChange, opti
 }
 /*
 // Uses
-<MediaUploaderControl 
-    data={settingData?.elements?.advanced?.media_uploader} 
-    name='elements.advanced.media_uploader' 
-    handleChange={handleChange}
+<MediaUploaderControl
+    data={settingData?.elements?.advanced?.media_uploader}
+    name='elements.advanced.media_uploader'
+    onChange={handleChange}
     options = {{
         frame:{
             title: __("Select or Upload Image", "mos-faqs"),
@@ -134,7 +134,7 @@ export default function MediaUploaderControl({ data={}, name, handleChange, opti
         buttons: {
             upload: __("Upload Image", "mos-faqs"),
             remove: __("Remove", "mos-faqs"),
-            select: __("Use this image", "mos-faqs")                                            
+            select: __("Use this image", "mos-faqs")
         }
     }}
 />
