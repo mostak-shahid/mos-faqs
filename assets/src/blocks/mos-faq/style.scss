@@ -1,0 +1,11 @@
+@import '../../../../../node_modules/@douyinfe/semi-ui/dist/css/semi.min.css';
+
+.mos-faq-block {
+	padding: 20px;
+	border: 1px dashed #ccc;
+	background: #f9f9f9;
+
+	&.is-selected {
+		border-color: #0073aa;
+	}
+}

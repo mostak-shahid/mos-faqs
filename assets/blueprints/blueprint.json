@@ -1,6 +1,6 @@
 {
   "$schema": "https://playground.wordpress.net/blueprint-schema.json",
-  "landingPage": "/wp-admin/admin.php?page=mos-faqs#/",
+  "landingPage": "/wp-admin/edit.php?post_type=qa&page=mos-faqs/",
   "preferredVersions": {
     "php": "8.2",
     "wp": "latest"

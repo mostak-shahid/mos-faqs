@@ -8,6 +8,7 @@ module.exports = {
 	entry: {
 		app: path.resolve(__dirname, "assets/src/index.js"),
 		profile: path.resolve(__dirname, "assets/src/profile/profile.js"),
+		'mos-faq-block': path.resolve(__dirname, "assets/src/blocks/mos-faq/index.js"),
 	},
 
 	output: {

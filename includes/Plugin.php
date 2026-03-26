@@ -7,6 +7,9 @@ defined('ABSPATH') || exit;
 use MosPress\MosFaqs\Admin\Post_Type;
 use MosPress\MosFaqs\Public\Shortcode;
 
+use MosPress\MosFaqs\Render\VC_Element;
+use MosPress\MosFaqs\Render\Block;
+
 use MosPress\MosFaqs\API\Ajax_API;
 use MosPress\MosFaqs\API\Rest_API;
 use MosPress\MosFaqs\Hook\Action_Hook;
@@ -63,6 +66,8 @@ class Plugin {
 		
 		new Post_Type($this->plugin_name, $this->version);
 		new Shortcode($this->plugin_name, $this->version);
+		new VC_Element();
+		new Block($this->plugin_name, $this->version);
 		
 		// Instantiate additional core classes
 		new ImportExport();

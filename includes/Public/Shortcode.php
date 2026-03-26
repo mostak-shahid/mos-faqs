@@ -63,71 +63,56 @@ class Shortcode
         $slices = explode(" ",$icons[$index]);
         $html = '';
         $atts = shortcode_atts( array(
-            'limit'				=> '-1',
+            'count'				=> '-1',
             'offset'			=> 0,
-            'author'			=> 1,
+            'author'			=> '1',
             'category'			=> '',
-            'tag'				=> '',
+            'posts'				=> '',
+            'source'			=> 'recent',
             'orderby'			=> '',
             'order'				=> '',
-            'container'			=> 0,
-            'container_class'	=> '',
-            'class'				=> '',
-            'grid'				=> 1,
-            'singular'			=> 0,
             'pagination'		=> 0,
-            'view'				=> 'accordion', //accordion, collapsible, block
+            'view'				=> 'accordion',
         ), $atts, 'mos_faq' );
 
         $cat = ($atts['category']) ? preg_replace('/\s+/', '', $atts['category']) : '';
-        $tag = ($atts['tag']) ? preg_replace('/\s+/', '', $atts['tag']) : '';
+        $posts = ($atts['posts']) ? preg_replace('/\s+/', '', $atts['posts']) : '';
 
-        $args = array( 
+        $args = array(
             'post_type' 		=> 'qa',
             'paged' => get_query_var('paged') ? get_query_var('paged') : 1,
         );
-        $args['posts_per_page'] = $atts['limit'];
-        if ($atts['offset']) $args['offset'] = $atts['offset'];
+        $args['posts_per_page'] = $atts['count'];
 
-        if ($atts['category'] OR $atts['tag']) {
-            $args['tax_query'] = array();
-            if ($atts['category'] AND $atts['tag']) {
-                $args['tax_query']['relation'] = 'OR';
-            }
-            if ($atts['category']) {
-                $args['tax_query'][] = array(
-                        'taxonomy' => 'faq-category',
-                        'field'    => 'term_id',
-                        'terms'    => explode(',', $cat),
-                    );
-            }
-            if ($atts['tag']) {
-                $args['tax_query'][] = array(
-                        'taxonomy' => 'faq-tag',
-                        'field'    => 'term_id',
-                        'terms'    => explode(',', $tag),
-                    );
-            }
+        if ($atts['source'] == 'selected_posts' && $atts['posts']) {
+            $args['post__in'] = explode(',', $posts);
+        } elseif ($atts['source'] == 'selected_categories' && $atts['category']) {
+            $args['tax_query'][] = array(
+                    'taxonomy' => 'faq-category',
+                    'field'    => 'term_id',
+                    'terms'    => explode(',', $cat),
+                );
+        } else {
+            if ($atts['offset']) $args['offset'] = $atts['offset'];
         }
         if ($atts['orderby']) $args['orderby'] = $atts['orderby'];
         if ($atts['order']) $args['order'] = $atts['order'];
-        if ($atts['author']) $args['author'] = $atts['author'];
-        if ($atts['grid'] > 5 ) $atts['grid'] = 5;
-        elseif ($atts['grid'] < 1 ) $atts['grid'] = 1;
-        // var_dump($args);
-        // die();
+        if ($atts['author']) {
+            $authors = array_map('intval', array_filter(explode(',', $atts['author'])));
+            if (!empty($authors)) {
+                $args['author__in'] = $authors;
+            }
+        }
 
         $query = new WP_Query( $args );
         $total_post = $query->post_count;
-        $single_col = round( $total_post / $atts['grid'] );
         if ( $query->have_posts() ) :
             $idenfier = rand(10,1000);
             $n = 0;
-            $html .= '<div id="mos-faq-'.$idenfier.'" class="mos-faq-'.$atts['view'].' mos-faq-container ' . $atts['container_class'] . '">';
-            $html .= '<div class="mos-faq-col-'.$atts['grid'] . '">';
+            $html .= '<div id="mos-faq-'.$idenfier.'" class="mos-faq-'.$atts['view'].' mos-faq-container">';
             while ( $query->have_posts() ) : $query->the_post();
                 
-                $html .= '<div class="mos-faq-unit ' . $atts['class'] . '">';
+                $html .= '<div class="mos-faq-unit">';
                     $html .= '<div class="mos-faq-heading">';
                         $html .= '<h4 class="mos-faq-title">';
                             if ($atts['view'] == 'accordion') $data_parent = 'data-parent="#mos-faq-'.$idenfier.'"';
@@ -138,19 +123,15 @@ class Shortcode
                             if ($index)	$html .= '<span class="mos-faq-icon-con"><i class="fa '.$slices[0].'"></i> <i class="fa '.$slices[1].'"></i></span>';
                         $html .= '</h4>';
                     $html .= '</div>';
-                    if ($atts['view'] != 'block') $html .= '<div id="collapse'.$idenfier.$n.'" class="mos-faq-collapse">'; // in
+                    if ($atts['view'] != 'block') $html .= '<div id="collapse'.$idenfier.$n.'" class="mos-faq-collapse">';
                         $html .= '<div class="mos-faq-body">';
                             $html .= $this->mos_faq_get_the_content_with_formatting();
-                            //$html .= get_the_content();
-                            if ($atts['singular']) $html = '<a href="'.get_the_permalink().'">Details</a>';
                         $html .= '</div>';
                     if ($atts['view'] != 'block') $html .= '</div>';				
                 $html .= '</div><!--/.mos-faq-unit-->';
                 $in = '';
                 $n++;
-                if ($n % $single_col == 0 AND $n < $total_post) $html .= '</div><!--/.mos-faq-col-'.$atts['grid'] . '-->' . '<div class="mos-faq-col-'.$atts['grid'] . '">';
             endwhile;
-            $html .= '</div><!--/.mos-faq-col-'.$atts['grid'] . '-->';
             $html .= '</div><!--/.mos-faq-container-->';
             wp_reset_postdata();
             if ($atts['pagination']) :
