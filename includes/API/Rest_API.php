@@ -502,6 +502,40 @@ class Rest_API
                 ),
             )
         );
+
+        // Get FAQ settings for a product
+        register_rest_route( self::NAMESPACE, '/product-faq/(?P<product_id>\d+)',
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array( $this, 'get_product_faq_settings' ),
+                'permission_callback' => function () {
+                    return current_user_can( 'edit_products' );
+                },
+                'args'                => array(
+                    'product_id' => array(
+                        'required'          => true,
+                        'sanitize_callback' => 'absint',
+                    ),
+                ),
+            )
+        );
+
+        // Save FAQ settings for a product
+        register_rest_route( self::NAMESPACE, '/product-faq/(?P<product_id>\d+)',
+            array(
+                'methods'             => WP_REST_Server::CREATABLE,
+                'callback'            => array( $this, 'save_product_faq_settings' ),
+                'permission_callback' => function () {
+                    return current_user_can( 'edit_products' );
+                },
+                'args'                => array(
+                    'product_id' => array(
+                        'required'          => true,
+                        'sanitize_callback' => 'absint',
+                    ),
+                ),
+            )
+        );
     }
 
     public function get_product_specifications( WP_REST_Request $request ) {
@@ -553,6 +587,73 @@ class Rest_API
         return rest_ensure_response( array(
             'success' => true,
             'message' => __( 'Specifications saved successfully', 'mos-faqs' ),
+        ) );
+    }
+
+    public function get_product_faq_settings( WP_REST_Request $request ) {
+        $product_id = intval( $request->get_param( 'product_id' ) );
+
+        if ( ! $product_id ) {
+            return new WP_Error(
+                'invalid_product_id',
+                __( 'Invalid product ID', 'mos-faqs' ),
+                array( 'status' => 400 )
+            );
+        }
+
+        $faq_settings = get_post_meta( $product_id, '_mos_faq_settings', true );
+
+        if ( empty( $faq_settings ) ) {
+            $faq_settings = array(
+                'enabled' => false,
+                'count' => -1,
+                'offset' => 0,
+                'author' => '1',
+                'source' => 'recent',
+                'posts' => '',
+                'category' => '',
+                'orderby' => '',
+                'order' => '',
+                'pagination' => false,
+                'view' => 'accordion',
+            );
+        }
+
+        return rest_ensure_response( $faq_settings );
+    }
+
+    public function save_product_faq_settings( WP_REST_Request $request ) {
+        $product_id = intval( $request->get_param( 'product_id' ) );
+
+        if ( ! $product_id ) {
+            return new WP_Error(
+                'invalid_product_id',
+                __( 'Invalid product ID', 'mos-faqs' ),
+                array( 'status' => 400 )
+            );
+        }
+
+        $data = $request->get_json_params();
+
+        $faq_settings = array(
+            'enabled' => isset( $data['enabled'] ) ? (bool) $data['enabled'] : false,
+            'count' => isset( $data['count'] ) ? intval( $data['count'] ) : -1,
+            'offset' => isset( $data['offset'] ) ? intval( $data['offset'] ) : 0,
+            'author' => isset( $data['author'] ) ? sanitize_text_field( $data['author'] ) : '1',
+            'source' => isset( $data['source'] ) ? sanitize_text_field( $data['source'] ) : 'recent',
+            'posts' => isset( $data['posts'] ) ? sanitize_text_field( $data['posts'] ) : '',
+            'category' => isset( $data['category'] ) ? sanitize_text_field( $data['category'] ) : '',
+            'orderby' => isset( $data['orderby'] ) ? sanitize_text_field( $data['orderby'] ) : '',
+            'order' => isset( $data['order'] ) ? sanitize_text_field( $data['order'] ) : '',
+            'pagination' => isset( $data['pagination'] ) ? (bool) $data['pagination'] : false,
+            'view' => isset( $data['view'] ) ? sanitize_text_field( $data['view'] ) : 'accordion',
+        );
+
+        update_post_meta( $product_id, '_mos_faq_settings', $faq_settings );
+
+        return rest_ensure_response( array(
+            'success' => true,
+            'message' => __( 'FAQ settings saved successfully', 'mos-faqs' ),
         ) );
     }
     /**

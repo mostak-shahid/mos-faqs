@@ -1,0 +1,5 @@
+Hide Categories: Should the categories for each FAQ be hidden?
+Hide Tags: Should the tags for each FAQ be hidden?
+Display Post Author: Should the display name of the post's author be displayed beneath the FAQ title?
+Display Post Date: Should the date the post was created be displayed beneath the FAQ title?
+Display Rating: 

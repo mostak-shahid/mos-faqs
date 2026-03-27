@@ -10,6 +10,7 @@ use MosPress\MosFaqs\Public\Shortcode;
 use MosPress\MosFaqs\Render\VC_Element;
 use MosPress\MosFaqs\Render\Block;
 use MosPress\MosFaqs\Render\Elementor_Widget;
+use MosPress\MosFaqs\Render\WooCommerce;
 
 use MosPress\MosFaqs\API\Ajax_API;
 use MosPress\MosFaqs\API\Rest_API;
@@ -69,7 +70,8 @@ class Plugin {
 		new Shortcode($this->plugin_name, $this->version);
 		new VC_Element();
 		new Block($this->plugin_name, $this->version);
-		
+		new WooCommerce($this->plugin_name, $this->version);
+
 		// Instantiate additional core classes
 		new ImportExport();
 		new More();

@@ -94,6 +94,7 @@ class Filter_Hook {
      */
     public function modify_mos_faqs_default_options( $opts ) {
         $defaults = [
+            
             'components' => [
                 'free' => [
                     'background' => [],
