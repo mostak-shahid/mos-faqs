@@ -62,15 +62,22 @@ class WooCommerce {
 			return;
 		}
 
+		// wp_enqueue_script(
+		// 	'mos-faq-woocommerce',
+		// 	plugins_url('assets/build/mos-faq-woocommerce.js', MOS_FAQS_MAIN_FILE),
+		// 	array('react', 'react-dom', 'wp-element', 'wp-api-fetch', '@douyinfe/semi-ui'),
+		// 	$this->version,
+		// 	true
+		// );
 		wp_enqueue_script(
-			'mos-faq-woocommerce',
-			plugins_url('assets/build/mos-faq-woocommerce.js', MOS_FAQS_MAIN_FILE),
-			array('wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-api-fetch', 'wp-server-side-render'),
-			$this->version,
-			true
+			'mos-faq-product',
+			plugins_url('assets/build/mos-faq-product.js', MOS_FAQS_MAIN_FILE),
+			['jquery'],
+            time(),
+            true
 		);
 
-		wp_localize_script('mos-faq-woocommerce', 'mosFaqWooCommerce', array(
+		wp_localize_script('mos-faq-product', 'mosFaqProduct', array(
 			'restUrl' => rest_url('mos-faqs/v1/product-faq/'),
 			'nonce' => wp_create_nonce('wp_rest'),
 		));
@@ -101,7 +108,8 @@ class WooCommerce {
 		?>
 		<div id="mos_faq_product_data" class="panel woocommerce_options_panel">
 			<div class="options_group">
-				<div id="mos-faq-woocommerce-container"></div>
+				<!-- <div id="mos-faq-woocommerce-container"></div> -->
+				<div id="mos-faqs-product-react-app"></div>
 				<script type="text/javascript">
 					var mosFaqProductData = <?php echo json_encode($faq_settings); ?>;
 					var mosFaqProductId = <?php echo $product_id; ?>;

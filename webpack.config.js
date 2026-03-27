@@ -10,6 +10,7 @@ module.exports = {
 		profile: path.resolve(__dirname, "assets/src/profile/profile.js"),
 		'mos-faq-block': path.resolve(__dirname, "assets/src/blocks/mos-faq/index.js"),
 		'mos-faq-woocommerce': path.resolve(__dirname, "assets/src/woocommerce/index.js"),
+		'mos-faq-product': path.resolve(__dirname, "assets/src/product/product.js"),
 	},
 
 	output: {

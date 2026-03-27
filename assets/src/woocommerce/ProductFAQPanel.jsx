@@ -1,12 +1,8 @@
 import { __ } from '@wordpress/i18n';
+import { TextControl, ToggleControl, SelectControl } from '@wordpress/components';
+import { Select } from '@douyinfe/semi-ui';
 import { useState, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import {
-	SelectControl,
-	TextControl,
-	ToggleControl,
-	BaseControl,
-} from '@wordpress/components';
 
 export default function ProductFAQPanel() {
 	const [faqPosts, setFaqPosts] = useState([]);
@@ -29,6 +25,10 @@ export default function ProductFAQPanel() {
 		view: 'accordion',
 		enabled: false,
 	});
+
+	const selectedPosts = attributes.posts ? attributes.posts.split(',').map((id) => id.trim()) : [];
+	const selectedCategories = attributes.category ? attributes.category.split(',').map((id) => id.trim()) : [];
+	const selectedAuthors = attributes.author ? attributes.author.split(',').map((id) => id.trim()) : [];
 
 	useEffect(() => {
 		if (typeof mosFaqProductData !== 'undefined') {
@@ -115,7 +115,7 @@ export default function ProductFAQPanel() {
 
 	return (
 		<div className="mos-faq-woocommerce-panel">
-			<div className="faq-unit">
+			<div className="setting-unit">
 				<ToggleControl
 					label={__('Enable FAQs', 'mos-faqs')}
 					checked={attributes.enabled}
@@ -125,115 +125,117 @@ export default function ProductFAQPanel() {
 
 			{attributes.enabled && (
 				<>
-					<SelectControl
-						label={__('Source', 'mos-faqs')}
-						value={attributes.source}
-						options={sourceOptions}
-						onChange={(value) => setAttributes({ ...attributes, source: value })}
-					/>
+					<div className="setting-unit">
+						<SelectControl
+							label={__('Source', 'mos-faqs')}
+							value={attributes.source}
+							options={sourceOptions}
+							onChange={(value) => setAttributes({ ...attributes, source: value })}
+						/>
+					</div>
 
 					{attributes.source === 'selected_posts' && (
-						<BaseControl label={__('Select Posts', 'mos-faqs')}>
-							<select
+						<div className="setting-unit">
+							<Select
 								multiple
-								className="mos-faq-multi-select"
-								value={attributes.posts ? attributes.posts.split(',').map((id) => id.trim()) : []}
-								onChange={(e) => {
-									const selected = Array.from(e.target.selectedOptions, (option) => option.value);
-									setAttributes({ ...attributes, posts: selected.join(',') });
+								placeholder={__('Select posts...', 'mos-faqs')}
+								value={selectedPosts}
+								optionList={postsOptions}
+								onChange={(value) => {
+									setAttributes({ ...attributes, posts: value.join(',') });
 								}}
-								disabled={isLoadingPosts}
-							>
-								{postsOptions.map((option) => (
-									<option key={option.value} value={option.value}>
-										{option.label}
-									</option>
-								))}
-							</select>
-						</BaseControl>
+								style={{ width: '100%' }}
+								loading={isLoadingPosts}
+								filter
+							/>
+						</div>
 					)}
 
 					{attributes.source === 'selected_categories' && (
-						<BaseControl label={__('Select Categories', 'mos-faqs')}>
-							<select
+						<div className="setting-unit">
+							<Select
 								multiple
-								className="mos-faq-multi-select"
-								value={attributes.category ? attributes.category.split(',').map((id) => id.trim()) : []}
-								onChange={(e) => {
-									const selected = Array.from(e.target.selectedOptions, (option) => option.value);
-									setAttributes({ ...attributes, category: selected.join(',') });
+								placeholder={__('Select categories...', 'mos-faqs')}
+								value={selectedCategories}
+								optionList={categoryOptions}
+								onChange={(value) => {
+									setAttributes({ ...attributes, category: value.join(',') });
 								}}
-								disabled={isLoadingCategories}
-							>
-								{categoryOptions.map((option) => (
-									<option key={option.value} value={option.value}>
-										{option.label}
-									</option>
-								))}
-							</select>
-						</BaseControl>
+								style={{ width: '100%' }}
+								loading={isLoadingCategories}
+								filter
+							/>
+						</div>
 					)}
 
-					<TextControl
-						label={__('Count', 'mos-faqs')}
-						type="number"
-						value={attributes.count}
-						onChange={(value) => setAttributes({ ...attributes, count: parseInt(value) || -1 })}
-						help={__('Number of FAQs to display. Use -1 for all.', 'mos-faqs')}
-					/>
+					<div className="setting-unit">
+						<TextControl
+							label={__('Count', 'mos-faqs')}
+							type="number"
+							value={attributes.count}
+							onChange={(value) => setAttributes({ ...attributes, count: parseInt(value) || -1 })}
+							help={__('Number of FAQs to display. Use -1 for all.', 'mos-faqs')}
+						/>
+					</div>
 
-					<TextControl
-						label={__('Offset', 'mos-faqs')}
-						type="number"
-						value={attributes.offset}
-						onChange={(value) => setAttributes({ ...attributes, offset: parseInt(value) || 0 })}
-					/>
+					<div className="setting-unit">
+						<TextControl
+							label={__('Offset', 'mos-faqs')}
+							type="number"
+							value={attributes.offset}
+							onChange={(value) => setAttributes({ ...attributes, offset: parseInt(value) || 0 })}
+						/>
+					</div>
 
-					<BaseControl label={__('Author', 'mos-faqs')}>
-						<select
+					<div className="setting-unit">
+						<Select
 							multiple
-							className="mos-faq-multi-select"
-							value={attributes.author ? attributes.author.split(',').map((id) => id.trim()) : []}
-							onChange={(e) => {
-								const selected = Array.from(e.target.selectedOptions, (option) => option.value);
-								setAttributes({ ...attributes, author: selected.join(',') });
+							placeholder={__('Select authors...', 'mos-faqs')}
+							value={selectedAuthors}
+							optionList={userOptions}
+							onChange={(value) => {
+								setAttributes({ ...attributes, author: value.join(',') });
 							}}
-							disabled={isLoadingUsers}
-						>
-							{userOptions.map((option) => (
-								<option key={option.value} value={option.value}>
-									{option.label}
-								</option>
-							))}
-						</select>
-					</BaseControl>
+							style={{ width: '100%' }}
+							loading={isLoadingUsers}
+							filter
+						/>
+					</div>
 
-					<SelectControl
-						label={__('Order By', 'mos-faqs')}
-						value={attributes.orderby}
-						options={orderbyOptions}
-						onChange={(value) => setAttributes({ ...attributes, orderby: value })}
-					/>
+					<div className="setting-unit">
+						<SelectControl
+							label={__('Order By', 'mos-faqs')}
+							value={attributes.orderby}
+							options={orderbyOptions}
+							onChange={(value) => setAttributes({ ...attributes, orderby: value })}
+						/>
+					</div>
 
-					<SelectControl
-						label={__('Order', 'mos-faqs')}
-						value={attributes.order}
-						options={orderOptions}
-						onChange={(value) => setAttributes({ ...attributes, order: value })}
-					/>
+					<div className="setting-unit">
+						<SelectControl
+							label={__('Order', 'mos-faqs')}
+							value={attributes.order}
+							options={orderOptions}
+							onChange={(value) => setAttributes({ ...attributes, order: value })}
+						/>
+					</div>
 
-					<SelectControl
-						label={__('View', 'mos-faqs')}
-						value={attributes.view}
-						options={viewOptions}
-						onChange={(value) => setAttributes({ ...attributes, view: value })}
-					/>
+					<div className="setting-unit">
+						<SelectControl
+							label={__('View', 'mos-faqs')}
+							value={attributes.view}
+							options={viewOptions}
+							onChange={(value) => setAttributes({ ...attributes, view: value })}
+						/>
+					</div>
 
-					<ToggleControl
-						label={__('Show Pagination', 'mos-faqs')}
-						checked={attributes.pagination}
-						onChange={(value) => setAttributes({ ...attributes, pagination: value })}
-					/>
+					<div className="setting-unit">
+						<ToggleControl
+							label={__('Show Pagination', 'mos-faqs')}
+							checked={attributes.pagination}
+							onChange={(value) => setAttributes({ ...attributes, pagination: value })}
+						/>
+					</div>
 				</>
 			)}
 
