@@ -1,6 +1,6 @@
 <?php
 namespace MosPress\MosFaqs\Public;
-
+use MosPress\MosFaqs\Public\StructuredData;
 use WP_Query;
 /**
  * The public-facing functionality of the plugin.
@@ -102,19 +102,36 @@ class Shortcode
             if (!empty($authors)) {
                 $args['author__in'] = $authors;
             }
-        }
+         }
 
-        $query = new WP_Query( $args );
-        $total_post = $query->post_count;
-        if ( $query->have_posts() ) :
-            $idenfier = rand(10,1000);
-            $n = 0;
-            $html .= '<div id="mos-faq-'.$idenfier.'" class="mos-faq-'.$atts['view'].' mos-faq-container">';
-            while ( $query->have_posts() ) : $query->the_post();
+         $query = new WP_Query( $args );
+         $total_post = $query->post_count;
+
+         $faqs = array();
+         if ( $query->have_posts() ) :
+            while ( $query->have_posts() ) :
+                $query->the_post();
+                $faqs[] = $query->post;
+            endwhile;
+            $query->rewind_posts();
+         endif;
+
+         $schema_data = StructuredData::generate_faq_schema($faqs);
+         $container_attrs = self::html_attributes($schema_data['container_attributes']);
+         $json_ld = $schema_data['json_ld'];
+
+         $html .= '<div ' . $container_attrs . ' class="mos-faq-container">';
+         $html .= $json_ld;
+
+         if ( $query->have_posts() ) :
+             $idenfier = rand(10,1000);
+             $n = 0;
+             $item_attrs = self::html_attributes($schema_data['item_attributes']);
+             while ( $query->have_posts() ) : $query->the_post();
                 
-                $html .= '<div class="mos-faq-unit">';
+                $html .= '<div class="mos-faq-unit" ' . $item_attrs . '>';
                     $html .= '<div class="mos-faq-heading">';
-                        $html .= '<h4 class="mos-faq-title">';
+                        $html .= '<h4 class="mos-faq-title" itemprop="' . $schema_data['name itemprop'] . '">';
                             if ($atts['view'] == 'accordion') $data_parent = 'data-parent="#mos-faq-'.$idenfier.'"';
                             //if ($atts['view'] != 'block') $href = 'href="#collapse'.$idenfier.$n.'"';
                             //$href = 'href="'.get_the_permalink().'"';
@@ -124,8 +141,14 @@ class Shortcode
                         $html .= '</h4>';
                     $html .= '</div>';
                     if ($atts['view'] != 'block') $html .= '<div id="collapse'.$idenfier.$n.'" class="mos-faq-collapse">';
-                        $html .= '<div class="mos-faq-body">';
+                        $html .= '<div class="mos-faq-body" ' . self::html_attributes(array(
+                            'itemscope' => '',
+                            'itemtype' => $schema_data['answer_itemtype'],
+                            'itemprop' => $schema_data['answer_itemprop'],
+                        )) . '>';
+                            $html .= '<div itemprop="' . $schema_data['content itemprop'] . '">';
                             $html .= $this->mos_faq_get_the_content_with_formatting();
+                            $html .= '</div>';
                         $html .= '</div>';
                     if ($atts['view'] != 'block') $html .= '</div>';				
                 $html .= '</div><!--/.mos-faq-unit-->';
@@ -160,6 +183,14 @@ class Shortcode
         $content = get_the_content($more_link_text, $stripteaser, $more_file);
         $content = apply_filters('the_content', $content);
         $content = str_replace(']]>', ']]&gt;', $content);
-        return $content;
+        return $html;
     }
+
+	private static function html_attributes($attributes) {
+		$html = '';
+		foreach ($attributes as $key => $value) {
+			$html .= $key . '="' . esc_attr($value) . '" ';
+		}
+		return rtrim($html, ' ');
+	}
 }
