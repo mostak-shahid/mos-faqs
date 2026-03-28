@@ -20,6 +20,7 @@ use MosPress\MosFaqs\Core\ImportExport;
 use MosPress\MosFaqs\Core\More;
 use MosPress\MosFaqs\Core\Tools;
 use MosPress\MosFaqs\UserMeta;
+use MosPress\MosFaqs\Public\PublicClass;
 
 class Plugin {
 
@@ -77,6 +78,9 @@ class Plugin {
 		new More();
 		new Tools();
 		new UserMeta();
+
+		new PublicClass($this->plugin_name, $this->version);
+
 
 		// Load Elementor widget if Elementor is active
 		if (defined('ELEMENTOR_VERSION')) {

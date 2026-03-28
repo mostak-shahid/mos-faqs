@@ -142,10 +142,16 @@ class Shortcode
                         $html .= '</h4>';
                          $html .= '<div class="mos-faq-rating" data-post-id="' . get_the_ID() . '">';
                             $html .= '<span class="mos-faq-thumbs-up" data-vote="up">';
-                                $html .= '<i class="fa fa-thumbs-up"></i>';
+                                $html .= '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">';
+                                    $html .= '<path d="M14 9V5a2 2 0 0 1-1 1h-2l-4 4a1 1 0 0 0 1 1h5l-4 4a1 1 0 0 0 1 1h2l-4 4a1 1 0 0 0 1 1h5l-4 4a1 1 0 0 0 1 1h2l-4 4a1 1 0 0 0 1 1h5l-4 4a1 1 0 0 0 1 1h2l-4 4a1 1 0 0 0 1 1h5l-4 4a1 1 0 0 0 1 1h2l-4 4a1 1 0 0 0 1 1h5l-4 4a1 1 0 0 0 1 1h2l-4 4a1 1 0 0 0 1 1h5"></path>';
+                                    $html .= '<path d="M14 9V5a2 2 0 0 1-1 1h-2l-4 4a1 1 0 0 0 1 1h5"></path>';
+                                $html .= '</svg>';
                             $html .= '</span>';
                             $html .= '<span class="mos-faq-thumbs-down" data-vote="down">';
-                                $html .= '<i class="fa fa-thumbs-down"></i>';
+                                $html .= '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">';
+                                    $html .= '<path d="M10 15l-4 4a1 1 0 0 1 1l-4 4a1 1 0 0 1 1h-6"></path>';
+                                    $html .= '<path d="M10 15l-4 4a1 1 0 0 0 1 1l-4 4a1 1 0 0 0 1 1h-6"></path>';
+                                $html .= '</svg>';
                             $html .= '</span>';
                             $html .= '<span class="mos-faq-rating-count">';
                                 $html .= '<span class="mos-faq-thumbs-up-count">0</span>';

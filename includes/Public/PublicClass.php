@@ -88,6 +88,20 @@ class PublicClass
 	 */
 	public function enqueue_scripts()
 	{
+		if (!wp_style_is('font-awesome', 'all')) {
+			wp_enqueue_style(
+				'font-awesome',
+				'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+				array(),
+				null,
+				'6.4.0'
+			);
+		}
+
+		if (!wp_script_is('jquery', 'all')) {
+			wp_enqueue_script('jquery');
+		}
+
 
 		/**
 		 * This function is provided for demonstration purposes only.
