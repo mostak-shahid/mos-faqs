@@ -4,6 +4,8 @@ namespace MosPress\MosFaqs\Render;
 
 defined('ABSPATH') || exit;
 use WP_Error;
+use WP_Query;
+use WP_User_Query;
 class WooCommerce {
 
 	private $plugin_name;
@@ -264,6 +266,30 @@ class WooCommerce {
 			'callback' => array($this, 'get_product_faq_settings_rest'),
 			'permission_callback' => array($this, 'check_product_read_permission'),
 		));
+
+		register_rest_route('mos-faqs/v1', '/test', array(
+			'methods' => 'GET',
+			'callback' => array($this, 'test_endpoint'),
+			'permission_callback' => '__return_true',
+		));
+
+		register_rest_route('mos-faqs/v1', '/search-posts', array(
+			'methods' => 'GET',
+			'callback' => array($this, 'search_faq_posts'),
+			'permission_callback' => '__return_true',
+		));
+
+		register_rest_route('mos-faqs/v1', '/search-categories', array(
+			'methods' => 'GET',
+			'callback' => array($this, 'search_faq_categories'),
+			'permission_callback' => '__return_true',
+		));
+
+		register_rest_route('mos-faqs/v1', '/search-users', array(
+			'methods' => 'GET',
+			'callback' => array($this, 'search_users'),
+			'permission_callback' => '__return_true',
+		));
 	}
 
 	public function check_product_edit_permission($request) {
@@ -273,6 +299,15 @@ class WooCommerce {
 
 	public function check_product_read_permission($request) {
 		return true;
+	}
+
+	public function test_endpoint($request) {
+		return rest_ensure_response(array(
+			'status' => 'success',
+			'message' => 'REST API is working',
+			'post_type_exists' => post_type_exists('qa'),
+			'taxonomy_exists' => taxonomy_exists('faq-category'),
+		));
 	}
 
 	public function save_product_faq_settings_rest($request) {
@@ -327,5 +362,144 @@ class WooCommerce {
 		}
 
 		return rest_ensure_response($faq_settings);
+	}
+
+	public function search_faq_posts($request) {
+		$search = sanitize_text_field($request->get_param('search'));
+		$page = intval($request->get_param('page'));
+		if ($page < 1) {
+			$page = 1;
+		}
+		$per_page = intval($request->get_param('per_page'));
+		if ($per_page < 1) {
+			$per_page = 20;
+		}
+
+		$args = array(
+			'post_type' => 'qa',
+			'post_status' => 'publish',
+			'posts_per_page' => $per_page,
+			'paged' => $page,
+			'orderby' => 'date',
+			'order' => 'DESC',
+			'fields' => 'ids',
+		);
+
+		if ($search && !empty($search)) {
+			$args['s'] = $search;
+		}
+
+		$query = new WP_Query($args);
+		$posts = array();
+
+		if (!empty($query->posts)) {
+			foreach ($query->posts as $post_id) {
+				$posts[] = array(
+					'id' => $post_id,
+					'title' => get_the_title($post_id),
+				);
+			}
+		}
+
+		return rest_ensure_response(array(
+			'posts' => $posts,
+			'total' => $query->found_posts,
+			'pages' => $query->max_num_pages,
+		));
+	}
+
+	public function search_faq_categories($request) {
+		$search = sanitize_text_field($request->get_param('search'));
+		$page = intval($request->get_param('page'));
+		$per_page = intval($request->get_param('per_page'));
+		if ($per_page < 1) {
+			$per_page = 20;
+		}
+
+		$args = array(
+			'taxonomy' => 'faq-category',
+			'hide_empty' => false,
+			'number' => $per_page,
+			'offset' => ($page - 1) * $per_page,
+			'orderby' => 'count',
+			'order' => 'DESC',
+		);
+
+		if ($search && !empty($search)) {
+			$args['search'] = $search;
+		}
+
+		$terms = get_terms($args);
+		$categories = array();
+
+		if (!is_wp_error($terms)) {
+			foreach ($terms as $term) {
+				$categories[] = array(
+					'id' => $term->term_id,
+					'name' => $term->name,
+				);
+			}
+		}
+
+		$count_args = array(
+			'taxonomy' => 'faq-category',
+			'hide_empty' => false,
+		);
+
+		if ($search && !empty($search)) {
+			$count_args['search'] = $search;
+		}
+
+		$total_count = wp_count_terms('faq-category', $count_args);
+
+		return rest_ensure_response(array(
+			'categories' => $categories,
+			'total' => $total_count,
+			'pages' => ceil($total_count / $per_page),
+		));
+	}
+
+	public function search_users($request) {
+		$search = sanitize_text_field($request->get_param('search'));
+		$page = intval($request->get_param('page'));
+		if ($page < 1) {
+			$page = 1;
+		}
+		$per_page = intval($request->get_param('per_page'));
+		if ($per_page < 1) {
+			$per_page = 20;
+		}
+
+		$args = array(
+			'number' => $per_page,
+			'offset' => ($page - 1) * $per_page,
+			'orderby' => 'registered',
+			'order' => 'DESC',
+		);
+
+		if ($search && !empty($search)) {
+			$args['search'] = '*' . $search . '*';
+		}
+
+		$user_query = new WP_User_Query($args);
+		$users = array();
+		$results = $user_query->get_results();
+
+		if (!empty($results)) {
+			foreach ($results as $user) {
+				$users[] = array(
+					'id' => $user->ID,
+					'name' => $user->display_name,
+				);
+			}
+		}
+
+		$total = $user_query->get_total();
+
+		return rest_ensure_response(array(
+			'users' => $users,
+			'total' => $total ? $total : 0,
+			'pages' => $total > 0 ? ceil($total / $per_page) : 0,
+		));
 	}
 }

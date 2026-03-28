@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import { TextControl, ToggleControl, SelectControl } from '@wordpress/components';
@@ -16,6 +16,14 @@ import {
 import { SkeletonPlaceholder, MediaUploaderControl } from "../components";
 
 const { Title, Paragraph, Text } = Typography;
+
+const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func(...args), delay);
+    };
+};
 
 const sourceOptions = [
     { label: __('Recent Posts', 'mos-faqs'), value: 'recent' },
@@ -53,9 +61,12 @@ const ProductApp = () => {
     const [faqPosts, setFaqPosts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [users, setUsers] = useState([]);
-    const [isLoadingPosts, setIsLoadingPosts] = useState(false);
-    const [isLoadingCategories, setIsLoadingCategories] = useState(false);
-    const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchCategory, setSearchCategory] = useState('');
+    const [searchUser, setSearchUser] = useState('');
+    const [loadingPosts, setLoadingPosts] = useState(false);
+    const [loadingCategories, setLoadingCategories] = useState(false);
+    const [loadingUsers, setLoadingUsers] = useState(false);
 
     const [attributes, setAttributes] = useState({
         count: -1,
@@ -71,9 +82,53 @@ const ProductApp = () => {
         enabled: false,
     });
 
-    const selectedPosts = attributes.posts ? attributes.posts.split(',').map((id) => id.trim()) : [];
-    const selectedCategories = attributes.category ? attributes.category.split(',').map((id) => id.trim()) : [];
-    const selectedAuthors = attributes.author ? attributes.author.split(',').map((id) => id.trim()) : [];
+    const loadInitialPosts = async () => {
+        setLoadingPosts(true);
+        try {
+            const data = await apiFetch({
+                path: `/mos-faqs/v1/search-posts?page=1&per_page=10`,
+            });
+            console.log('Initial posts data:', data);
+            setFaqPosts(data.posts || []);
+        } catch (error) {
+            console.error('Error loading initial posts:', error);
+            setFaqPosts([]);
+        } finally {
+            setLoadingPosts(false);
+        }
+    };
+
+    const loadInitialCategories = async () => {
+        setLoadingCategories(true);
+        try {
+            const data = await apiFetch({
+                path: `/mos-faqs/v1/search-categories?page=1&per_page=10`,
+            });
+            console.log('Initial categories data:', data);
+            setCategories(data.categories || []);
+        } catch (error) {
+            console.error('Error loading initial categories:', error);
+            setCategories([]);
+        } finally {
+            setLoadingCategories(false);
+        }
+    };
+
+    const loadInitialUsers = async () => {
+        setLoadingUsers(true);
+        try {
+            const data = await apiFetch({
+                path: `/mos-faqs/v1/search-users?page=1&per_page=10`,
+            });
+            console.log('Initial users data:', data);
+            setUsers(data.users || []);
+        } catch (error) {
+            console.error('Error loading initial users:', error);
+            setUsers([]);
+        } finally {
+            setLoadingUsers(false);
+        }
+    };
 
     const updateAttributes = (newAttributes) => {
         setAttributes(newAttributes);
@@ -104,6 +159,12 @@ const ProductApp = () => {
     }, []);
 
     useEffect(() => {
+        loadInitialPosts();
+        loadInitialCategories();
+        loadInitialUsers();
+    }, []);
+
+    useEffect(() => {
         if (typeof mosFaqProductId !== 'undefined' && mosFaqProductId) {
             const saveSettings = async () => {
                 try {
@@ -126,39 +187,99 @@ const ProductApp = () => {
         }
     }, [attributes]);
 
-    useEffect(() => {
-        setIsLoadingPosts(true);
-        apiFetch({ path: '/wp/v2/qa?per_page=100&_fields=id,title' })
-            .then((data) => {
-                setFaqPosts(data);
-                setIsLoadingPosts(false);
-            })
-            .catch(() => setIsLoadingPosts(false));
-    }, []);
+    const handleSearchPosts = useCallback(debounce(async (value) => {
+        setSearchTerm(value);
+        if (!value) {
+            loadInitialPosts();
+            return;
+        }
 
-    useEffect(() => {
-        setIsLoadingCategories(true);
-        apiFetch({ path: '/wp/v2/faq-category?per_page=100&_fields=id,name' })
-            .then((data) => {
-                setCategories(data);
-                setIsLoadingCategories(false);
-            })
-            .catch(() => setIsLoadingCategories(false));
-    }, []);
+        if (value.length < 2) {
+            return;
+        }
 
-    useEffect(() => {
-        setIsLoadingUsers(true);
-        apiFetch({ path: '/wp/v2/users?per_page=100&_fields=id,name' })
-            .then((data) => {
-                setUsers(data);
-                setIsLoadingUsers(false);
-            })
-            .catch(() => setIsLoadingUsers(false));
-    }, []);
+        setLoadingPosts(true);
+        try {
+            const data = await apiFetch({
+                path: `/mos-faqs/v1/search-posts?search=${encodeURIComponent(value)}&page=1`,
+            });
+            console.log('Search posts data:', data);
+            setFaqPosts(data.posts || []);
+        } catch (error) {
+            console.error('Error searching posts:', error);
+            setFaqPosts([]);
+        } finally {
+            setLoadingPosts(false);
+        }
+    }, 500), []);
+
+    const handleSearchCategories = useCallback(debounce(async (value) => {
+        setSearchCategory(value);
+        if (!value) {
+            loadInitialCategories();
+            return;
+        }
+
+        if (value.length < 2) {
+            return;
+        }
+
+        setLoadingCategories(true);
+        try {
+            const data = await apiFetch({
+                path: `/mos-faqs/v1/search-categories?search=${encodeURIComponent(value)}&page=1`,
+            });
+            console.log('Search categories data:', data);
+            setCategories(data.categories || []);
+        } catch (error) {
+            console.error('Error searching categories:', error);
+            setCategories([]);
+        } finally {
+            setLoadingCategories(false);
+        }
+    }, 500), []);
+
+    const handleSearchUsers = useCallback(debounce(async (value) => {
+        setSearchUser(value);
+        if (!value) {
+            loadInitialUsers();
+            return;
+        }
+
+        if (value.length < 2) {
+            return;
+        }
+
+        setLoadingUsers(true);
+        try {
+            const data = await apiFetch({
+                path: `/mos-faqs/v1/search-users?search=${encodeURIComponent(value)}&page=1`,
+            });
+            console.log('Search users data:', data);
+            setUsers(data.users || []);
+        } catch (error) {
+            console.error('Error searching users:', error);
+            setUsers([]);
+        } finally {
+            setLoadingUsers(false);
+        }
+    }, 500), []);
+
+    const handlePostsChange = useCallback((value) => {
+        setAttributes({ ...attributes, posts: Array.isArray(value) ? value.map(v => v.value || v).join(',') : '' });
+    }, [attributes]);
+
+    const handleCategoriesChange = useCallback((value) => {
+        setAttributes({ ...attributes, category: Array.isArray(value) ? value.map(v => v.value || v).join(',') : '' });
+    }, [attributes]);
+
+    const handleUsersChange = useCallback((value) => {
+        setAttributes({ ...attributes, author: Array.isArray(value) ? value.map(v => v.value || v).join(',') : '' });
+    }, [attributes]);
 
     const postsOptions = faqPosts.map((post) => ({
         value: post.id.toString(),
-        label: post.title.rendered.replace(/<\/?[^>]+(>|$)/g, ''),
+        label: post.title,
     }));
 
     const categoryOptions = categories.map((cat) => ({
@@ -171,6 +292,33 @@ const ProductApp = () => {
         label: `${user.name} (${user.id})`,
     }));
 
+    const getSelectedPostsObjects = () => {
+        if (!attributes.posts) return [];
+        const ids = attributes.posts.split(',').map(id => id.trim()).filter(id => id);
+        return ids.map(id => {
+            const option = postsOptions.find(opt => opt.value === id);
+            return option || { value: id, label: id };
+        });
+    };
+
+    const getSelectedCategoriesObjects = () => {
+        if (!attributes.category) return [];
+        const ids = attributes.category.split(',').map(id => id.trim()).filter(id => id);
+        return ids.map(id => {
+            const option = categoryOptions.find(opt => opt.value === id);
+            return option || { value: id, label: id };
+        });
+    };
+
+    const getSelectedUsersObjects = () => {
+        if (!attributes.author) return [];
+        const ids = attributes.author.split(',').map(id => id.trim()).filter(id => id);
+        return ids.map(id => {
+            const option = userOptions.find(opt => opt.value === id);
+            return option || { value: id, label: id };
+        });
+    };
+
     return (
         <div className="px-4">
             {console.log(attributes)}
@@ -179,7 +327,7 @@ const ProductApp = () => {
                     <Col xs={24} lg={12} xl={14}>
                         <Skeleton
                             placeholder={<SkeletonPlaceholder />}
-                            loading={isLoadingPosts}
+                            loading={loadingPosts}
                             active
                         >
                             <Title heading={4}>
@@ -199,7 +347,7 @@ const ProductApp = () => {
 
                     <Col xs={24} lg={12} xl={10}>
                         <Switch
-                            loading={isLoadingPosts}
+                            loading={loadingPosts}
                             checked={attributes.enabled}
 					        onChange={(value) => setAttributes({ ...attributes, enabled: value })}
                         />
@@ -211,7 +359,7 @@ const ProductApp = () => {
                     <Col xs={24} lg={12} xl={14}>
                         <Skeleton
                             placeholder={<SkeletonPlaceholder />}
-                            loading={isLoadingPosts}
+                            loading={loadingPosts}
                             active
                         >
                             <Title heading={4}>
@@ -246,7 +394,7 @@ const ProductApp = () => {
                         <Col xs={24} lg={12} xl={14}>
                             <Skeleton
                                 placeholder={<SkeletonPlaceholder />}
-                                loading={isLoadingPosts}
+                                loading={loadingPosts}
                                 active
                             >
                                 <Title heading={4}>
@@ -268,17 +416,19 @@ const ProductApp = () => {
                             <div className="setting-unit">
                                 <Select
                                     multiple
-                                    placeholder={__('Select posts...', 'mos-faqs')}
-                                    value={selectedPosts}
+                                    remote
+                                    onChangeWithObject
+                                    placeholder={__('Search and select posts...', 'mos-faqs')}
+                                    value={getSelectedPostsObjects()}
                                     optionList={postsOptions}
-                                    onChange={(value) => {
-                                        setAttributes({ ...attributes, posts: value.join(',') });
-                                    }}
+                                    onChange={handlePostsChange}
+                                    onSearch={handleSearchPosts}
                                     style={{ width: '100%' }}
-                                    loading={isLoadingPosts}
+                                    loading={loadingPosts}
                                     filter
                                     searchPosition='dropdown'
                                     className="w-full"
+                                    emptyContent={null}
                                 />
                             </div>
                         </Col>
@@ -292,7 +442,7 @@ const ProductApp = () => {
                         <Col xs={24} lg={12} xl={14}>
                             <Skeleton
                                 placeholder={<SkeletonPlaceholder />}
-                                loading={isLoadingCategories}
+                                loading={loadingCategories}
                                 active
                             >
                                 <Title heading={4}>
@@ -314,17 +464,19 @@ const ProductApp = () => {
                             <div className="setting-unit">
                                 <Select
                                     multiple
-                                    placeholder={__('Select categories...', 'mos-faqs')}
-                                    value={selectedCategories}
+                                    remote
+                                    onChangeWithObject
+                                    placeholder={__('Search and select categories...', 'mos-faqs')}
+                                    value={getSelectedCategoriesObjects()}
                                     optionList={categoryOptions}
-                                    onChange={(value) => {
-                                        setAttributes({ ...attributes, category: value.join(',') });
-                                    }}
+                                    onChange={handleCategoriesChange}
+                                    onSearch={handleSearchCategories}
                                     style={{ width: '100%' }}
-                                    loading={isLoadingCategories}
+                                    loading={loadingCategories}
                                     filter
                                     searchPosition='dropdown'
                                     className="w-full"
+                                    emptyContent={null}
                                 />
                             </div>
                         </Col>
@@ -337,7 +489,7 @@ const ProductApp = () => {
                     <Col xs={24} lg={12} xl={14}>
                         <Skeleton
                             placeholder={<SkeletonPlaceholder />}
-                            loading={isLoadingPosts}
+                            loading={loadingPosts}
                             active
                         >
                             <Title heading={4}>
@@ -375,7 +527,7 @@ const ProductApp = () => {
                     <Col xs={24} lg={12} xl={14}>
                         <Skeleton
                             placeholder={<SkeletonPlaceholder />}
-                            loading={isLoadingPosts}
+                            loading={loadingPosts}
                             active
                         >
                             <Title heading={4}>
@@ -412,7 +564,7 @@ const ProductApp = () => {
                     <Col xs={24} lg={12} xl={14}>
                         <Skeleton
                             placeholder={<SkeletonPlaceholder />}
-                            loading={isLoadingUsers}
+                            loading={loadingUsers}
                             active
                         >
                             <Title heading={4}>
@@ -429,24 +581,26 @@ const ProductApp = () => {
                             </Text>
                         </Skeleton>
                     </Col>
-                    <Col xs={24} lg={12} xl={10}>
-                        <div className="setting-unit">
-                            <Select
-                                multiple
-                                placeholder={__('Select authors...', 'mos-faqs')}
-                                value={selectedAuthors}
-                                optionList={userOptions}
-                                onChange={(value) => {
-                                    setAttributes({ ...attributes, author: value.join(',') });
-                                }}
-                                style={{ width: '100%' }}
-                                loading={isLoadingUsers}
-                                filter
-                                searchPosition='dropdown'
-                                className="w-full"
-                            />
-                        </div>
-                    </Col>
+                        <Col xs={24} lg={12} xl={10}>
+                            <div className="setting-unit">
+                                <Select
+                                    multiple
+                                    remote
+                                    onChangeWithObject
+                                    placeholder={__('Search and select authors...', 'mos-faqs')}
+                                    value={getSelectedUsersObjects()}
+                                    optionList={userOptions}
+                                    onChange={handleUsersChange}
+                                    onSearch={handleSearchUsers}
+                                    style={{ width: '100%' }}
+                                    loading={loadingUsers}
+                                    filter
+                                    searchPosition='dropdown'
+                                    className="w-full"
+                                    emptyContent={null}
+                                />
+                            </div>
+                        </Col>
                 </Row>
             </div> 
 
@@ -455,7 +609,7 @@ const ProductApp = () => {
                     <Col xs={24} lg={12} xl={14}>
                         <Skeleton
                             placeholder={<SkeletonPlaceholder />}
-                            loading={isLoadingUsers}
+                            loading={loadingUsers}
                             active
                         >
                             <Title heading={4}>
@@ -491,7 +645,7 @@ const ProductApp = () => {
                     <Col xs={24} lg={12} xl={14}>
                         <Skeleton
                             placeholder={<SkeletonPlaceholder />}
-                            loading={isLoadingUsers}
+                            loading={loadingUsers}
                             active
                         >
                             <Title heading={4}>
@@ -527,7 +681,7 @@ const ProductApp = () => {
                     <Col xs={24} lg={12} xl={14}>
                         <Skeleton
                             placeholder={<SkeletonPlaceholder />}
-                            loading={isLoadingUsers}
+                            loading={loadingUsers}
                             active
                         >
                             <Title heading={4}>
@@ -563,7 +717,7 @@ const ProductApp = () => {
                     <Col xs={24} lg={12} xl={14}>
                         <Skeleton
                             placeholder={<SkeletonPlaceholder />}
-                            loading={isLoadingUsers}
+                            loading={loadingUsers}
                             active
                         >
                             <Title heading={4}>
@@ -583,7 +737,7 @@ const ProductApp = () => {
                     <Col xs={24} lg={12} xl={10}>
                         <div className="setting-unit">
                             <Switch
-                                loading={isLoadingPosts}
+                                loading={loadingPosts}
                                 checked={attributes.pagination}
                                 onChange={(value) => setAttributes({ ...attributes, pagination: value })}
                             />
