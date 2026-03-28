@@ -1,50 +1,169 @@
 import { __ } from '@wordpress/i18n';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import { Select } from '@douyinfe/semi-ui';
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useCallback } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
+
+const debounce = (func, delay) => {
+	let timeoutId;
+	return (...args) => {
+		clearTimeout(timeoutId);
+		timeoutId = setTimeout(() => func(...args), delay);
+	};
+};
 
 export default function InspectorControls({ attributes, setAttributes }) {
 	const [faqPosts, setFaqPosts] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [users, setUsers] = useState([]);
-	const [isLoadingPosts, setIsLoadingPosts] = useState(false);
-	const [isLoadingCategories, setIsLoadingCategories] = useState(false);
-	const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+	const [searchTerm, setSearchTerm] = useState('');
+	const [searchCategory, setSearchCategory] = useState('');
+	const [searchUser, setSearchUser] = useState('');
+	const [loadingPosts, setLoadingPosts] = useState(false);
+	const [loadingCategories, setLoadingCategories] = useState(false);
+	const [loadingUsers, setLoadingUsers] = useState(false);
+
+	const loadInitialPosts = async () => {
+		setLoadingPosts(true);
+		try {
+			const data = await apiFetch({
+				path: `/mos-faqs/v1/search-posts?page=1&per_page=10`,
+			});
+			setFaqPosts(data.posts || []);
+		} catch (error) {
+			console.error('Error loading initial posts:', error);
+			setFaqPosts([]);
+		} finally {
+			setLoadingPosts(false);
+		}
+	};
+
+	const loadInitialCategories = async () => {
+		setLoadingCategories(true);
+		try {
+			const data = await apiFetch({
+				path: `/mos-faqs/v1/search-categories?page=1&per_page=10`,
+			});
+			setCategories(data.categories || []);
+		} catch (error) {
+			console.error('Error loading initial categories:', error);
+			setCategories([]);
+		} finally {
+			setLoadingCategories(false);
+		}
+	};
+
+	const loadInitialUsers = async () => {
+		setLoadingUsers(true);
+		try {
+			const data = await apiFetch({
+				path: `/mos-faqs/v1/search-users?page=1&per_page=10`,
+			});
+			setUsers(data.users || []);
+		} catch (error) {
+			console.error('Error loading initial users:', error);
+			setUsers([]);
+		} finally {
+			setLoadingUsers(false);
+		}
+	};
 
 	useEffect(() => {
-		setIsLoadingPosts(true);
-		apiFetch({ path: '/wp/v2/qa?per_page=100&_fields=id,title' })
-			.then((data) => {
-				setFaqPosts(data);
-				setIsLoadingPosts(false);
-			})
-			.catch(() => setIsLoadingPosts(false));
+		loadInitialPosts();
+		loadInitialCategories();
+		loadInitialUsers();
 	}, []);
 
-	useEffect(() => {
-		setIsLoadingCategories(true);
-		apiFetch({ path: '/wp/v2/faq-category?per_page=100&_fields=id,name' })
-			.then((data) => {
-				setCategories(data);
-				setIsLoadingCategories(false);
-			})
-			.catch(() => setIsLoadingCategories(false));
+	const handleSearchPosts = useCallback(debounce(async (value) => {
+		setSearchTerm(value);
+		if (!value) {
+			loadInitialPosts();
+			return;
+		}
+
+		if (value.length < 2) {
+			return;
+		}
+
+		setLoadingPosts(true);
+		try {
+			const data = await apiFetch({
+				path: `/mos-faqs/v1/search-posts?search=${encodeURIComponent(value)}&page=1`,
+			});
+			setFaqPosts(data.posts || []);
+		} catch (error) {
+			console.error('Error searching posts:', error);
+			setFaqPosts([]);
+		} finally {
+			setLoadingPosts(false);
+		}
+	}, 500), []);
+
+	const handleSearchCategories = useCallback(debounce(async (value) => {
+		setSearchCategory(value);
+		if (!value) {
+			loadInitialCategories();
+			return;
+		}
+
+		if (value.length < 2) {
+			return;
+		}
+
+		setLoadingCategories(true);
+		try {
+			const data = await apiFetch({
+				path: `/mos-faqs/v1/search-categories?search=${encodeURIComponent(value)}&page=1`,
+			});
+			setCategories(data.categories || []);
+		} catch (error) {
+			console.error('Error searching categories:', error);
+			setCategories([]);
+		} finally {
+			setLoadingCategories(false);
+		}
+	}, 500), []);
+
+	const handleSearchUsers = useCallback(debounce(async (value) => {
+		setSearchUser(value);
+		if (!value) {
+			loadInitialUsers();
+			return;
+		}
+
+		if (value.length < 2) {
+			return;
+		}
+
+		setLoadingUsers(true);
+		try {
+			const data = await apiFetch({
+				path: `/mos-faqs/v1/search-users?search=${encodeURIComponent(value)}&page=1`,
+			});
+			setUsers(data.users || []);
+		} catch (error) {
+			console.error('Error searching users:', error);
+			setUsers([]);
+		} finally {
+			setLoadingUsers(false);
+		}
+	}, 500), []);
+
+	const handlePostsChange = useCallback((value) => {
+		setAttributes({ posts: Array.isArray(value) ? value.map(v => v.value || v).join(',') : '' });
 	}, []);
 
-	useEffect(() => {
-		setIsLoadingUsers(true);
-		apiFetch({ path: '/wp/v2/users?per_page=100&_fields=id,name' })
-			.then((data) => {
-				setUsers(data);
-				setIsLoadingUsers(false);
-			})
-			.catch(() => setIsLoadingUsers(false));
+	const handleCategoriesChange = useCallback((value) => {
+		setAttributes({ category: Array.isArray(value) ? value.map(v => v.value || v).join(',') : '' });
+	}, []);
+
+	const handleUsersChange = useCallback((value) => {
+		setAttributes({ author: Array.isArray(value) ? value.map(v => v.value || v).join(',') : '' });
 	}, []);
 
 	const postsOptions = faqPosts.map((post) => ({
 		value: post.id.toString(),
-		label: post.title.rendered.replace(/<\/?[^>]+(>|$)/g, ''),
+		label: post.title,
 	}));
 
 	const categoryOptions = categories.map((cat) => ({
@@ -56,6 +175,33 @@ export default function InspectorControls({ attributes, setAttributes }) {
 		value: user.id.toString(),
 		label: `${user.name} (${user.id})`,
 	}));
+
+	const getSelectedPostsObjects = () => {
+		if (!attributes.posts) return [];
+		const ids = attributes.posts.split(',').map(id => id.trim()).filter(id => id);
+		return ids.map(id => {
+			const option = postsOptions.find(opt => opt.value === id);
+			return option || { value: id, label: id };
+		});
+	};
+
+	const getSelectedCategoriesObjects = () => {
+		if (!attributes.category) return [];
+		const ids = attributes.category.split(',').map(id => id.trim()).filter(id => id);
+		return ids.map(id => {
+			const option = categoryOptions.find(opt => opt.value === id);
+			return option || { value: id, label: id };
+		});
+	};
+
+	const getSelectedUsersObjects = () => {
+		if (!attributes.author) return [];
+		const ids = attributes.author.split(',').map(id => id.trim()).filter(id => id);
+		return ids.map(id => {
+			const option = userOptions.find(opt => opt.value === id);
+			return option || { value: id, label: id };
+		});
+	};
 
 	const selectedPosts = attributes.posts
 		? attributes.posts.split(',').map((id) => id.trim())
@@ -95,16 +241,18 @@ export default function InspectorControls({ attributes, setAttributes }) {
 						</label>
 						<Select
 							multiple
-							placeholder={__('Select posts...', 'mos-faqs')}
-							value={selectedPosts}
+							remote
+							onChangeWithObject
+							placeholder={__('Search and select posts...', 'mos-faqs')}
+							value={getSelectedPostsObjects()}
 							optionList={postsOptions}
-							onChange={(value) => {
-								setAttributes({ posts: value.join(',') });
-							}}
+							onChange={handlePostsChange}
+							onSearch={handleSearchPosts}
 							style={{ width: '100%' }}
-							loading={isLoadingPosts}
+							loading={loadingPosts}
 							filter
-							// maxTagCount={3}
+							searchPosition='dropdown'
+							emptyContent={null}
 						/>
 					</div>
 				)}
@@ -116,16 +264,18 @@ export default function InspectorControls({ attributes, setAttributes }) {
 						</label>
 						<Select
 							multiple
-							placeholder={__('Select categories...', 'mos-faqs')}
-							value={selectedCategories}
+							remote
+							onChangeWithObject
+							placeholder={__('Search and select categories...', 'mos-faqs')}
+							value={getSelectedCategoriesObjects()}
 							optionList={categoryOptions}
-							onChange={(value) => {
-								setAttributes({ category: value.join(',') });
-							}}
+							onChange={handleCategoriesChange}
+							onSearch={handleSearchCategories}
 							style={{ width: '100%' }}
-							loading={isLoadingCategories}
+							loading={loadingCategories}
 							filter
-							// maxTagCount={3}
+							searchPosition='dropdown'
+							emptyContent={null}
 						/>
 					</div>
 				)}
@@ -151,16 +301,18 @@ export default function InspectorControls({ attributes, setAttributes }) {
 					</label>
 					<Select
 						multiple
-						placeholder={__('Select authors...', 'mos-faqs')}
-						value={selectedAuthors}
+						remote
+						onChangeWithObject
+						placeholder={__('Search and select authors...', 'mos-faqs')}
+						value={getSelectedUsersObjects()}
 						optionList={userOptions}
-						onChange={(value) => {
-							setAttributes({ author: value.join(',') });
-						}}
+						onChange={handleUsersChange}
+						onSearch={handleSearchUsers}
 						style={{ width: '100%' }}
-						loading={isLoadingUsers}
+						loading={loadingUsers}
 						filter
-						// maxTagCount={3}
+						searchPosition='dropdown'
+						emptyContent={null}
 					/>
 				</div>
 
