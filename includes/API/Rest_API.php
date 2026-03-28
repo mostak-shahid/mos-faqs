@@ -10,6 +10,7 @@ use WP_REST_Server;
 
 use MosPress\MosFaqs\Helpers\CryptoHelper;
 use MosPress\MosFaqs\Helpers\Utils;
+use MosPress\MosFaqs\Public\Rating;
 /**
  * Rest API Router
  *
@@ -156,6 +157,18 @@ class Rest_API
             )
         );
         
+		register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/faq/vote/(?P<post_id>\d+)', [
+			'methods' => 'POST',
+			'callback' => [$this, 'vote_faq'],
+			'permission_callback' => '__return_true',
+		]);
+
+		register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/faq/ratings/(?P<post_id>\d+)', [
+			'methods' => 'GET',
+			'callback' => [$this, 'get_faq_ratings'],
+			'permission_callback' => '__return_true',
+		]);
+
 		register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/options/import-settings', [
                 'methods' => 'POST',
                 'callback' => function ($request) {
@@ -1286,6 +1299,33 @@ class Rest_API
     //         );
     //     }
 
+	public function vote_faq($request) {
+		$post_id = intval($request->get_param('post_id'));
+		$vote = sanitize_text_field($request->get_param('vote'));
+
+		$result = Rating::vote($post_id, $vote);
+
+		if ($result['success']) {
+			$ratings = Rating::get_ratings($post_id);
+			return rest_ensure_response(array(
+				'success' => true,
+				'message' => $result['message'],
+				'ratings' => $ratings,
+			));
+		} else {
+			return rest_ensure_response(array(
+				'success' => false,
+				'message' => $result['message'],
+			), 400);
+		}
+	}
+
+	public function get_faq_ratings($request) {
+		$post_id = intval($request->get_param('post_id'));
+		$ratings = Rating::get_ratings($post_id);
+		return rest_ensure_response($ratings);
+	}
+ 
     //     // Build the deactivation URL
     //     $deactivation_url = add_query_arg(
     //         array(

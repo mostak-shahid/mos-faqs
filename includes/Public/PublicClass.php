@@ -104,7 +104,7 @@ class PublicClass
 		// wp_enqueue_script($this->plugin_name, plugin_dir_url(__DIR__) . 'assets/js/script.js', array('jquery'), $this->version, false);
 		wp_enqueue_script($this->plugin_name, MOS_FAQS_URL . 'assets/js/script.js', array('jquery'), $this->version, false);
 		wp_enqueue_script($this->plugin_name . '-public-ajax', MOS_FAQS_URL . 'public/js/public-ajax.js', array('jquery'), $this->version, false);
-		wp_enqueue_script($this->plugin_name . '-public-script', MOS_FAQS_URL . 'public/js/public-script.js', array('jquery'), $this->version, false);
+		wp_enqueue_script($this->plugin_name . '-public-script', MOS_FAQS_URL . 'public/js/public-script.js', array('jquery'), $this->version, true);
 		$ajax_params = array(
 			'admin_url' => admin_url(),
 			'ajax_url' => admin_url('admin-ajax.php'),

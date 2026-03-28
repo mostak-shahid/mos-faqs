@@ -2,3 +2,65 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  *//*# sourceMappingURL=public-style.css.map */
+
+.mos-faq-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 5px 0;
+}
+
+.mos-faq-thumbs-up,
+.mos-faq-thumbs-down {
+    cursor: pointer;
+    font-size: 18px;
+    color: #999;
+    transition: color 0.3s ease, transform 0.2s ease;
+    padding: 5px;
+    border-radius: 4px;
+    background: #f5f5f5;
+}
+
+.mos-faq-thumbs-up:hover,
+.mos-faq-thumbs-down:hover {
+    color: #333;
+    transform: scale(1.1);
+}
+
+.mos-faq-thumbs-up.active {
+    color: #28a745;
+}
+
+.mos-faq-thumbs-down.active {
+    color: #dc3545;
+}
+
+.mos-faq-rating-count {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.mos-faq-thumbs-up-count,
+.mos-faq-thumbs-down-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.mos-faq-unit.voting {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.mos-faq-unit.voted {
+    pointer-events: none;
+}
+
+.mos-faq-unit.voted .mos-faq-thumbs-up,
+.mos-faq-unit.voted .mos-faq-thumbs-down {
+    cursor: not-allowed;
+}

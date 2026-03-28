@@ -1,6 +1,7 @@
 <?php
 namespace MosPress\MosFaqs\Public;
 use MosPress\MosFaqs\Public\StructuredData;
+use MosPress\MosFaqs\Public\Rating;
 use WP_Query;
 /**
  * The public-facing functionality of the plugin.
@@ -139,6 +140,18 @@ class Shortcode
                             $html .= '<a data-toggle="collapse" '.$data_parent.' '.$href.'>'.get_the_title().'</a>';
                             if ($index)	$html .= '<span class="mos-faq-icon-con"><i class="fa '.$slices[0].'"></i> <i class="fa '.$slices[1].'"></i></span>';
                         $html .= '</h4>';
+                         $html .= '<div class="mos-faq-rating" data-post-id="' . get_the_ID() . '">';
+                            $html .= '<span class="mos-faq-thumbs-up" data-vote="up">';
+                                $html .= '<i class="fa fa-thumbs-up"></i>';
+                            $html .= '</span>';
+                            $html .= '<span class="mos-faq-thumbs-down" data-vote="down">';
+                                $html .= '<i class="fa fa-thumbs-down"></i>';
+                            $html .= '</span>';
+                            $html .= '<span class="mos-faq-rating-count">';
+                                $html .= '<span class="mos-faq-thumbs-up-count">0</span>';
+                                $html .= '<span class="mos-faq-thumbs-down-count">0</span>';
+                            $html .= '</span>';
+                        $html .= '</div>';
                     $html .= '</div>';
                     if ($atts['view'] != 'block') $html .= '<div id="collapse'.$idenfier.$n.'" class="mos-faq-collapse">';
                         $html .= '<div class="mos-faq-body" ' . self::html_attributes(array(
