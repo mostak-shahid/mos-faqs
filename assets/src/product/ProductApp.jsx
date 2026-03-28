@@ -70,16 +70,61 @@ const ProductApp = () => {
         view: 'accordion',
         enabled: false,
     });
-    
+
     const selectedPosts = attributes.posts ? attributes.posts.split(',').map((id) => id.trim()) : [];
     const selectedCategories = attributes.category ? attributes.category.split(',').map((id) => id.trim()) : [];
     const selectedAuthors = attributes.author ? attributes.author.split(',').map((id) => id.trim()) : [];
 
+    const updateAttributes = (newAttributes) => {
+        setAttributes(newAttributes);
+    };
+
+    const updateHiddenFields = (data) => {
+        const fields = [
+            'enabled', 'count', 'offset', 'author', 'source',
+            'posts', 'category', 'orderby', 'order', 'pagination', 'view'
+        ];
+        fields.forEach((field) => {
+            const element = document.getElementById(`mos_faq_${field}`);
+            if (element) {
+                if (typeof data[field] === 'boolean') {
+                    element.value = data[field] ? '1' : '0';
+                } else {
+                    element.value = data[field] || '';
+                }
+            }
+        });
+    };
+
     useEffect(() => {
         if (typeof mosFaqProductData !== 'undefined') {
             setAttributes(mosFaqProductData);
+            updateHiddenFields(mosFaqProductData);
         }
     }, []);
+
+    useEffect(() => {
+        if (typeof mosFaqProductId !== 'undefined' && mosFaqProductId) {
+            const saveSettings = async () => {
+                try {
+                    updateHiddenFields(attributes);
+                    await apiFetch({
+                        path: `/mos-faqs/v1/product-faq/${mosFaqProductId}`,
+                        method: 'POST',
+                        data: attributes,
+                    });
+                } catch (error) {
+                    console.error('Error saving FAQ settings:', error);
+                }
+            };
+
+            const timer = setTimeout(() => {
+                saveSettings();
+            }, 500);
+
+            return () => clearTimeout(timer);
+        }
+    }, [attributes]);
 
     useEffect(() => {
         setIsLoadingPosts(true);

@@ -3,7 +3,7 @@
 namespace MosPress\MosFaqs\Render;
 
 defined('ABSPATH') || exit;
-
+use WP_Error;
 class WooCommerce {
 
 	private $plugin_name;
@@ -38,6 +38,9 @@ class WooCommerce {
 
 		// Add front-end tab
 		add_action('woocommerce_product_tabs', array($this, 'add_frontend_product_faq_tab'), 10);
+
+		// Register REST API endpoint for saving FAQ settings
+		add_action('rest_api_init', array($this, 'register_rest_routes'));
 	}
 
 	public function add_product_faq_tab($tabs) {
@@ -60,6 +63,9 @@ class WooCommerce {
 			return;
 		}
 
+		global $post;
+		$product_id = $post ? $post->ID : 0;
+
 		// wp_enqueue_script(
 		// 	'mos-faq-woocommerce',
 		// 	plugins_url('assets/build/mos-faq-woocommerce.js', MOS_FAQS_MAIN_FILE),
@@ -78,6 +84,7 @@ class WooCommerce {
 		wp_localize_script('mos-faq-product', 'mosFaqProduct', array(
 			'restUrl' => rest_url('mos-faqs/v1/product-faq/'),
 			'nonce' => wp_create_nonce('wp_rest'),
+			'productId' => $product_id,
 		));
 	}
 
@@ -107,6 +114,18 @@ class WooCommerce {
 		<?php wp_nonce_field( 'mos_faqs_product_action', 'mos_faqs_product_field' ); ?>
 		<div id="mos_faq_product_data" class="panel woocommerce_options_panel">
 			<div class="options_group">
+				<!-- Hidden form fields for traditional form submission -->
+				<input type="hidden" id="mos_faq_enabled" name="mos_faq_enabled" value="<?php echo $faq_settings['enabled'] ? '1' : '0'; ?>">
+				<input type="hidden" id="mos_faq_count" name="mos_faq_count" value="<?php echo esc_attr($faq_settings['count']); ?>">
+				<input type="hidden" id="mos_faq_offset" name="mos_faq_offset" value="<?php echo esc_attr($faq_settings['offset']); ?>">
+				<input type="hidden" id="mos_faq_author" name="mos_faq_author" value="<?php echo esc_attr($faq_settings['author']); ?>">
+				<input type="hidden" id="mos_faq_source" name="mos_faq_source" value="<?php echo esc_attr($faq_settings['source']); ?>">
+				<input type="hidden" id="mos_faq_posts" name="mos_faq_posts" value="<?php echo esc_attr($faq_settings['posts']); ?>">
+				<input type="hidden" id="mos_faq_category" name="mos_faq_category" value="<?php echo esc_attr($faq_settings['category']); ?>">
+				<input type="hidden" id="mos_faq_orderby" name="mos_faq_orderby" value="<?php echo esc_attr($faq_settings['orderby']); ?>">
+				<input type="hidden" id="mos_faq_order" name="mos_faq_order" value="<?php echo esc_attr($faq_settings['order']); ?>">
+				<input type="hidden" id="mos_faq_pagination" name="mos_faq_pagination" value="<?php echo $faq_settings['pagination'] ? '1' : '0'; ?>">
+				<input type="hidden" id="mos_faq_view" name="mos_faq_view" value="<?php echo esc_attr($faq_settings['view']); ?>">
 				<!-- <div id="mos-faq-woocommerce-container"></div> -->
 				<div id="mos-faqs-product-react-app"></div>
 				<script type="text/javascript">
@@ -231,5 +250,82 @@ class WooCommerce {
 			}
 		}
 		return implode(' ', $parts);
+	}
+
+	public function register_rest_routes() {
+		register_rest_route('mos-faqs/v1', '/product-faq/(?P<product_id>[\d]+)', array(
+			'methods' => 'POST',
+			'callback' => array($this, 'save_product_faq_settings_rest'),
+			'permission_callback' => array($this, 'check_product_edit_permission'),
+		));
+
+		register_rest_route('mos-faqs/v1', '/product-faq/(?P<product_id>[\d]+)', array(
+			'methods' => 'GET',
+			'callback' => array($this, 'get_product_faq_settings_rest'),
+			'permission_callback' => array($this, 'check_product_read_permission'),
+		));
+	}
+
+	public function check_product_edit_permission($request) {
+		$product_id = $request->get_param('product_id');
+		return current_user_can('edit_products', $product_id);
+	}
+
+	public function check_product_read_permission($request) {
+		return true;
+	}
+
+	public function save_product_faq_settings_rest($request) {
+		$product_id = intval($request->get_param('product_id'));
+
+		if (get_post_type($product_id) !== 'product') {
+			return new WP_Error('invalid_product', 'Invalid product ID', array('status' => 400));
+		}
+
+		$faq_settings = array(
+			'enabled' => isset($request['enabled']) ? (bool) $request['enabled'] : false,
+			'count' => isset($request['count']) ? intval($request['count']) : -1,
+			'offset' => isset($request['offset']) ? intval($request['offset']) : 0,
+			'author' => isset($request['author']) ? sanitize_text_field($request['author']) : '1',
+			'source' => isset($request['source']) ? sanitize_text_field($request['source']) : 'recent',
+			'posts' => isset($request['posts']) ? sanitize_text_field($request['posts']) : '',
+			'category' => isset($request['category']) ? sanitize_text_field($request['category']) : '',
+			'orderby' => isset($request['orderby']) ? sanitize_text_field($request['orderby']) : '',
+			'order' => isset($request['order']) ? sanitize_text_field($request['order']) : '',
+			'pagination' => isset($request['pagination']) ? (bool) $request['pagination'] : false,
+			'view' => isset($request['view']) ? sanitize_text_field($request['view']) : 'accordion',
+		);
+
+		update_post_meta($product_id, '_mos_faq_settings', $faq_settings);
+
+		return rest_ensure_response(array(
+			'success' => true,
+			'message' => 'FAQ settings saved successfully',
+			'settings' => $faq_settings,
+		));
+	}
+
+	public function get_product_faq_settings_rest($request) {
+		$product_id = intval($request->get_param('product_id'));
+
+		$faq_settings = get_post_meta($product_id, '_mos_faq_settings', true);
+
+		if (empty($faq_settings)) {
+			$faq_settings = array(
+				'enabled' => false,
+				'count' => -1,
+				'offset' => 0,
+				'author' => '1',
+				'source' => 'recent',
+				'posts' => '',
+				'category' => '',
+				'orderby' => '',
+				'order' => '',
+				'pagination' => false,
+				'view' => 'accordion',
+			);
+		}
+
+		return rest_ensure_response($faq_settings);
 	}
 }
