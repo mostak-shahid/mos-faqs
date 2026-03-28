@@ -10,6 +10,7 @@
         const nonce = mos_faqs_ajax_obj._wp_nonce;
 
         window.mosFaqVote = function(postId, voteType) {
+            console.log('Submitting vote:', { postId, voteType });
             const apiUrl = '/wp-json/mos-faqs/v1/faq/vote/' + postId;
 
             $('.mos-faq-unit[data-post-id="' + postId + '"]').addClass('voting');
@@ -25,6 +26,7 @@
                     xhr.setRequestHeader('X-WP-Nonce', nonce);
                 },
                 success: function(response) {
+                    console.log('Vote response:', response);
                     if (response.success) {
                         const ratingUnit = $('.mos-faq-unit[data-post-id="' + postId + '"]');
 
@@ -48,6 +50,8 @@
                 error: function(xhr, status, error) {
                     $('.mos-faq-unit[data-post-id="' + postId + '"]').removeClass('voting');
                     console.error('Error voting:', error);
+                    console.error('XHR status:', status);
+                    console.error('XHR responseText:', xhr.responseText);
                     alert('Error submitting your vote. Please try again.');
                 }
             });
@@ -60,10 +64,13 @@
             const postId = ratingContainer.data('post-id');
             const voteType = $(this).data('vote');
 
+            console.log('Click detected:', { postId, voteType });
+
             if (typeof window.mosFaqVote === 'function') {
                 window.mosFaqVote(postId, voteType);
             } else {
                 console.error('mosFaqVote function not available');
+                alert('Vote function not ready. Please wait a moment and try again.');
             }
         });
 
@@ -71,12 +78,15 @@
             const postId = $(element).data('post-id');
             const apiUrl = '/wp-json/mos-faqs/v1/faq/ratings/' + postId;
 
+            console.log('Loading ratings for post:', postId);
+
             $.get({
                 url: apiUrl,
                 beforeSend: function(xhr) {
                     xhr.setRequestHeader('X-WP-Nonce', nonce);
                 },
                 success: function(response) {
+                    console.log('Ratings loaded:', response);
                     if (response.user_rated) {
                         if (response.user_vote === 'up') {
                             $(element).find('.mos-faq-thumbs-up').addClass('active');
@@ -91,6 +101,8 @@
                 },
                 error: function(xhr, status, error) {
                     console.error('Error loading ratings:', error);
+                    console.error('Status:', status);
+                    console.error('ResponseText:', xhr.responseText);
                 }
             });
         });

@@ -161,6 +161,7 @@ class Rest_API
 			'methods' => 'POST',
 			'callback' => [$this, 'vote_faq'],
 			'permission_callback' => '__return_true',
+			'sanitize_callback' => 'rest_sanitize_request_arg',
 		]);
 
 		register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/faq/ratings/(?P<post_id>\d+)', [
@@ -1303,16 +1304,20 @@ class Rest_API
 		$post_id = intval($request->get_param('post_id'));
 		$vote = sanitize_text_field($request->get_param('vote'));
 
+		error_log('FAQ Vote Request - Post ID: ' . $post_id . ', Vote: ' . $vote . ', IP: ' . Rating::get_user_ip());
+
 		$result = Rating::vote($post_id, $vote);
 
 		if ($result['success']) {
 			$ratings = Rating::get_ratings($post_id);
+			error_log('FAQ Vote Success - Post ID: ' . $post_id . ', New Counts - Up: ' . $ratings['up'] . ', Down: ' . $ratings['down']);
 			return rest_ensure_response(array(
 				'success' => true,
 				'message' => $result['message'],
 				'ratings' => $ratings,
 			));
 		} else {
+			error_log('FAQ Vote Failed - Post ID: ' . $post_id . ', Error: ' . $result['message']);
 			return rest_ensure_response(array(
 				'success' => false,
 				'message' => $result['message'],
