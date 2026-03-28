@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import ProductApp from "./ProductApp";
 
 import "../styles/tailwind.css";
+import "./product.scss";
 // Profile-specific styles (create this file if you need page-specific CSS)
 // import "./styles/product.css";
 

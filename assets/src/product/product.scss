@@ -1,0 +1,33 @@
+.woocommerce_options_panel {
+    #mos-faqs-product-react-app{
+        input[type=date], 
+        input[type=datetime-local], 
+        input[type=datetime], 
+        input[type=email], 
+        input[type=month], 
+        input[type=number], 
+        input[type=password], 
+        input[type=search], 
+        input[type=tel], 
+        input[type=text], 
+        input[type=time], 
+        input[type=url], 
+        input[type=week], 
+        select, 
+        textarea {
+            outline: none;
+            width: 100%;
+            float: none;
+            background-color: transparent;
+            border-style: none;
+            border-radius: 0;
+            &:focus {
+                box-shadow: none;
+            }
+        }
+
+        input[type=checkbox], 
+        input[type=color],
+        input[type=radio] {}
+    }
+}

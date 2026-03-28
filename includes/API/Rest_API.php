@@ -16,11 +16,8 @@ use MosPress\MosFaqs\Helpers\Utils;
  * Registers all REST API endpoints and routes them to appropriate controllers
  */
 class Rest_API
-{
-    
-    
-    
-    private const NAMESPACE = 'mos-faqs/v1';
+{    
+    // private const NAMESPACE = 'mos-faqs/v1';
     private static $instance = null;
     /**
      * Table name
@@ -41,7 +38,7 @@ class Rest_API
     }
     public function rest_api_init()
     {        
-        register_rest_route(self::NAMESPACE, '/plugins', [
+        register_rest_route(MOS_FAQS_REST_API_NAMESPACE, '/plugins', [
             'methods' => 'GET',
             'callback' => function () {
                 $response = wp_remote_get('https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[author]=mostakshahid&request[per_page]=24');
@@ -57,7 +54,7 @@ class Rest_API
         
         // // ✅ Get posts (with embed info)
         // // GET /wp-json/mos-faqs/v1/posts?page=1&per_page=10&status=publish&search=hello
-        // register_rest_route( self::NAMESPACE, '/posts', [
+        // register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/posts', [
         //     'methods'  => 'GET',
         //     'callback' => [$this, 'get_posts'],
         //     'permission_callback' => function () {
@@ -76,7 +73,7 @@ class Rest_API
         // // ✅ Change status of a single post
         // // POST /wp-json/mos-faqs/v1/post/123/status
         // // { "status": "draft" }
-        // register_rest_route( self::NAMESPACE, '/post/(?P<id>\d+)/status', [
+        // register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/post/(?P<id>\d+)/status', [
         //     'methods'  => 'POST',
         //     'callback' => [$this, 'change_post_status'],
         //     'permission_callback' => function () {
@@ -95,7 +92,7 @@ class Rest_API
         // // POST /wp-json/mos-faqs/v1/posts/status
         // // { "ids": [1,2,3], "status": "trash" }
 
-        // register_rest_route( self::NAMESPACE, '/posts/status', [
+        // register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/posts/status', [
         //     'methods'  => 'POST',
         //     'callback' => [$this, 'bulk_change_status'],
         //     'permission_callback' => function () {
@@ -116,7 +113,7 @@ class Rest_API
         // ]);
 
         
-		register_rest_route( self::NAMESPACE, '/options',
+		register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/options',
 			array(
 				'methods'  => 'GET',
 				'callback' => [$this, 'get_settings'],
@@ -128,7 +125,7 @@ class Rest_API
 		);
 
 		//Add the POST 'mos-faqs/v1/options' endpoint to the Rest API
-		register_rest_route( self::NAMESPACE, '/options',
+		register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/options',
 			array(
 				'methods'             => 'POST',
 				'callback'            => [$this, 'update_settings'],
@@ -139,7 +136,7 @@ class Rest_API
 			)
 		);
 
-		register_rest_route( self::NAMESPACE,'/options/reset-settings',
+		register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/options/reset-settings',
             array(
                 'methods' => 'POST',
                 'callback' => [$this, 'reset_settings'],
@@ -149,7 +146,7 @@ class Rest_API
             )
         );
 
-		register_rest_route( self::NAMESPACE,'/options/reset-settings-all',
+		register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/options/reset-settings-all',
             array(
                 'methods' => 'POST',
                 'callback' => [$this, 'reset_settings_all'],
@@ -159,7 +156,7 @@ class Rest_API
             )
         );
         
-		register_rest_route( self::NAMESPACE,'/options/import-settings', [
+		register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/options/import-settings', [
                 'methods' => 'POST',
                 'callback' => function ($request) {
                     $data = $request->get_json_params();
@@ -173,7 +170,7 @@ class Rest_API
             ]
         );
 
-		register_rest_route( self::NAMESPACE, '/feedback',
+		register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/feedback',
             array(
                 'methods' => 'POST',
                 'callback' => [$this, 'rest_feedback'],
@@ -184,7 +181,7 @@ class Rest_API
             )
         );
 
-		register_rest_route( self::NAMESPACE, '/set-settings-theme',
+		register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/set-settings-theme',
 			array(
 				'methods'  => 'GET',
 				'callback' => [$this, 'rest_set_settings_theme'],
@@ -206,7 +203,7 @@ class Rest_API
                 ],
 			)
 		);
-        register_rest_route( self::NAMESPACE, '/get-settings-theme',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/get-settings-theme',
 			array(
 				'methods'  => 'GET',
 				'callback' => [$this, 'rest_get_settings_theme'],
@@ -218,7 +215,7 @@ class Rest_API
 		);
 
 		register_rest_route(
-			self::NAMESPACE,
+			MOS_FAQS_REST_API_NAMESPACE,
 			'/get-option',
 			array(
 				'methods'  => 'GET',
@@ -236,7 +233,7 @@ class Rest_API
 		);
 
 		register_rest_route(
-			self::NAMESPACE,
+			MOS_FAQS_REST_API_NAMESPACE,
 			'/set-option',
 			array(
 				'methods'  => 'POST',
@@ -247,7 +244,7 @@ class Rest_API
 			)
 		);
         
-        // register_rest_route( self::NAMESPACE, '/deactivation-link',
+        // register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/deactivation-link',
         //     array(
         //         'methods' => 'GET',
         //         'callback' => array( $this, 'get_deactivation_link' ),
@@ -260,7 +257,7 @@ class Rest_API
          * Register REST API routes
          */
         // Get logs with filters
-        register_rest_route( self::NAMESPACE, '/logs',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/logs',
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( LogsController::class, 'get_logs' ),
@@ -279,7 +276,7 @@ class Rest_API
         );
 
         // Search logs
-        register_rest_route( self::NAMESPACE, '/logs/search',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/logs/search',
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( LogsController::class, 'search_logs' ),
@@ -302,7 +299,7 @@ class Rest_API
         );
 
         // Insert new log
-        register_rest_route( self::NAMESPACE, '/logs',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/logs',
             array(
                 'methods'             => WP_REST_Server::CREATABLE,
                 'callback'            => array( LogsController::class, 'create_log' ),
@@ -337,7 +334,7 @@ class Rest_API
         );
 
         // Update log by ID
-        register_rest_route( self::NAMESPACE, '/logs/(?P<id>\d+)',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/logs/(?P<id>\d+)',
             array(
                 'methods'             => WP_REST_Server::EDITABLE,
                 'callback'            => array( LogsController::class, 'update_log' ),
@@ -370,7 +367,7 @@ class Rest_API
         );
 
         // Delete log by ID
-        register_rest_route( self::NAMESPACE, '/logs/(?P<id>\d+)',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/logs/(?P<id>\d+)',
             array(
                 'methods'             => WP_REST_Server::DELETABLE,
                 'callback'            => array( LogsController::class, 'delete_log' ),
@@ -385,7 +382,7 @@ class Rest_API
         );
 
         // Delete all logs
-        register_rest_route( self::NAMESPACE, '/logs/delete-all',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/logs/delete-all',
             array(
                 'methods'             => WP_REST_Server::DELETABLE,
                 'callback'            => array( LogsController::class, 'delete_all_logs' ),
@@ -394,7 +391,7 @@ class Rest_API
         );
 
         // Get single log by ID
-        register_rest_route( self::NAMESPACE,'/logs/(?P<id>\d+)',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/logs/(?P<id>\d+)',
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( LogsController::class, 'get_log' ),
@@ -409,7 +406,7 @@ class Rest_API
         );
 
         // Logs Over Time Chart
-        register_rest_route( self::NAMESPACE,'/logs/stats/over-time',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/logs/stats/over-time',
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( LogsController::class, 'get_logs_over_time' ),
@@ -418,7 +415,7 @@ class Rest_API
         );
 
         // Logs by Category Chart
-        register_rest_route( self::NAMESPACE,'/logs/stats/by-category',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/logs/stats/by-category',
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( LogsController::class, 'get_logs_by_category' ),
@@ -427,7 +424,7 @@ class Rest_API
         );
 
         // Logs by User (Top Users) Chart
-        register_rest_route( self::NAMESPACE,'/logs/stats/top-users',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/logs/stats/top-users',
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( LogsController::class, 'get_logs_top_users' ),
@@ -436,7 +433,7 @@ class Rest_API
         );
 
         // Logs by IP Address (Top IPs) Chart
-        register_rest_route( self::NAMESPACE,'/logs/stats/top-ips',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/logs/stats/top-ips',
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( LogsController::class, 'get_logs_top_ips' ),
@@ -445,7 +442,7 @@ class Rest_API
         );
 
         // Hourly Activity Chart
-        register_rest_route( self::NAMESPACE,'/logs/stats/hourly-activity',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/logs/stats/hourly-activity',
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( LogsController::class, 'get_logs_hourly_activity' ),
@@ -454,7 +451,7 @@ class Rest_API
         );
 
         // Bulk Delete Logs
-        register_rest_route( self::NAMESPACE,'/logs/bulk-delete',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/logs/bulk-delete',
             array(
                 'methods'             => WP_REST_Server::DELETABLE,
                 'callback'            => array( LogsController::class, 'bulk_delete_logs' ),
@@ -470,7 +467,7 @@ class Rest_API
         );
 
         // Get specifications for a product
-        register_rest_route( self::NAMESPACE,'/product/(?P<product_id>\d+)/specifications',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/product/(?P<product_id>\d+)/specifications',
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( $this, 'get_product_specifications' ),
@@ -487,7 +484,7 @@ class Rest_API
         );
 
         // Save specifications for a product
-        register_rest_route( self::NAMESPACE,'/product/(?P<product_id>\d+)/specifications',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE,'/product/(?P<product_id>\d+)/specifications',
             array(
                 'methods'             => WP_REST_Server::CREATABLE,
                 'callback'            => array( $this, 'save_product_specifications' ),
@@ -504,7 +501,7 @@ class Rest_API
         );
 
         // Get FAQ settings for a product
-        register_rest_route( self::NAMESPACE, '/product-faq/(?P<product_id>\d+)',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/product-faq/(?P<product_id>\d+)',
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( $this, 'get_product_faq_settings' ),
@@ -521,7 +518,7 @@ class Rest_API
         );
 
         // Save FAQ settings for a product
-        register_rest_route( self::NAMESPACE, '/product-faq/(?P<product_id>\d+)',
+        register_rest_route( MOS_FAQS_REST_API_NAMESPACE, '/product-faq/(?P<product_id>\d+)',
             array(
                 'methods'             => WP_REST_Server::CREATABLE,
                 'callback'            => array( $this, 'save_product_faq_settings' ),

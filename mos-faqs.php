@@ -36,6 +36,7 @@ define('MOS_FAQS_NAME', 'Mos FAQs');
 define('MOS_FAQS_PATH', plugin_dir_path(__FILE__));
 define('MOS_FAQS_URL', plugin_dir_url(__FILE__));
 define('MOS_FAQS_MAIN_FILE', __FILE__);
+define('MOS_FAQS_REST_API_NAMESPACE', 'mos-faqs/v1');
 
 require_once MOS_FAQS_PATH . '/vendor/autoload.php';
 require_once MOS_FAQS_PATH . '/mos-faqs-functions.php';

@@ -125,20 +125,24 @@ class UserMeta {
                 $mos_faqs_custom_input
             );
 
+            /*
+            'mos_faqs_media' => [
+                'id' => get_user_meta($user_id, 'mos_faqs_media_id', true) ?: 0,
+                'url' => get_user_meta($user_id, 'mos_faqs_media_url', true) ?: '',
+                'thumbnail' => get_user_meta($user_id, 'mos_faqs_media_url', true) ?: '',
+            ],
+            */
+
             // Save Media ID
             $mos_faqs_media_id = isset($_POST['mos_faqs_media_id']) ? sanitize_text_field(wp_unslash($_POST['mos_faqs_media_id'])) : '0';
-            update_user_meta(
-                $user_id,
-                'mos_faqs_media_id',
-                $mos_faqs_media_id
-            );
-
-            // Save Media URL
             $mos_faqs_media_url = isset($_POST['mos_faqs_media_url']) ? esc_url_raw(wp_unslash($_POST['mos_faqs_media_url'])) : '';
             update_user_meta(
                 $user_id,
-                'mos_faqs_media_url',
-                $mos_faqs_media_url
+                'mos_faqs_media',
+                [
+                    'id' => $mos_faqs_media_id,
+                    'url' => $mos_faqs_media_url,
+                ]
             );
 
         }
@@ -149,7 +153,7 @@ class UserMeta {
      */
     public function register_rest_routes() {
         register_rest_route(
-            'mos-faqs/v1',
+            MOS_FAQS_REST_API_NAMESPACE,
             '/user-profile-meta',
             [
                 'methods' => 'GET',

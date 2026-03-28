@@ -18,9 +18,7 @@ class WooCommerce {
 
 	public function init_woocommerce_integration() {
 		// Check if WooCommerce is active using multiple methods
-		$is_woocommerce_active = class_exists('WooCommerce') ||
-		                        in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins'))) ||
-		                        is_plugin_active('woocommerce/woocommerce.php');
+		$is_woocommerce_active = class_exists('WooCommerce') || in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins'))) || is_plugin_active('woocommerce/woocommerce.php');
 
 		if (!$is_woocommerce_active) {
 			return;
@@ -106,6 +104,7 @@ class WooCommerce {
 			'view' => 'accordion',
 		));
 		?>
+		<?php wp_nonce_field( 'mos_faqs_product_action', 'mos_faqs_product_field' ); ?>
 		<div id="mos_faq_product_data" class="panel woocommerce_options_panel">
 			<div class="options_group">
 				<!-- <div id="mos-faq-woocommerce-container"></div> -->
@@ -120,43 +119,49 @@ class WooCommerce {
 	}
 
 	public function save_product_faq_data($post_id) {
-		// Check if this is an auto save
-		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+		if ( isset( $_POST['mos_faqs_product_field'] ) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mos_faqs_product_field'])), 'mos_faqs_product_action' ) ) {
+					
+			// Check if this is an auto save
+			if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+				return;
+			}
+
+			// Check if this is a revision
+			if (wp_is_post_revision($post_id)) {
+				return;
+			}
+
+			// Check post type
+			if (get_post_type($post_id) !== 'product') {
+				return;
+			}
+
+			// Check if user has permission
+			if (!current_user_can('edit_products', $post_id)) {
+				return;
+			}
+
+			// Get the FAQ settings from the form
+			$faq_settings = array(
+				'enabled' => isset($_POST['mos_faq_enabled']) ? (bool) $_POST['mos_faq_enabled'] : false,
+				'count' => isset($_POST['mos_faq_count']) ? intval($_POST['mos_faq_count']) : -1,
+				'offset' => isset($_POST['mos_faq_offset']) ? intval($_POST['mos_faq_offset']) : 0,
+				'author' => isset($_POST['mos_faq_author']) ? sanitize_text_field($_POST['mos_faq_author']) : '1',
+				'source' => isset($_POST['mos_faq_source']) ? sanitize_text_field($_POST['mos_faq_source']) : 'recent',
+				'posts' => isset($_POST['mos_faq_posts']) ? sanitize_text_field($_POST['mos_faq_posts']) : '',
+				'category' => isset($_POST['mos_faq_category']) ? sanitize_text_field($_POST['mos_faq_category']) : '',
+				'orderby' => isset($_POST['mos_faq_orderby']) ? sanitize_text_field($_POST['mos_faq_orderby']) : '',
+				'order' => isset($_POST['mos_faq_order']) ? sanitize_text_field($_POST['mos_faq_order']) : '',
+				'pagination' => isset($_POST['mos_faq_pagination']) ? (bool) $_POST['mos_faq_pagination'] : false,
+				'view' => isset($_POST['mos_faq_view']) ? sanitize_text_field($_POST['mos_faq_view']) : 'accordion',
+			);
+
+			// Update the post meta
+			update_post_meta($post_id, '_mos_faq_settings', $faq_settings);
+		} else {
+			// Nonce is invalid, do not save data
 			return;
 		}
-
-		// Check if this is a revision
-		if (wp_is_post_revision($post_id)) {
-			return;
-		}
-
-		// Check post type
-		if (get_post_type($post_id) !== 'product') {
-			return;
-		}
-
-		// Check if user has permission
-		if (!current_user_can('edit_products', $post_id)) {
-			return;
-		}
-
-		// Get the FAQ settings from the form
-		$faq_settings = array(
-			'enabled' => isset($_POST['mos_faq_enabled']) ? (bool) $_POST['mos_faq_enabled'] : false,
-			'count' => isset($_POST['mos_faq_count']) ? intval($_POST['mos_faq_count']) : -1,
-			'offset' => isset($_POST['mos_faq_offset']) ? intval($_POST['mos_faq_offset']) : 0,
-			'author' => isset($_POST['mos_faq_author']) ? sanitize_text_field($_POST['mos_faq_author']) : '1',
-			'source' => isset($_POST['mos_faq_source']) ? sanitize_text_field($_POST['mos_faq_source']) : 'recent',
-			'posts' => isset($_POST['mos_faq_posts']) ? sanitize_text_field($_POST['mos_faq_posts']) : '',
-			'category' => isset($_POST['mos_faq_category']) ? sanitize_text_field($_POST['mos_faq_category']) : '',
-			'orderby' => isset($_POST['mos_faq_orderby']) ? sanitize_text_field($_POST['mos_faq_orderby']) : '',
-			'order' => isset($_POST['mos_faq_order']) ? sanitize_text_field($_POST['mos_faq_order']) : '',
-			'pagination' => isset($_POST['mos_faq_pagination']) ? (bool) $_POST['mos_faq_pagination'] : false,
-			'view' => isset($_POST['mos_faq_view']) ? sanitize_text_field($_POST['mos_faq_view']) : 'accordion',
-		);
-
-		// Update the post meta
-		update_post_meta($post_id, '_mos_faq_settings', $faq_settings);
 	}
 
 	public function add_frontend_product_faq_tab($tabs) {
