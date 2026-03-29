@@ -141,7 +141,11 @@ class Filter_Hook {
                 'faq_unit' => [
                     'background' => [],
                     'color' => [],
-                    'border' => [],
+                    'border' => [
+                        'color' => '#72aee6',
+                        'style' => 'dashed',
+                        'width' => '1px',
+                    ],
                     'padding' => '',
                     'margin' => '',
                     'boxshadow' => [],

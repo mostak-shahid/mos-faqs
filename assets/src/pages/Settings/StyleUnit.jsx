@@ -3,7 +3,9 @@ import { Row, Col, Skeleton, Typography, Radio, Input } from '@douyinfe/semi-ui'
 import { useOutletContext } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import ActionButtons from "./ActionButtons";
-import { SkeletonPlaceholder, BackgroundControl, BoxShadowControl, ColorPickerControl, FontControl, MediaUploaderControl, MultiColorControl, TextShadowControl, UnitControl } from "../../components";
+import { SkeletonPlaceholder, BackgroundControl, BoxShadowControl, ColorPickerControl, FontControl, MediaUploaderControl, MultiColorControl, TextShadowControl, UnitControl, BorderControl } from "../../components";
+// import { BorderControl } from '@wordpress/components';
+import { BorderBoxControl, BoxControl } from '@wordpress/components';
 
 const { Title, Paragraph } = Typography;
 const StyleUnit = () => {
@@ -111,9 +113,20 @@ const StyleUnit = () => {
                     {
                         !settingsLoading &&                               
                         <Col xs={24} lg={12} xl={10}>
-                            <Input
+                            {/* <Input
                                 value={formData.border}
                                 onChange={handleFieldChange}
+                            /> */}
+                            <BorderControl
+                                onChange={ handleFieldChange }
+                                value={ formData.border }
+                            />
+                            <BorderBoxControl
+                                __next40pxDefaultSize
+                                // colors={ colors }
+                                label={ __( 'Borders' ) }
+                                onChange={ handleFieldChange }
+                                value={ formData.border }
                             />
                         </Col>
                     }
@@ -143,6 +156,11 @@ const StyleUnit = () => {
                                 ]}
                                 min={0}
                                 step={1}
+                            />
+                            <BoxControl
+                                __next40pxDefaultSize
+                                values={ formData.padding }
+                                onChange={(value) => handleFieldChange('padding', value)}
                             />
                         </Col>
                     }
