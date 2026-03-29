@@ -298,7 +298,7 @@ export default function App() {
                     
                     <Route path="/settings" element={<Settings />}>
                         <Route index element={<Navigate to="basic-inputs" replace />} />
-                        <Route path="style-unit" element={<StyleUnit />} />
+                        <Route path="style/faq-unit" element={<StyleUnit />} />
                         <Route path="basic-inputs" element={<BasicInputs />} />
                         <Route path="array-inputs" element={<ArrayInputs />} />
 

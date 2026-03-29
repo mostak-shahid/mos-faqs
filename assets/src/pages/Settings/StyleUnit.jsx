@@ -3,7 +3,7 @@ import { Row, Col, Skeleton, Typography, Radio, Input } from '@douyinfe/semi-ui'
 import { useOutletContext } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import ActionButtons from "./ActionButtons";
-import { SkeletonPlaceholder, BackgroundControl, BoxShadowControl, ColorPickerControl, FontControl, MediaUploaderControl, MultiColorControl, TextShadowControl, UnitControl } from "../../style";
+import { SkeletonPlaceholder, BackgroundControl, BoxShadowControl, ColorPickerControl, FontControl, MediaUploaderControl, MultiColorControl, TextShadowControl, UnitControl } from "../../components";
 
 const { Title, Paragraph } = Typography;
 const StyleUnit = () => {
@@ -112,7 +112,7 @@ const StyleUnit = () => {
                         !settingsLoading &&                               
                         <Col xs={24} lg={12} xl={10}>
                             <Input
-                                value={value}
+                                value={formData.border}
                                 onChange={handleFieldChange}
                             />
                         </Col>
