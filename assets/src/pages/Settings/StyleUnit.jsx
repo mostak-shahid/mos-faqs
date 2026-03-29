@@ -123,6 +123,7 @@ const StyleUnit = () => {
                             />
                             <BorderBoxControl
                                 __next40pxDefaultSize
+                                enableStyle={true}
                                 // colors={ colors }
                                 label={ __( 'Borders' ) }
                                 onChange={ handleFieldChange }
