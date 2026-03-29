@@ -141,7 +141,6 @@ class Filter_Hook {
                 'faq_unit' => [
                     'background' => [],
                     'color' => [],
-                    'font' => [],
                     'border' => [],
                     'padding' => '',
                     'margin' => '',

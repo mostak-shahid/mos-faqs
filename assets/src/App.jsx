@@ -9,7 +9,7 @@ import { IconStar, IconSetting, IconHome, IconMember, IconBookStroked, IconHelpC
 import { LocaleProvider } from '@douyinfe/semi-ui';
 import en_US from "@douyinfe/semi-ui/lib/es/locale/source/en_US";
 
-import { Dashboard, Settings, ImportExport, More, Tools, Logs, LogsCharts, LogsTable, Feedback, FreeVsPro, NotFound, ComponentsFree} from './pages';
+import { Dashboard, Settings, StyleUnit, ImportExport, More, Tools, Logs, LogsCharts, LogsTable, Feedback, FreeVsPro, NotFound, ComponentsFree} from './pages';
 
 import {
     About, 
@@ -298,6 +298,7 @@ export default function App() {
                     
                     <Route path="/settings" element={<Settings />}>
                         <Route index element={<Navigate to="basic-inputs" replace />} />
+                        <Route path="style-unit" element={<StyleUnit />} />
                         <Route path="basic-inputs" element={<BasicInputs />} />
                         <Route path="array-inputs" element={<ArrayInputs />} />
 

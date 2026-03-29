@@ -1,5 +1,6 @@
 import Dashboard from './Dashboard/Dashboard';
 import Settings from './Settings/Settings';
+import StyleUnit from './Settings/StyleUnit';
 import BasicInputs from './Settings/BasicInputs';
 import ArrayInputs from './Settings/ArrayInputs';
 import ImportExport from './Settings/ImportExport';
@@ -23,6 +24,7 @@ import FullWidthNoSidebar from './Layouts/FullWidthNoSidebar';
 import FullWidthRightSidebar from './Layouts/FullWidthRightSidebar';
 export {
     Dashboard,
+    StyleUnit,
     Settings,
     BasicInputs,
     ArrayInputs,
