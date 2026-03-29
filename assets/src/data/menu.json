@@ -1,5 +1,43 @@
 [
     {
+        "itemKey": "style",
+        "text": "Style",
+        "description": "Customize the appearance of the plugin with various style settings.",
+        "url": "/settings/style",
+        "items": [
+            {
+                "itemKey": "faq-unit",
+                "text": "FAQ Unit",
+                "description": "FAQ unit style settings",
+                "url": "/settings/style/faq-unit"
+            },
+            {
+                "itemKey": "faq-title",
+                "text": "FAQ Title",
+                "description": "FAQ title style settings",
+                "url": "/settings/style/faq-title"
+            },
+            {
+                "itemKey": "faq-content",
+                "text": "FAQ Content",
+                "description": "FAQ content style settings",
+                "url": "/settings/style/faq-content"
+            },
+            {
+                "itemKey": "faq-icon",
+                "text": "FAQ Icon",
+                "description": "FAQ icon style settings",
+                "url": "/settings/style/faq-icon"
+            },
+            {
+                "itemKey": "faq-misc",
+                "text": "FAQ Misc",
+                "description": "FAQ misc style settings",
+                "url": "/settings/style/faq-misc"
+            }
+        ]
+    },
+    {
         "itemKey": "components",
         "text": "Components",
         "description": "Components page description",
